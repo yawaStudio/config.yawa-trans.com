@@ -5,6 +5,9 @@
  * file.
  */
 
+import { PrismaAuthProviderConfig } from "@ioc:Adonis/Addons/Prisma"
+import { User } from "@prisma/client"
+
 declare module '@ioc:Adonis/Addons/Auth' {
   /*
   |--------------------------------------------------------------------------
@@ -33,7 +36,7 @@ declare module '@ioc:Adonis/Addons/Auth' {
     */
     user: {
       implementation: DatabaseProviderContract<DatabaseProviderRow>
-      config: DatabaseProviderConfig
+      config: PrismaAuthProviderConfig<User>
     }
   }
 

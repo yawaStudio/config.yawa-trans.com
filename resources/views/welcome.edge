@@ -1,110 +1,105 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AdonisJS - A fully featured web framework for Node.js</title>
-  <link href="https://fonts.googleapis.com/css?family=Poppins:400,500&display=swap" rel="stylesheet">
-  <style>
-    html, body {
-      background-color: #F7F8FA;
-      font-family: 'Poppins', sans-serif;
-      height: 100vh;
-      color: #46444c;
-      position: relative;
-    }
+@layout('layouts.main')
 
-    body:before {
-      content: '';
-      background: #5A45FF;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 6px;
-      position: absolute;
-    }
+@section('content')
+@set('title', 'Welcome')
 
-    * {
-      margin: 0;
-      padding: 0;
-    }
+<div class="container-xxl flex-grow-1 container-p-y">
+  <div class="row">
 
-    a {
-      color: #5A45FF;
-      text-decoration: none;
-    }
-
-    main {
-      max-width: 620px;
-      margin: auto;
-      height: 100vh;
-      padding: 0 30px;
-      align-items: center;
-      display: flex;
-      justify-content: center;
-    }
-
-    .title {
-      font-size: 50px;
-      line-height: 50px;
-      margin-bottom: 10px;
-      color: #17161A;
-    }
-
-    .subtitle {
-      font-size: 26px;
-      margin-bottom: 40px;
-    }
-
-    p {
-      margin-bottom: 20px;
-    }
-
-    main ul {
-      list-style: none;
-    }
-
-    main li {
-      margin-bottom: 5px;
-      position: relative;
-      padding-left: 25px;
-    }
-
-    main li:before {
-      content: '—';
-      position: absolute;
-      left: 0;
-    }
-
-    main code {
-      font-size: 16px;
-      background: #e6e2ff;
-    }
-  </style>
-</head>
-<body>
-
-  <main>
-    <div>
-      <h1 class="title"> It Works! </h1>
-      <p class="subtitle">
-        Congratulations, you have just created your first AdonisJS app.
-      </p>
-
-      <ul>
-        <li>
-          The route for this page is defined inside <code>start/routes.ts</code> file
-        </li>
-
-        <li>
-          You can update this page by editing <code>resources/views/welcome.edge</code> file
-        </li>
-
-        <li>
-          If you run into problems, you can reach us on <a href="https://discord.gg/vDcEjq6?">Discord</a> or the <a href="https://forum.adonisjs.com/">Forum</a>.
-        </li>
-      </ul>
+    <!-- Earning Reports Tabs-->
+    <div class="col-12 col-xl-12 mb-12">
+      <div class="card">
+        <div class="card-header d-flex justify-content-between">
+          <div class="card-title mb-0">
+            <h5 class="mb-0">Earning Reports</h5>
+            <small class="text-muted">Yearly Earnings Overview</small>
+          </div>
+          <div class="dropdown">
+            <button class="btn p-0" type="button" id="earningReportsTabsId" data-bs-toggle="dropdown"
+              aria-haspopup="true" aria-expanded="false">
+              <i class="ti ti-dots-vertical ti-sm text-muted"></i>
+            </button>
+            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="earningReportsTabsId">
+              <a class="dropdown-item" href="javascript:void(0);">View More</a>
+              <a class="dropdown-item" href="javascript:void(0);">Delete</a>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <ul class="nav nav-tabs widget-nav-tabs pb-3 gap-4 mx-1 d-flex flex-nowrap" role="tablist">
+            <li class="nav-item">
+              <a href="javascript:void(0);"
+                class="nav-link btn active d-flex flex-column align-items-center justify-content-center" role="tab"
+                data-bs-toggle="tab" data-bs-target="#navs-orders-id" aria-controls="navs-orders-id"
+                aria-selected="true">
+                <div class="badge bg-label-secondary rounded p-2">
+                  <i class="ti ti-shopping-cart ti-sm"></i>
+                </div>
+                <h6 class="tab-widget-title mb-0 mt-2">Orders</h6>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="javascript:void(0);"
+                class="nav-link btn d-flex flex-column align-items-center justify-content-center" role="tab"
+                data-bs-toggle="tab" data-bs-target="#navs-sales-id" aria-controls="navs-sales-id"
+                aria-selected="false">
+                <div class="badge bg-label-secondary rounded p-2">
+                  <i class="ti ti-chart-bar ti-sm"></i>
+                </div>
+                <h6 class="tab-widget-title mb-0 mt-2">Sales</h6>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="javascript:void(0);"
+                class="nav-link btn d-flex flex-column align-items-center justify-content-center" role="tab"
+                data-bs-toggle="tab" data-bs-target="#navs-profit-id" aria-controls="navs-profit-id"
+                aria-selected="false">
+                <div class="badge bg-label-secondary rounded p-2">
+                  <i class="ti ti-currency-dollar ti-sm"></i>
+                </div>
+                <h6 class="tab-widget-title mb-0 mt-2">Profit</h6>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="javascript:void(0);"
+                class="nav-link btn d-flex flex-column align-items-center justify-content-center" role="tab"
+                data-bs-toggle="tab" data-bs-target="#navs-income-id" aria-controls="navs-income-id"
+                aria-selected="false">
+                <div class="badge bg-label-secondary rounded p-2">
+                  <i class="ti ti-chart-pie-2 ti-sm"></i>
+                </div>
+                <h6 class="tab-widget-title mb-0 mt-2">Income</h6>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="javascript:void(0);"
+                class="nav-link btn d-flex align-items-center justify-content-center disabled" role="tab"
+                data-bs-toggle="tab" aria-selected="false">
+                <div class="badge bg-label-secondary rounded p-2"><i class="ti ti-plus ti-sm"></i></div>
+              </a>
+            </li>
+          </ul>
+          <div class="tab-content p-0 ms-0 ms-sm-2">
+            <div class="tab-pane fade show active" id="navs-orders-id" role="tabpanel">
+              <div id="earningReportsTabsOrders"></div>
+            </div>
+            <div class="tab-pane fade" id="navs-sales-id" role="tabpanel">
+              <div id="earningReportsTabsSales"></div>
+            </div>
+            <div class="tab-pane fade" id="navs-profit-id" role="tabpanel">
+              <div id="earningReportsTabsProfit"></div>
+            </div>
+            <div class="tab-pane fade" id="navs-income-id" role="tabpanel">
+              <div id="earningReportsTabsIncome"></div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-  </main>
-</body>
-</html>
+
+  </div>
+</div>
+
+
+
+@endsection

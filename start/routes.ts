@@ -22,4 +22,8 @@ import Route from '@ioc:Adonis/Core/Route'
 
 Route.get('/', async ({ view }) => {
   return view.render('welcome')
+}).middleware('auth')
+
+Route.get('/login', async ({ view }) => {
+  return view.render('security.login')
 })

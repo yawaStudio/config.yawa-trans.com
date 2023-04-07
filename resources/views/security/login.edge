@@ -1,0 +1,158 @@
+@layout('layouts.auth')
+
+@section('content')
+@set('title', 'Login')
+<style>
+  button {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    outline: none;
+    border: 0;
+    vertical-align: middle;
+    text-decoration: none;
+    background: transparent;
+    padding: 0;
+    font-size: inherit;
+    font-family: inherit;
+  }
+
+  button.learn-more {
+    width: 12rem;
+    height: auto;
+  }
+
+  button.learn-more .circle {
+    transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
+    position: relative;
+    display: block;
+    margin: 0;
+    width: 3rem;
+    height: 3rem;
+    background: #219D66;
+    border-radius: 1.625rem;
+  }
+
+  button.learn-more .circle .icon {
+    transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    background: #fff;
+  }
+
+  button.learn-more .circle .icon.arrow {
+    transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
+    left: 0.625rem;
+    width: 1.125rem;
+    height: 0.125rem;
+    background: none;
+  }
+
+  button.learn-more .circle .icon.arrow::before {
+    position: absolute;
+    content: "";
+    top: -0.29rem;
+    right: 0.0625rem;
+    width: 0.625rem;
+    height: 0.625rem;
+    border-top: 0.125rem solid #fff;
+    border-right: 0.125rem solid #fff;
+    transform: rotate(45deg);
+  }
+
+  button.learn-more .button-text {
+    transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 0.75rem 0;
+    margin: 0 0 0 1.85rem;
+    color: #219D66;
+    font-weight: 700;
+    line-height: 1.6;
+    text-align: center;
+    text-transform: uppercase;
+  }
+
+  button:hover .circle {
+    width: 100%;
+  }
+
+  button:hover .circle .icon.arrow {
+    background: #fff;
+    transform: translate(1rem, 0);
+  }
+
+  button:hover .button-text {
+    color: #fff;
+  }
+</style>
+<div class="authentication-inner py-4">
+  <!-- Login -->
+  <div class="card">
+    <div class="card-body">
+      <!-- Logo -->
+      <div class="app-brand justify-content-center mb-4 mt-2">
+
+        <img src="/ya.png" alt="" width="200">
+
+      </div>
+      <!-- /Logo -->
+
+      <form id="formAuthentication" class="mb-3" action="/login" method="POST">
+        {{ csrfField() }}
+        <div class="mb-3">
+          
+          @if(flashMessages.has('errors'))
+            <div class="alert alert-danger alert-dismissible no-border mb-2 fade show" id="success-danger" role="alert">
+                {{ flashMessages.get('errors') }}
+
+            </div>
+          @endif
+          <!-- <div class="alert alert-danger alert-dismissible no-border mb-2 fade show" id="network" role="alert">
+
+          </div> ---->
+          <label for="email" class="form-label">Nom d'utilisateur</label>
+          <input type="text" class="form-control" id="username" name="username"
+            placeholder="Entrer votre nom d'utilisateur" autofocus required />
+        </div>
+        <div class="mb-3 form-password-toggle">
+          <div class="d-flex justify-content-between">
+            <label class="form-label" for="password">Mot de passe</label>
+
+          </div>
+          <div class="input-group input-group-merge">
+            <input type="password" id="password" class="form-control" name="password"
+              placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
+              aria-describedby="password" />
+            <span class="input-group-text cursor-pointer"><i class="ti ti-eye-off"></i></span>
+          </div>
+        </div>
+        <div class="mb-3">
+          <button class="learn-more d-grid w-100" type="submit">
+            <span class="circle" aria-hidden="true">
+              <span class="icon arrow"></span>
+            </span>
+            <span class="button-text">Connexion</span>
+          </button>
+        </div>
+      </form>
+
+
+      <div class="divider my-4">
+        <div class="divider-text">by</div>
+      </div>
+
+      <div class="d-flex justify-content-center">
+        <a href="http://impactsolution.sn" target="_black"><img src="/logo.png" alt="" width="200"></a>
+      </div>
+    </div>
+  </div>
+  <!-- /Register -->
+</div>
+
+@endsection
