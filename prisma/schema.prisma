@@ -1,0 +1,166 @@
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  name      String?
+  email     String   @unique
+  username String @unique
+  password        String
+  role      Role     @default(USER)
+  rememberMeToken String?
+  isActiveted Boolean      @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt   DateTime     @default(now()) @updatedAt
+  
+  @@map("users")
+}
+
+model Companie {
+  id Int @id @default(autoincrement())
+  name String
+  ninea String?
+  rccm String?
+  ville String?
+  pays String?
+  logo String?
+
+  gestionnaire String
+  phone String?
+  email String
+  cni String
+
+  isActiveted Boolean      @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt   DateTime     @default(now()) @updatedAt
+
+  Vehicules Vehicule[]
+  Ligne Ligne[]
+  Agents Agent[]
+  Voyages Voyage[]
+  @@map("companies")
+}
+
+model Agent {
+  id        Int      @id @default(autoincrement())
+  companieId Int
+
+  name      String?
+  phone String @unique
+  codeSecret        String
+
+  role      Role     @default(SELLER)
+
+  isActiveted Boolean      @default(true)
+  companie     Companie?      @relation(fields: [companieId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt   DateTime     @default(now()) @updatedAt
+  
+  @@map("agents")
+}
+
+
+model Vehicule {
+  id Int @id @default(autoincrement())
+  companieId Int
+
+  modelVehicule String
+  matricule String
+  img String?
+  numberSeats Int
+  airConditioned Boolean @default(true)
+  isActiveted Boolean      @default(true)
+
+  companie     Companie?      @relation(fields: [companieId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt   DateTime     @default(now()) @updatedAt
+  
+  @@map("vehicules")
+}
+
+model Ligne {
+  id Int @id @default(autoincrement())
+  companieId Int
+
+  lieuDepart String
+  destination String
+
+  modelVehicule String?
+  frequence Int @default(7)
+  prixBillet Int 
+  tripCondition String @db.Text
+  garage String
+
+  companie     Companie?      @relation(fields: [companieId], references: [id])
+
+  isRoundtrip Boolean @default(true)
+  isActiveted Boolean      @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt   DateTime     @default(now()) @updatedAt
+  
+  Voyages Voyage[]
+  @@map("lignes")
+}
+
+model Voyage {
+  id Int @id @default(autoincrement())
+  companieId Int
+  ligneId Int
+
+  tripDate DateTime @db.Date
+  checkoutTime DateTime @db.Time()
+  cars Int @default(0)
+  seats Int @default(0)
+
+  seatsAvailable Int @default(0)
+  carsAvailable Int @default(0)
+  passagers Int @default(0)
+  revenus Float @default(0)
+
+
+  isActiveted Boolean      @default(true)
+  createdAt DateTime @default(now())
+  updatedAt   DateTime     @default(now()) @updatedAt
+
+  companie     Companie?      @relation(fields: [companieId], references: [id])
+  ligne     Ligne?      @relation(fields: [ligneId], references: [id])
+
+  @@map("voyages")
+}
+
+model Passager {
+  id Int @id @default(autoincrement())
+  name String
+  phone String
+  cni String?
+
+  isActiveted Boolean      @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt   DateTime     @default(now()) @updatedAt
+
+  @@map("passagers")
+}
+
+
+
+
+
+enum Role {
+  USER
+  ADMIN
+  GESTIONNAIRE
+  SELLER
+}
