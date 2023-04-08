@@ -26,6 +26,9 @@ Route.get('/', async (ctx) => {
   )
   return new HomeController().index(ctx)
 })
+.middleware('auth')
+
+
 Route.group(() => {
   Route.get('/', async (ctx) => {
     const { default: UsersController } = await import(
@@ -41,9 +44,20 @@ Route.group(() => {
     return new UsersController().store(ctx)
   })
 }).prefix('users')
-
+.middleware('auth')
 
 
 Route.get('/login', async ({ view }) => {
   return view.render('security.login')
+})
+Route.post('/login', async (ctx) => {
+  const { default: AuthController } = await import(
+    'App/Controllers/Http/AuthController'
+  )
+  return new AuthController().login(ctx)
+})
+
+Route.get('/logout', async ({ auth, response }) => {
+  await auth.use('web').logout()
+  response.redirect('/login')
 })

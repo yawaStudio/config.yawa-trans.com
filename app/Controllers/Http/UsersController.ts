@@ -30,7 +30,7 @@ export default class UsersController {
     const data = await request.only(['name', 'email', 'username', 'role' ])
 
     var uuid = Math.floor(100000 + Math.random() * 900000).toString()
-    const hash = await argon2.hash(uuid);
+    const hash = await argon2.hash('123456');
 
     const user = await prisma.user.create({
         data: {
