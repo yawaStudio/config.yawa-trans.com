@@ -23,6 +23,7 @@
   "dependencies": {
     "@adonisjs/auth": "^8.2.3",
     "@adonisjs/core": "^5.8.0",
+    "@adonisjs/mail": "^8.1.2",
     "@adonisjs/repl": "^3.1.0",
     "@adonisjs/session": "^6.2.0",
     "@adonisjs/shield": "^7.1.0",
@@ -30,6 +31,7 @@
     "@prisma/client": "^4.12.0",
     "@wahyubucil/adonis-prisma": "^0.4.0",
     "firebase-admin": "^11.6.0",
+    "phc-argon2": "^1.1.4",
     "prisma": "^4.12.0",
     "proxy-addr": "^2.0.7",
     "reflect-metadata": "^0.1.13",

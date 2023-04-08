@@ -1,0 +1,180 @@
+@layout('layouts.main')
+
+@section('content')
+@set('title', 'Utilisateurs')
+
+<div class="container-xxl flex-grow-1 container-p-y">
+  <div class="row g-4 mb-4">
+    <div class="col-sm-6 col-xl-3">
+      <div class="card">
+        <div class="card-body">
+          <div class="d-flex align-items-start justify-content-between">
+            <div class="content-left">
+              <span>Sessions ouvert</span>
+              <div class="d-flex align-items-center my-1">
+                <h4 class="mb-0 me-2">0</h4>
+                <span class="text-success"> en ligne</span>
+              </div>
+            </div>
+            <span class="badge bg-label-primary rounded p-2">
+              <i class="ti ti-user ti-sm"></i>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6 col-xl-3">
+      <div class="card">
+        <div class="card-body">
+          <div class="d-flex align-items-start justify-content-between">
+            <div class="content-left">
+              <span>Total users</span>
+              <div class="d-flex align-items-center my-1">
+                <h4 class="mb-0 me-2">0</h4>
+                <span class="text-success"> utilisateurs</span>
+              </div>
+            </div>
+            <span class="badge bg-label-danger rounded p-2">
+              <i class="ti ti-user-plus ti-sm"></i>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6 col-xl-3">
+      <div class="card">
+        <div class="card-body">
+          <div class="d-flex align-items-start justify-content-between">
+            <div class="content-left">
+              <span>Active Users</span>
+              <div class="d-flex align-items-center my-1">
+                <h4 class="mb-0 me-2">0</h4>
+                <span class="text-success">users</span>
+              </div>
+            </div>
+            <span class="badge bg-label-success rounded p-2">
+              <i class="ti ti-user-check ti-sm"></i>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6 col-xl-3">
+      <div class="card">
+        <div class="card-body">
+          <div class="d-flex align-items-start justify-content-between">
+            <div class="content-left">
+              <span>Users bloqués</span>
+              <div class="d-flex align-items-center my-1">
+                <h4 class="mb-0 me-2">0</h4>
+                <span class="text-danger">users</span>
+              </div>
+            </div>
+            <span class="badge bg-label-warning rounded p-2">
+              <i class="ti ti-user-exclamation ti-sm"></i>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="card">
+    <div class="card-header d-flex justify-content-between">
+      <div class="card-title mb-0">
+        <h5 class="card-header">Liste des utilisateurs</h5>
+      </div>
+      <div class="dropdown">
+        <button type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBackdrop"
+          aria-controls="offcanvasBackdrop" class="btn btn-label-primary waves-effect">
+          <span class="ti-xs ti ti-edit me-1"></span>Ajouter
+        </button>
+      </div>
+    </div>
+    <div class="card-datatable text-nowrap">
+      <div class="table-responsive ">
+        <table class="table table-bordered " id="maintable" cellspacing="0">
+          <thead>
+            <tr>
+              <input id="table_name" value="export_users" hidden>
+              <th>Utilisateur</th>
+              <th>Role</th>
+              <th>Email</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            @each(user in users)
+            <tr>
+              <td>{{user.name}}</td>
+              <td>{{user.role}}</td>
+              <td>{{user.email}}</td>
+              <td>
+                <a class="badge bg-label-success me-1" href="/users/view/{{user.id}}"><i class="ti ti-eye me-1"></i>
+                  Voir</a>
+              </td>
+            </tr>
+            @endeach
+          </tbody>
+          <tfoot>
+            <tr>
+              <th>Utilisateur</th>
+              <th>Role</th>
+              <th>Adresse</th>
+              <th>Email</th>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasBackdrop" aria-labelledby="offcanvasBackdropLabel">
+      <div class="offcanvas-header">
+        <h5 id="offcanvasBackdropLabel" class="offcanvas-title">Nouvel utilisateur</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      </div>
+      <div class="offcanvas-body my-auto mx-0 flex-grow-0">
+        <form class="add-new-user pt-0 fv-plugins-bootstrap5 fv-plugins-framework" id="addNewUserForm"
+          action="/users/create?POST" method="POST" novalidate="novalidate">
+          {{ csrfField() }}
+         
+          <div class="mb-3">
+            <label class="form-label" for="user-role">Role</label>
+            <select id="user-role" class="form-select" name="roleId">
+            
+              <option value="ADMIN">Administrateur</option>
+              <option value="USER">Utulisateur</option>
+             
+            </select>
+          </div>
+          <div class="mb-3 fv-plugins-icon-container">
+            <label class="form-label" for="add-user-fullname">Prénom et nom</label>
+            <input type="text" class="form-control" id="add-user-fullname" placeholder="John Doe" name="name"
+              aria-label="Prénom et nom" required>
+            <div class="fv-plugins-message-container invalid-feedback"></div>
+          </div>
+          <div class="mb-3">
+            <label class="form-label" for="add-user-contact">Nom d'utilisateur</label>
+            <input type="text" id="add-user-contact" class="form-control phone-mask" name="username">
+          </div>
+          <div class="mb-3 fv-plugins-icon-container">
+            <label class="form-label" for="add-user-email">Email</label>
+            <input type="email" id="add-user-email" class="form-control" placeholder="" name="email" required>
+            <div class="fv-plugins-message-container invalid-feedback"></div>
+          </div>
+          <button type="submit"
+            class="btn btn-primary me-sm-3 me-1 data-submit waves-effect waves-light">Sauvegarder</button>
+          <button type="reset" class="btn btn-label-danger waves-effect" data-bs-dismiss="offcanvas">Annuler</button>
+          <input type="hidden">
+        </form>
+      </div>
+    </div>
+  </div>
+  <ul>
+
+  </ul>
+</div>
+
+
+
+@endsection

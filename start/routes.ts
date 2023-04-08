@@ -20,9 +20,29 @@
 
 import Route from '@ioc:Adonis/Core/Route'
 
-Route.get('/', async ({ view }) => {
-  return view.render('welcome')
-}).middleware('auth')
+Route.get('/', async (ctx) => {
+  const { default: HomeController } = await import(
+    'App/Controllers/Http/HomeController'
+  )
+  return new HomeController().index(ctx)
+})
+Route.group(() => {
+  Route.get('/', async (ctx) => {
+    const { default: UsersController } = await import(
+      'App/Controllers/Http/UsersController'
+    )
+    return new UsersController().index(ctx)
+  })
+
+  Route.post('/create', async (ctx) => {
+    const { default: UsersController } = await import(
+      'App/Controllers/Http/UsersController'
+    )
+    return new UsersController().store(ctx)
+  })
+}).prefix('users')
+
+
 
 Route.get('/login', async ({ view }) => {
   return view.render('security.login')

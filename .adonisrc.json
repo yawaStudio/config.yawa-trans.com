@@ -4,7 +4,8 @@
     "./commands",
     "@adonisjs/core/build/commands/index.js",
     "@adonisjs/repl/build/commands",
-    "@wahyubucil/adonis-prisma/build/commands"
+    "@wahyubucil/adonis-prisma/build/commands",
+    "@adonisjs/mail/build/commands"
   ],
   "exceptionHandlerNamespace": "App/Exceptions/Handler",
   "aliases": {
@@ -24,7 +25,8 @@
     "@adonisjs/view",
     "@adonisjs/shield",
     "@adonisjs/auth",
-    "@wahyubucil/adonis-prisma"
+    "@wahyubucil/adonis-prisma",
+    "@adonisjs/mail"
   ],
   "metaFiles": [
     {
