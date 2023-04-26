@@ -43,6 +43,13 @@ Route.group(() => {
     )
     return new UsersController().store(ctx)
   })
+
+  Route.get('/view/:id', async (ctx) => {
+    const { default: UsersController } = await import(
+      'App/Controllers/Http/UsersController'
+    )
+    return new UsersController().show(ctx)
+  })
 }).prefix('users')
 .middleware('auth')
 

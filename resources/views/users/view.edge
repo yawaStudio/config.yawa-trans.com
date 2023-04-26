@@ -1,4 +1,4 @@
-@layout('layout.app')
+@layout('layouts.main')
 
 @section('content')
 @set('title', 'Profile')
@@ -12,26 +12,22 @@
       <div class="card mb-4">
         <div class="user-profile-header d-flex flex-column flex-sm-row text-sm-start text-center mb-4">
           <div class="flex-shrink-0 mt-n2 mx-sm-0 mx-auto">
-            <img src="{{profile.avatar}}" alt="{{profile.name}}"
+            <img src="/profil.gif" alt="{{user.name}}"
+              width="100" height="100"
               class="d-block h-auto ms-0 ms-sm-4 rounded user-profile-img" />
           </div>
           <div class="flex-grow-1 mt-3 mt-sm-5">
             <div
               class="d-flex align-items-md-end align-items-sm-start align-items-center justify-content-md-between justify-content-start mx-4 flex-md-row flex-column gap-4">
               <div class="user-profile-info">
-                <h4>{{profile.name}}</h4>
+                <h4>{{user.name}}</h4>
                 <ul
                   class="list-inline mb-0 d-flex align-items-center flex-wrap justify-content-sm-start justify-content-center gap-2">
-                  <li class="list-inline-item"><i class="ti ti-color-swatch"></i> {{profile.role}}</li>
-                  <li class="list-inline-item"><i class="ti ti-map-pin"></i> {{profile.adresse}}</li>
+                  <li class="list-inline-item"><i class="ti ti-color-swatch"></i> {{user.role}}</li>
+                  <li class="list-inline-item"><i class="ti ti-map-pin"></i> {{user.adresse}}</li>
                 </ul>
               </div>
-              @if(user.is_log == 1)
-
-              <a href="javascript:void(0)" class="btn btn-primary">
-                <i class="ti ti-user-check me-1"></i>Connecté
-              </a>
-              @endif
+             
             </div>
           </div>
         </div>
@@ -50,16 +46,16 @@
           <small class="card-text text-uppercase">Détails</small>
           <ul class="list-unstyled mb-4 mt-3">
             <li class="d-flex align-items-center mb-3">
-              <i class="ti ti-user"></i><span class="fw-bold mx-2">Prénom et nom:</span> <span>{{profile.name}}</span>
+              <i class="ti ti-user"></i><span class="fw-bold mx-2">Prénom et nom:</span> <span>{{user.name}}</span>
             </li>
             <li class="d-flex align-items-center mb-3">
               <i class="ti ti-check"></i><span class="fw-bold mx-2">Status:</span> <span>Active</span>
             </li>
             <li class="d-flex align-items-center mb-3">
-              <i class="ti ti-crown"></i><span class="fw-bold mx-2">Role:</span> <span>{{profile.role}}</span>
+              <i class="ti ti-crown"></i><span class="fw-bold mx-2">Role:</span> <span>{{user.role}}</span>
             </li>
             <li class="d-flex align-items-center mb-3">
-              <i class="ti ti-flag"></i><span class="fw-bold mx-2">Adresse:</span> <span>{{profile.adresse}}</span>
+              <i class="ti ti-flag"></i><span class="fw-bold mx-2">Adresse:</span> <span>{{user.adresse}}</span>
             </li>
             <li class="d-flex align-items-center mb-3">
               <i class="ti ti-file-description"></i><span class="fw-bold mx-2">Langue:</span>
@@ -71,10 +67,10 @@
             <li class="d-flex align-items-center mb-3">
               <i class="ti ti-phone-call"></i><span class="fw-bold mx-2">Contact:</span>
               <span>
-                @if(profile.phone == 'null')
+                @if(user.phone == 'null')
                 +221 000 00 00
                 @else
-                {{profile.phone}}
+                {{user.phone}}
                 @endif
               </span>
             </li>
@@ -99,31 +95,31 @@
               <h5 class="modal-title" id="exampleModalLabel1">Modification</h5>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form action="/users/update/{{profile.id}}?_method=PUT" method="POST">
+            <form action="/users/update/{{user.id}}?_method=PUT" method="POST">
               {{ csrfField() }}
               <div class="modal-body">
                 <div class="row">
                   <div class="col mb-3">
                     <label for="name" class="form-label">Prénom et nom</label>
-                    <input type="text" id="name" name="name" class="form-control" value="{{profile.name}}" />
+                    <input type="text" id="name" name="name" class="form-control" value="{{user.name}}" />
                   </div>
                 </div>
                 <div class="row g-2">
                   <div class="col mb-0">
                     <label for="phone" class="form-label">Téléphone</label>
-                    <input type="text" id="phone" name="phone" class="form-control" value="{{profile.phone}}" />
+                    <input type="text" id="phone" name="phone" class="form-control" value="{{user.phone}}" />
                   </div>
                   <div class="col mb-0">
                     <label for="adresse" class="form-label">Adresse</label>
-                    <input type="text" id="adresse" name="adresse" class="form-control" value="{{profile.adresse}}" />
+                    <input type="text" id="adresse" name="adresse" class="form-control" value="{{user.adresse}}" />
                   </div>
                 </div>
                 <div class="row g-2">
                   <div class="col mb-0">
                     <label for="phone" class="form-label">Genre</label>
                     <select id="defaultSelect" class="form-select" name="gender">
-                      <option value="{{profile.gender}}">{{profile.gender}}</option>
-                      @if(profile.gender == 'Homme')
+                      <option value="{{user.gender}}">{{user.gender}}</option>
+                      @if(user.gender == 'Homme')
                       <option value="Femme">Femme</option>
                       @else
                       <option value="Homme">Homme</option>
@@ -132,14 +128,14 @@
                   </div>
                   <div class="col mb-0">
                     <label for="cni" class="form-label">N° CNI</label>
-                    <input type="text" id="cni" name="cni" class="form-control" value="{{profile.cni}}" />
+                    <input type="text" id="cni" name="cni" class="form-control" value="{{user.cni}}" />
                   </div>
                 </div>
                 <div class="row">
                   <div class="col mb-3">
                     <label for="name" class="form-label">Rôle</label>
                     <select id="defaultSelect" class="form-select" name="role">
-                      <option value="{{profile.role}}">{{profile.role}}</option>
+                      <option value="{{user.role}}">{{user.role}}</option>
 
                       <option value="Support">Support</option>
 

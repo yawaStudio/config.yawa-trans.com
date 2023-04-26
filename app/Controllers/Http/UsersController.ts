@@ -8,6 +8,7 @@ export default class UsersController {
     const users = await prisma.user.findMany(
       {
         select: {
+          id: true,
           email: true,
           name: true,
           role: true,
@@ -56,7 +57,23 @@ export default class UsersController {
     }
   }
 
-  public async show({}: HttpContextContract) {}
+  public async show({params, view, response}: HttpContextContract) {
+     console.log('params.id = ', params)
+   // Query returns User or null
+const user= await prisma.user.findUnique({
+  where: {
+    id: 8,
+  },
+})
+    console.log(user)
+    if (user)  { 
+      return view.render('users.view', {
+        user: user
+      })
+    }else{
+      return response.redirect('back')
+    }
+  }
 
   public async edit({}: HttpContextContract) {}
 
