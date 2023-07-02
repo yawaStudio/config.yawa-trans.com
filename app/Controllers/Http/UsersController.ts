@@ -16,10 +16,18 @@ export default class UsersController {
         },
       }
     )
-
+    const roles = await prisma.role.findMany(
+      {
+        select: {
+          id: true,
+          name: true,
+        },
+      }
+    )
     console.log(users)
     return view.render('users.index', {
-      users: users
+      users: users,
+      roles: roles
     })
   }
 
@@ -28,27 +36,33 @@ export default class UsersController {
   }
 
   public async store({request, response}: HttpContextContract) {
-    const data = await request.only(['name', 'email', 'username', 'role' ])
+    const data = await request.only(['name', 'email', 'roleId' ])
 
+    data.roleId= Number(data.roleId)
+    console.log(data)
     var uuid = Math.floor(100000 + Math.random() * 900000).toString()
-    const hash = await argon2.hash('123456');
+    const hash = await argon2.hash(uuid);
 
     const user = await prisma.user.create({
         data: {
           name: data.name,
           email: data.email,
-          username: data.username,
           password: hash,
-          role: data.role,
+          roleId: data.roleId
 
         },
     })
 
     if (user) {
       
-        const url = '/verify/' + user.id
-     
-     
+        //const url = '/verify/' + user.id
+       const  account = await prisma.account.create({
+          data: {
+            userId: user.id,
+            name: data.name,
+          },
+        });
+     console.log('uuid ', uuid, 'account ', account)
 
      
       return response.redirect('back')
@@ -58,11 +72,11 @@ export default class UsersController {
   }
 
   public async show({params, view, response}: HttpContextContract) {
-     console.log('params.id = ', params)
+     const id = Number(params.id)
    // Query returns User or null
 const user= await prisma.user.findUnique({
   where: {
-    id: 8,
+    id,
   },
 })
     console.log(user)

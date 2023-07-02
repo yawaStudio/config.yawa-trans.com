@@ -51,7 +51,7 @@ Route.group(() => {
     return new UsersController().show(ctx)
   })
 }).prefix('users')
-.middleware('auth')
+
 
 
 Route.get('/login', async ({ view }) => {

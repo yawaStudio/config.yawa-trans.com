@@ -140,10 +140,11 @@
          
           <div class="mb-3">
             <label class="form-label" for="user-role">Role</label>
-            <select id="user-role" class="form-select" name="role">
-            
-              <option value="ADMIN">Administrateur</option>
-              <option value="USER">Utulisateur</option>
+            <select id="user-role" class="form-select" name="roleId">
+              @each(role in roles)
+              <option value="{{role.id}}">{{role.name}}</option>
+                
+              @end
              
             </select>
           </div>
@@ -152,10 +153,6 @@
             <input type="text" class="form-control" id="add-user-fullname" placeholder="John Doe" name="name"
               aria-label="Prénom et nom" required>
             <div class="fv-plugins-message-container invalid-feedback"></div>
-          </div>
-          <div class="mb-3">
-            <label class="form-label" for="add-user-contact">Nom d'utilisateur</label>
-            <input type="text" id="add-user-contact" class="form-control phone-mask" name="username">
           </div>
           <div class="mb-3 fv-plugins-icon-container">
             <label class="form-label" for="add-user-email">Email</label>

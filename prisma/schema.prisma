@@ -3,176 +3,520 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
-model User {
-  id              Int     @id @default(autoincrement())
-  name            String?
-  email           String  @unique
-  username        String  @unique
-  password        String
-  role            Role    @default(USER)
-  rememberMeToken String?
-  isActiveted     Boolean @default(true)
-
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @default(now()) @updatedAt
-  Profile   Profile[]
-
-  @@map("users")
-}
-
-model Profile {
-  id         Int     @id @default(autoincrement())
-  name       String?
-  avatar     String?
-  email      String?
-  title      String?
-  poste      String?
-  role       String?
-  zone       String?
-  gender     String?
-  bio        String?
-  userId     Int
-
-  user User? @relation(fields: [userId], references: [id])
-}
-
-model Companie {
-  id    Int     @id @default(autoincrement())
-  name  String
-  ninea String?
-  rccm  String?
-  ville String?
-  pays  String?
-  logo  String?
-
-  gestionnaire String
-  phone        String?
-  email        String
-  cni          String
-
-  isActiveted Boolean @default(true)
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
-
-  Vehicules Vehicule[]
-  Ligne     Ligne[]
-  Agents    Agent[]
-  Voyages   Voyage[]
-
-  @@map("companies")
-}
-
-model Agent {
-  id         Int @id @default(autoincrement())
-  companieId Int
-
-  name       String?
-  phone      String  @unique
-  codeSecret String
-
-  role Role @default(SELLER)
-
-  isActiveted Boolean   @default(true)
-  companie    Companie? @relation(fields: [companieId], references: [id])
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
-
-  @@map("agents")
-}
-
-model Vehicule {
-  id         Int @id @default(autoincrement())
-  companieId Int
-
-  modelVehicule  String
-  matricule      String
-  img            String?
-  numberSeats    Int
-  airConditioned Boolean @default(true)
-  isActiveted    Boolean @default(true)
-
-  companie Companie? @relation(fields: [companieId], references: [id])
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
-
-  @@map("vehicules")
-}
-
-model Ligne {
-  id         Int @id @default(autoincrement())
-  companieId Int
-
-  lieuDepart  String
-  destination String
-
-  modelVehicule String?
-  frequence     Int     @default(7)
-  prixBillet    Int
-  tripCondition String  @db.Text
-  garage        String
-
-  companie Companie? @relation(fields: [companieId], references: [id])
-
-  isRoundtrip Boolean @default(true)
-  isActiveted Boolean @default(true)
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
-
-  Voyages Voyage[]
-
-  @@map("lignes")
-}
-
-model Voyage {
-  id         Int @id @default(autoincrement())
-  companieId Int
-  ligneId    Int
-
-  tripDate     DateTime @db.Date
-  checkoutTime DateTime @db.Time()
-  cars         Int      @default(0)
-  seats        Int      @default(0)
-
-  seatsAvailable Int   @default(0)
-  carsAvailable  Int   @default(0)
-  passagers      Int   @default(0)
-  revenus        Float @default(0)
-
+model Role {
+  id          Int      @id @default(autoincrement())
+  name        String   @unique
   isActiveted Boolean  @default(true)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @default(now()) @updatedAt
-
-  companie Companie? @relation(fields: [companieId], references: [id])
-  ligne    Ligne?    @relation(fields: [ligneId], references: [id])
-
-  @@map("voyages")
+  User        User[]
 }
 
-model Passager {
-  id    Int     @id @default(autoincrement())
-  name  String
-  phone String
-  cni   String?
+model User {
+  id          Int      @id @default(autoincrement())
+  email       String   @unique
+  password    String
+  name        String?
+  roleId      Int
+  isActiveted Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  account     Account?
+  role        Role     @relation(fields: [roleId], references: [id])
+}
 
-  isActiveted Boolean @default(true)
+model Account {
+  id         Int       @id @default(autoincrement())
+  name       String
+  phone      String?
+  img        String?
+  companieId Int?
+  reseauId   Int?
+  userId     Int       @unique
+  Companie   Companie? @relation(fields: [companieId], references: [id])
+  Reseau     Reseau?   @relation(fields: [reseauId], references: [id])
+  user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
 
+model Device {
+  id          Int                @id @default(autoincrement())
+  code        String             @unique
+  type        String?
+  isActiveted Boolean            @default(false)
+  createdAt   DateTime           @default(now())
+  updatedAt   DateTime           @updatedAt
+  attribution DeviceAttribution?
+}
+
+model Licence {
+  id            Int        @id @default(autoincrement())
+  licenceCode   Int?
+  licenceName   String
+  type          String
+  frequence     String     @default("Mensuelle")
+  licenceAmount Int
+  isActive      Boolean    @default(true)
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+  contract      Contract[]
+}
+
+model Sim {
+  id          Int                @id @default(autoincrement())
+  number      String             @unique
+  imsi        String             @unique
+  provider    String?            @default("Orange")
+  isActiveted Boolean            @default(false)
+  createdAt   DateTime           @default(now())
+  updatedAt   DateTime           @updatedAt
+  device      DeviceAttribution?
+}
+
+model Reseau {
+  id               Int                 @id @default(autoincrement())
+  name             String              @unique
+  isActiveted      Boolean             @default(true)
+  createdAt        DateTime            @default(now())
+  updatedAt        DateTime            @updatedAt
+  Account          Account[]
+  Companie         Companie[]
+  Contract         Contract[]
+  Controls         Control[]
+  Controller       Controller[]
+  Device           DeviceAttribution[]
+  Itinerary        Itinerary[]
+  Operator         Operator[]
+  Regulation       Regulation[]
+  Regulator        Regulator[]
+  Config           ReseauConfig?
+  Rubrics          Rubrics[]
+  Selling          Selling[]
+  Subscription     Subscription[]
+  SubscriptionPlan SubscriptionPlan[]
+  Vehicule         Vehicule[]
+}
+
+model Contract {
+  id               Int      @id @default(autoincrement())
+  contractNumber   String   @unique
+  contractType     String   @default("Collectif")
+  contractorType   String   @default("GIE")
+  contractorName   String
+  contractorNINEA  String?
+  contractorPhone  String?
+  contractorEmail  String?
+  signatoryName    String
+  signatoryCNI     String
+  signatoryQuality String   @default("Président")
+  bobineQuantity   Int      @default(40)
+  deviceType       String
+  devicceModality  String?
+  duration         String   @default("1")
+  startDate        DateTime @default(now())
+  endDate          DateTime @default(now())
+  status           String   @default("active")
+  licenceId        Int
+  companieId       Int
+  reseauId         Int
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+  companie         Companie @relation(fields: [companieId], references: [id])
+  licence          Licence  @relation(fields: [licenceId], references: [id])
+  reseau           Reseau   @relation(fields: [reseauId], references: [id])
+}
+
+model ReseauConfig {
+  id               Int     @id @default(autoincrement())
+  itinerary        String  @default("global")
+  invoicing        String  @default("global")
+  depatureDuration BigInt  @default(15)
+  agentName        String?
+  agentPhone       String?
+  agentEmail       String?
+  reseauId         Int     @unique
+  reseau           Reseau  @relation(fields: [reseauId], references: [id])
+}
+
+model Companie {
+  id          Int                 @id @default(autoincrement())
+  name        String
+  email       String?             @unique
+  phone       String?             @unique
+  manager     String?
+  adress      String?
+  type        String?
+  logo        String?
+  isActiveted Boolean             @default(true)
+  createdAt   DateTime            @default(now())
+  updatedAt   DateTime            @updatedAt
+  ReseauId    Int
+  Account     Account[]
+  Reseau      Reseau              @relation(fields: [ReseauId], references: [id], onDelete: Cascade)
+  Contract    Contract[]
+  Controls    Control[]
+  Device      DeviceAttribution[]
+  Itinerary   Itinerary[]
+  Operator    Operator[]
+  Regulation  Regulation[]
+  Rubrics     Rubrics[]
+  Selling     Selling[]
+  Vehicules   Vehicule[]
+}
+
+model Operator {
+  id          Int                 @id @default(autoincrement())
+  name        String
+  email       String?             @unique
+  phone       String?             @unique
+  companieId  Int
+  isActiveted Boolean             @default(true)
+  createdAt   DateTime            @default(now())
+  updatedAt   DateTime            @updatedAt
+  reseauId    Int
+  Controls    Control[]
+  Device      DeviceAttribution[]
+  companie    Companie            @relation(fields: [companieId], references: [id], onDelete: Cascade)
+  reseau      Reseau              @relation(fields: [reseauId], references: [id], onDelete: Cascade)
+  Selling     Selling[]
+  Vehicules   Vehicule[]
+}
+
+model Vehicule {
+  id          Int                 @id @default(autoincrement())
+  matricule   String              @unique
+  type        String?
+  isActiveted Boolean             @default(true)
+  createdAt   DateTime            @default(now())
+  updatedAt   DateTime            @updatedAt
+  operatorId  Int
+  companieId  Int
+  reseauId    Int
+  Controls    Control[]
+  device      DeviceAttribution[]
+  Selling     Selling[]
+  companie    Companie            @relation(fields: [companieId], references: [id], onDelete: Cascade)
+  operator    Operator            @relation(fields: [operatorId], references: [id])
+  reseau      Reseau              @relation(fields: [reseauId], references: [id], onDelete: Cascade)
+}
+
+model DeviceAttribution {
+  id          Int       @id @default(autoincrement())
+  code        String    @unique @default("2023")
+  isActiveted Boolean   @default(true)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  deviceId    Int       @unique
+  simId       Int       @unique
+  operatorId  Int
+  companieId  Int
+  vehiculeId  Int
+  reseauId    Int
+  companie    Companie  @relation(fields: [companieId], references: [id], onDelete: Cascade)
+  device      Device    @relation(fields: [deviceId], references: [id], onDelete: Cascade)
+  operator    Operator  @relation(fields: [operatorId], references: [id], onDelete: Cascade)
+  reseau      Reseau    @relation(fields: [reseauId], references: [id], onDelete: Cascade)
+  sim         Sim       @relation(fields: [simId], references: [id])
+  vehicule    Vehicule  @relation(fields: [vehiculeId], references: [id], onDelete: Cascade)
+  Selling     Selling[]
+}
+
+model Itinerary {
+  id          Int          @id @default(autoincrement())
+  name        String
+  startPoint  String
+  endPoint    String
+  distance    Float        @default(0)
+  isActiveted Boolean      @default(true)
+  companieId  Int
+  reseauId    Int
+  Controls    Control[]
+  coordinates Coordinate[]
+  companie    Companie     @relation(fields: [companieId], references: [id])
+  reseau      Reseau       @relation(fields: [reseauId], references: [id], onDelete: Cascade)
+  rates       Rate[]
+  Regulation  Regulation[]
+  selling     Selling[]
+}
+
+model Rubrics {
+  id          Int      @id @default(autoincrement())
+  name        String
+  isActiveted Boolean  @default(true)
+  companieId  Int
+  reseauId    Int
+  companie    Companie @relation(fields: [companieId], references: [id])
+  reseau      Reseau   @relation(fields: [reseauId], references: [id])
+}
+
+model Coordinate {
+  id          Int       @id @default(autoincrement())
+  name        String
+  latitude    Float
+  longitude   Float
+  itineraryId Int
+  itinerary   Itinerary @relation(fields: [itineraryId], references: [id])
+}
+
+model Rate {
+  id          Int       @id @default(autoincrement())
+  name        String
+  price       Int
+  itineraryId Int
+  itinerary   Itinerary @relation(fields: [itineraryId], references: [id])
+}
+
+model SubscriptionPlan {
+  id           Int            @id @default(autoincrement())
+  name         String
+  price        Float          @default(0)
+  duration     Int            @default(1)
+  isActive     Boolean        @default(true)
+  reseauId     Int
+  Subscription Subscription[]
+  reseau       Reseau         @relation(fields: [reseauId], references: [id])
+}
+
+model Controller {
+  id          Int       @id @default(autoincrement())
+  name        String
+  phone       String?   @unique
+  password    String?
+  gender      String?
+  isActiveted Boolean   @default(true)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  ReseauId    Int
+  Controls    Control[]
+  Reseau      Reseau    @relation(fields: [ReseauId], references: [id], onDelete: Cascade)
+}
+
+model Regulator {
+  id          Int          @id @default(autoincrement())
+  name        String
+  phone       String?      @unique
+  password    String?
+  gender      String?
+  isActiveted Boolean      @default(true)
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  ReseauId    Int
+  Regulation  Regulation[]
+  Reseau      Reseau       @relation(fields: [ReseauId], references: [id], onDelete: Cascade)
+}
+
+model Selling {
+  id          Int               @id @default(autoincrement())
+  userId      Int?
+  userName    String?
+  revenue     Float             @default(0)
+  expense     Float             @default(0)
+  solde       Float             @default(0)
+  totalTicket BigInt            @default(0)
+  type        String?
+  startTime   String?
+  endTime     String?
+  isActiveted Boolean           @default(true)
+  itineraryId Int
+  deviceId    Int
+  vehiculeId  Int
+  operatorId  Int
+  companieId  Int
+  reseauId    Int
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @default(now()) @updatedAt
+  Controls    Control[]
+  Costs       Costs[]
+  Rental      Rental[]
+  companie    Companie          @relation(fields: [companieId], references: [id], onDelete: Cascade)
+  device      DeviceAttribution @relation(fields: [deviceId], references: [id])
+  itinerary   Itinerary         @relation(fields: [itineraryId], references: [id])
+  operator    Operator          @relation(fields: [operatorId], references: [id])
+  reseau      Reseau            @relation(fields: [reseauId], references: [id], onDelete: Cascade)
+  vehicule    Vehicule          @relation(fields: [vehiculeId], references: [id])
+  Tickets     Ticket[]
+  tracking    Tracking[]
+  trajet      Trajet[]
+}
+
+model Control {
+  id             Int        @id @default(autoincrement())
+  controllerName String?
+  checkedTickets BigInt     @default(0)
+  ticketFraude   BigInt     @default(0)
+  comment        String?
+  startTime      DateTime?
+  endTime        DateTime?
+  controllerId   Int
+  trajetId       Int
+  itineraryId    Int
+  sellingId      Int
+  operatorId     Int
+  companieId     Int
+  vehiculeId     Int
+  reseauId       Int
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @default(now()) @updatedAt
+  companie       Companie   @relation(fields: [companieId], references: [id], onDelete: Cascade)
+  controller     Controller @relation(fields: [controllerId], references: [id])
+  itinerary      Itinerary  @relation(fields: [itineraryId], references: [id])
+  operator       Operator   @relation(fields: [operatorId], references: [id], onDelete: Cascade)
+  reseau         Reseau     @relation(fields: [reseauId], references: [id], onDelete: Cascade)
+  selling        Selling    @relation(fields: [sellingId], references: [id])
+  trajet         Trajet     @relation(fields: [trajetId], references: [id])
+  vehicule       Vehicule   @relation(fields: [vehiculeId], references: [id], onDelete: Cascade)
+}
+
+model Regulation {
+  id          Int       @id @default(autoincrement())
+  vehicules   BigInt    @default(0)
+  startTime   DateTime?
+  endTime     DateTime?
+  regulatorId Int
+  itineraryId Int
+  sellingId   Int?
+  companieId  Int
+  reseauId    Int
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @default(now()) @updatedAt
+  companie    Companie  @relation(fields: [companieId], references: [id], onDelete: Cascade)
+  itinerary   Itinerary @relation(fields: [itineraryId], references: [id])
+  regu        Regulator @relation(fields: [regulatorId], references: [id])
+  reseau      Reseau    @relation(fields: [reseauId], references: [id], onDelete: Cascade)
+}
+
+model Tracking {
+  id        Int      @id @default(autoincrement())
+  sellingId Int
+  timestamp DateTime
+  latitude  Float
+  longitude Float
+  speed     Float?
+  heading   Float?
   createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
-
-  @@map("passagers")
+  selling   Selling  @relation(fields: [sellingId], references: [id])
 }
 
-enum Role {
-  USER
-  ADMIN
-  GESTIONNAIRE
-  SELLER
+model Trajet {
+  id            Int       @id @default(autoincrement())
+  duration      Int
+  departureTime DateTime
+  arrivalTime   DateTime
+  distance      Float
+  sellingId     Int
+  Controls      Control[]
+  Tickets       Ticket[]
+  selling       Selling   @relation(fields: [sellingId], references: [id])
+}
+
+model Ticket {
+  id               Int           @id @default(autoincrement())
+  code             String        @unique
+  price            Float
+  name             String
+  validUntil       DateTime
+  startTime        DateTime
+  endTime          DateTime
+  status           String        @default("online")
+  isActivated      Boolean       @default(true)
+  walletId         Int
+  tripId           Int
+  paymentMethodeId Int
+  sellingId        Int
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+  paymentMethode   PaymentMethod @relation(fields: [paymentMethodeId], references: [id])
+  selling          Selling       @relation(fields: [sellingId], references: [id])
+  trip             Trajet        @relation(fields: [tripId], references: [id])
+  wallet           Wallet        @relation(fields: [walletId], references: [id])
+}
+
+model Rental {
+  id            Int      @id @default(autoincrement())
+  custumer      String
+  custumerPhone String?
+  price         Float
+  destination   String
+  startTime     DateTime
+  endTime       DateTime
+  isActivated   Boolean  @default(true)
+  sellingId     Int
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  selling       Selling  @relation(fields: [sellingId], references: [id])
+}
+
+model Costs {
+  id        Int      @id @default(autoincrement())
+  rubrics   String
+  amount    Float
+  sellingId Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  selling   Selling  @relation(fields: [sellingId], references: [id])
+}
+
+model Passenger {
+  id           Int            @id @default(autoincrement())
+  name         String
+  phone        String         @unique
+  email        String         @unique
+  cni          String         @unique
+  gender       String
+  status       String
+  password     String
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  Subscription Subscription[]
+  wallet       Wallet?
+}
+
+model Wallet {
+  id          Int        @id @default(autoincrement())
+  balance     Float      @default(0)
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  passengerId Int        @unique
+  recharges   Recharge[]
+  Tickets     Ticket[]
+  passenger   Passenger  @relation(fields: [passengerId], references: [id])
+}
+
+model Recharge {
+  id               Int           @id @default(autoincrement())
+  amount           Float
+  ref              String
+  status           String        @default("En cours")
+  createdAt        DateTime      @default(now())
+  walletId         Int
+  paymentMethodeId Int
+  paymentMethode   PaymentMethod @relation(fields: [paymentMethodeId], references: [id])
+  wallet           Wallet        @relation(fields: [walletId], references: [id])
+}
+
+model PaymentMethod {
+  id          Int        @id @default(autoincrement())
+  name        String     @unique
+  description String?
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  recharges   Recharge[]
+  Tickets     Ticket[]
+}
+
+model Subscription {
+  id          Int              @id @default(autoincrement())
+  passengerId Int
+  startDate   DateTime
+  endDate     DateTime
+  isActive    Boolean          @default(true)
+  planId      Int
+  reseauId    Int
+  passenger   Passenger        @relation(fields: [passengerId], references: [id])
+  plan        SubscriptionPlan @relation(fields: [planId], references: [id])
+  reseau      Reseau           @relation(fields: [reseauId], references: [id])
 }
