@@ -48,9 +48,20 @@ model Device {
   createdAt   DateTime           @default(now())
   updatedAt   DateTime           @updatedAt
   attribution DeviceAttribution?
-  sim         Sim?
-}
+  simId    String @unique
+  sim   Sim  @relation(fields: [simId], references: [id])
 
+}
+model Sim {
+  id          String     @id @default(uuid())
+  number      String     @unique
+  imsi        String     @unique
+  provider    String?    @default("ORANGE")
+  isActiveted Boolean    @default(false)
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  device Device?
+}
 model Licence {
   id            String       @id @default(uuid())
   licenceCode   String?
@@ -64,18 +75,7 @@ model Licence {
   contract      Contract[]
 }
 
-model Sim {
-  id          String       @id @default(uuid())
-  number      String     @unique
-  imsi        String     @unique
-  provider    String?    @default("ORANGE")
- deviceId String    @unique
-   device   Device  @relation(fields: [deviceId], references: [id], onDelete: Cascade)
-  isActiveted Boolean    @default(false)
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @updatedAt
 
-}
 
 
 

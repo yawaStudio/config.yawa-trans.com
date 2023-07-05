@@ -14,7 +14,7 @@ export default class UsersController {
         isActiveted: true,
       },
     });
-    var online;
+
     var activated;
     var blocked;
     var all;
@@ -57,7 +57,7 @@ export default class UsersController {
   public async store({ request, response }: HttpContextContract) {
     const data = await request.only(["name", "email", "roleId"]);
 
-    data.roleId = Number(data.roleId);
+
     console.log(data);
     // var uuid = Math.floor(100000 + Math.random() * 900000).toString();
     const hash = await argon2.hash("123456");
@@ -87,7 +87,7 @@ export default class UsersController {
   }
 
   public async show({ params, view, response }: HttpContextContract) {
-    const id = Number(params.id);
+    const id = params.id;
     // Query returns User or null
     const user = await prisma.user.findUnique({
       where: {
