@@ -59,7 +59,7 @@ export default class UsersController {
 
     data.roleId = Number(data.roleId);
     console.log(data);
-    var uuid = Math.floor(100000 + Math.random() * 900000).toString();
+    // var uuid = Math.floor(100000 + Math.random() * 900000).toString();
     const hash = await argon2.hash("123456");
 
     const user = await prisma.user.create({
@@ -72,14 +72,13 @@ export default class UsersController {
     });
 
     if (user) {
-      const url = "/verify/" + user.id;
       const account = await prisma.account.create({
         data: {
           userId: user.id,
           name: data.name,
         },
       });
-      console.log("uuid ", uuid, "account ", account);
+      console.log("account ", account);
 
       return response.redirect("back");
     } else {
@@ -105,9 +104,9 @@ export default class UsersController {
     }
   }
 
-  public async edit({}: HttpContextContract) {}
+  public async edit({ }: HttpContextContract) { }
 
-  public async update({}: HttpContextContract) {}
+  public async update({ }: HttpContextContract) { }
 
-  public async destroy({}: HttpContextContract) {}
+  public async destroy({ }: HttpContextContract) { }
 }

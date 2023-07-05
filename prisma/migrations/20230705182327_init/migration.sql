@@ -1,6 +1,6 @@
 -- CreateTable
 CREATE TABLE "Role" (
-    "id" INT8 NOT NULL DEFAULT unique_rowid(),
+    "id" STRING NOT NULL,
     "name" STRING NOT NULL,
     "isActiveted" BOOL NOT NULL DEFAULT true,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -11,11 +11,11 @@ CREATE TABLE "Role" (
 
 -- CreateTable
 CREATE TABLE "User" (
-    "id" INT8 NOT NULL DEFAULT unique_rowid(),
+    "id" STRING NOT NULL,
     "email" STRING NOT NULL,
     "password" STRING NOT NULL,
     "name" STRING,
-    "roleId" INT8 NOT NULL,
+    "roleId" STRING NOT NULL,
     "isActiveted" BOOL NOT NULL DEFAULT true,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
@@ -25,20 +25,20 @@ CREATE TABLE "User" (
 
 -- CreateTable
 CREATE TABLE "Account" (
-    "id" INT8 NOT NULL DEFAULT unique_rowid(),
+    "id" STRING NOT NULL,
     "name" STRING NOT NULL,
     "phone" STRING,
     "img" STRING,
-    "companieId" INT8,
-    "reseauId" INT8,
-    "userId" INT8 NOT NULL,
+    "companieId" STRING,
+    "reseauId" STRING,
+    "userId" STRING NOT NULL,
 
     CONSTRAINT "Account_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "Device" (
-    "id" INT8 NOT NULL DEFAULT unique_rowid(),
+    "id" STRING NOT NULL,
     "code" STRING,
     "type" STRING DEFAULT 'Orange',
     "isActiveted" BOOL NOT NULL DEFAULT false,
@@ -50,12 +50,12 @@ CREATE TABLE "Device" (
 
 -- CreateTable
 CREATE TABLE "Licence" (
-    "id" INT8 NOT NULL DEFAULT unique_rowid(),
-    "licenceCode" INT8,
+    "id" STRING NOT NULL,
+    "licenceCode" STRING,
     "licenceName" STRING NOT NULL,
     "type" STRING NOT NULL,
     "frequence" STRING NOT NULL DEFAULT 'Mensuelle',
-    "licenceAmount" INT8 NOT NULL,
+    "licenceAmount" STRING NOT NULL,
     "isActive" BOOL NOT NULL DEFAULT true,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
@@ -65,11 +65,11 @@ CREATE TABLE "Licence" (
 
 -- CreateTable
 CREATE TABLE "Sim" (
-    "id" INT8 NOT NULL DEFAULT unique_rowid(),
+    "id" STRING NOT NULL,
     "number" STRING NOT NULL,
     "imsi" STRING NOT NULL,
     "provider" STRING DEFAULT 'ORANGE',
-    "deviceId" INT8 NOT NULL,
+    "deviceId" STRING NOT NULL,
     "isActiveted" BOOL NOT NULL DEFAULT false,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
@@ -79,7 +79,7 @@ CREATE TABLE "Sim" (
 
 -- CreateTable
 CREATE TABLE "Reseau" (
-    "id" INT8 NOT NULL DEFAULT unique_rowid(),
+    "id" STRING NOT NULL,
     "name" STRING NOT NULL,
     "isActiveted" BOOL NOT NULL DEFAULT true,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -90,7 +90,7 @@ CREATE TABLE "Reseau" (
 
 -- CreateTable
 CREATE TABLE "Contract" (
-    "id" INT8 NOT NULL DEFAULT unique_rowid(),
+    "id" STRING NOT NULL,
     "contractNumber" STRING NOT NULL,
     "contractType" STRING NOT NULL DEFAULT 'Collectif',
     "contractorType" STRING NOT NULL DEFAULT 'GIE',
@@ -101,16 +101,16 @@ CREATE TABLE "Contract" (
     "signatoryName" STRING NOT NULL,
     "signatoryCNI" STRING NOT NULL,
     "signatoryQuality" STRING NOT NULL DEFAULT 'Président',
-    "bobineQuantity" INT8 NOT NULL DEFAULT 40,
+    "bobineQuantity" INT4 NOT NULL DEFAULT 40,
     "deviceType" STRING NOT NULL,
     "devicceModality" STRING,
     "duration" STRING NOT NULL DEFAULT '1',
     "startDate" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "endDate" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "status" STRING NOT NULL DEFAULT 'active',
-    "licenceId" INT8 NOT NULL,
-    "companieId" INT8 NOT NULL,
-    "reseauId" INT8 NOT NULL,
+    "licenceId" STRING NOT NULL,
+    "companieId" STRING NOT NULL,
+    "reseauId" STRING NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -119,21 +119,21 @@ CREATE TABLE "Contract" (
 
 -- CreateTable
 CREATE TABLE "ReseauConfig" (
-    "id" INT8 NOT NULL DEFAULT unique_rowid(),
+    "id" STRING NOT NULL,
     "itinerary" STRING NOT NULL DEFAULT 'global',
     "invoicing" STRING NOT NULL DEFAULT 'global',
-    "depatureDuration" INT8 NOT NULL DEFAULT 15,
+    "depatureDuration" INT4 NOT NULL DEFAULT 15,
     "agentName" STRING,
     "agentPhone" STRING,
     "agentEmail" STRING,
-    "reseauId" INT8 NOT NULL,
+    "reseauId" STRING NOT NULL,
 
     CONSTRAINT "ReseauConfig_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "Companie" (
-    "id" INT8 NOT NULL DEFAULT unique_rowid(),
+    "id" STRING NOT NULL,
     "name" STRING NOT NULL,
     "email" STRING,
     "phone" STRING,
@@ -144,118 +144,118 @@ CREATE TABLE "Companie" (
     "isActiveted" BOOL NOT NULL DEFAULT true,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
-    "ReseauId" INT8 NOT NULL,
+    "ReseauId" STRING NOT NULL,
 
     CONSTRAINT "Companie_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "Operator" (
-    "id" INT8 NOT NULL DEFAULT unique_rowid(),
+    "id" STRING NOT NULL,
     "name" STRING NOT NULL,
     "email" STRING,
     "phone" STRING,
-    "companieId" INT8 NOT NULL,
+    "companieId" STRING NOT NULL,
     "isActiveted" BOOL NOT NULL DEFAULT true,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
-    "reseauId" INT8 NOT NULL,
+    "reseauId" STRING NOT NULL,
 
     CONSTRAINT "Operator_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "Vehicule" (
-    "id" INT8 NOT NULL DEFAULT unique_rowid(),
+    "id" STRING NOT NULL,
     "matricule" STRING NOT NULL,
     "type" STRING,
     "isActiveted" BOOL NOT NULL DEFAULT true,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
-    "operatorId" INT8 NOT NULL,
-    "companieId" INT8 NOT NULL,
-    "reseauId" INT8 NOT NULL,
+    "operatorId" STRING NOT NULL,
+    "companieId" STRING NOT NULL,
+    "reseauId" STRING NOT NULL,
 
     CONSTRAINT "Vehicule_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "DeviceAttribution" (
-    "id" INT8 NOT NULL DEFAULT unique_rowid(),
+    "id" STRING NOT NULL,
     "code" STRING NOT NULL DEFAULT '2023',
     "isActiveted" BOOL NOT NULL DEFAULT true,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
-    "deviceId" INT8 NOT NULL,
-    "operatorId" INT8 NOT NULL,
-    "companieId" INT8 NOT NULL,
-    "vehiculeId" INT8 NOT NULL,
-    "reseauId" INT8 NOT NULL,
+    "deviceId" STRING NOT NULL,
+    "operatorId" STRING NOT NULL,
+    "companieId" STRING NOT NULL,
+    "vehiculeId" STRING NOT NULL,
+    "reseauId" STRING NOT NULL,
 
     CONSTRAINT "DeviceAttribution_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "Itinerary" (
-    "id" INT8 NOT NULL DEFAULT unique_rowid(),
+    "id" STRING NOT NULL,
     "name" STRING NOT NULL,
-    "startPoBigInt" STRING NOT NULL,
-    "endPoBigInt" STRING NOT NULL,
+    "startPoString" STRING NOT NULL,
+    "endPoString" STRING NOT NULL,
     "distance" FLOAT8 NOT NULL DEFAULT 0,
     "isActiveted" BOOL NOT NULL DEFAULT true,
-    "companieId" INT8 NOT NULL,
-    "reseauId" INT8 NOT NULL,
+    "companieId" STRING NOT NULL,
+    "reseauId" STRING NOT NULL,
 
     CONSTRAINT "Itinerary_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "Rubrics" (
-    "id" INT8 NOT NULL DEFAULT unique_rowid(),
+    "id" STRING NOT NULL,
     "name" STRING NOT NULL,
     "isActiveted" BOOL NOT NULL DEFAULT true,
-    "companieId" INT8 NOT NULL,
-    "reseauId" INT8 NOT NULL,
+    "companieId" STRING NOT NULL,
+    "reseauId" STRING NOT NULL,
 
     CONSTRAINT "Rubrics_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "Coordinate" (
-    "id" INT8 NOT NULL DEFAULT unique_rowid(),
+    "id" STRING NOT NULL,
     "name" STRING NOT NULL,
     "latitude" FLOAT8 NOT NULL,
     "longitude" FLOAT8 NOT NULL,
-    "itineraryId" INT8 NOT NULL,
+    "itineraryId" STRING NOT NULL,
 
     CONSTRAINT "Coordinate_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "Rate" (
-    "id" INT8 NOT NULL DEFAULT unique_rowid(),
+    "id" STRING NOT NULL,
     "name" STRING NOT NULL,
-    "price" INT8 NOT NULL,
-    "itineraryId" INT8 NOT NULL,
+    "price" STRING NOT NULL,
+    "itineraryId" STRING NOT NULL,
 
     CONSTRAINT "Rate_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "SubscriptionPlan" (
-    "id" INT8 NOT NULL DEFAULT unique_rowid(),
+    "id" STRING NOT NULL,
     "name" STRING NOT NULL,
     "price" FLOAT8 NOT NULL DEFAULT 0,
-    "duration" INT8 NOT NULL DEFAULT 1,
+    "duration" INT4 NOT NULL DEFAULT 1,
     "isActive" BOOL NOT NULL DEFAULT true,
-    "reseauId" INT8 NOT NULL,
+    "reseauId" STRING NOT NULL,
 
     CONSTRAINT "SubscriptionPlan_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "Controller" (
-    "id" INT8 NOT NULL DEFAULT unique_rowid(),
+    "id" STRING NOT NULL,
     "name" STRING NOT NULL,
     "phone" STRING,
     "password" STRING,
@@ -263,14 +263,14 @@ CREATE TABLE "Controller" (
     "isActiveted" BOOL NOT NULL DEFAULT true,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
-    "ReseauId" INT8 NOT NULL,
+    "ReseauId" STRING NOT NULL,
 
     CONSTRAINT "Controller_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "Regulator" (
-    "id" INT8 NOT NULL DEFAULT unique_rowid(),
+    "id" STRING NOT NULL,
     "name" STRING NOT NULL,
     "phone" STRING,
     "password" STRING,
@@ -278,30 +278,30 @@ CREATE TABLE "Regulator" (
     "isActiveted" BOOL NOT NULL DEFAULT true,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
-    "ReseauId" INT8 NOT NULL,
+    "ReseauId" STRING NOT NULL,
 
     CONSTRAINT "Regulator_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "Selling" (
-    "id" INT8 NOT NULL DEFAULT unique_rowid(),
-    "userId" INT8,
+    "id" STRING NOT NULL,
+    "userId" STRING,
     "userName" STRING,
     "revenue" FLOAT8 NOT NULL DEFAULT 0,
     "expense" FLOAT8 NOT NULL DEFAULT 0,
     "solde" FLOAT8 NOT NULL DEFAULT 0,
-    "totalTicket" INT8 NOT NULL DEFAULT 0,
+    "totalTicket" INT4 NOT NULL DEFAULT 0,
     "type" STRING,
     "startTime" STRING,
     "endTime" STRING,
     "isActiveted" BOOL NOT NULL DEFAULT true,
-    "itineraryId" INT8 NOT NULL,
-    "deviceId" INT8 NOT NULL,
-    "vehiculeId" INT8 NOT NULL,
-    "operatorId" INT8 NOT NULL,
-    "companieId" INT8 NOT NULL,
-    "reseauId" INT8 NOT NULL,
+    "itineraryId" STRING NOT NULL,
+    "deviceId" STRING NOT NULL,
+    "vehiculeId" STRING NOT NULL,
+    "operatorId" STRING NOT NULL,
+    "companieId" STRING NOT NULL,
+    "reseauId" STRING NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
@@ -310,21 +310,21 @@ CREATE TABLE "Selling" (
 
 -- CreateTable
 CREATE TABLE "Control" (
-    "id" INT8 NOT NULL DEFAULT unique_rowid(),
+    "id" STRING NOT NULL,
     "controllerName" STRING,
-    "checkedTickets" INT8 NOT NULL DEFAULT 0,
-    "ticketFraude" INT8 NOT NULL DEFAULT 0,
+    "checkedTickets" INT4 NOT NULL DEFAULT 0,
+    "ticketFraude" INT4 NOT NULL DEFAULT 0,
     "comment" STRING,
     "startTime" TIMESTAMP(3),
     "endTime" TIMESTAMP(3),
-    "controllerId" INT8 NOT NULL,
-    "trajetId" INT8 NOT NULL,
-    "itineraryId" INT8 NOT NULL,
-    "sellingId" INT8 NOT NULL,
-    "operatorId" INT8 NOT NULL,
-    "companieId" INT8 NOT NULL,
-    "vehiculeId" INT8 NOT NULL,
-    "reseauId" INT8 NOT NULL,
+    "controllerId" STRING NOT NULL,
+    "trajetId" STRING NOT NULL,
+    "itineraryId" STRING NOT NULL,
+    "sellingId" STRING NOT NULL,
+    "operatorId" STRING NOT NULL,
+    "companieId" STRING NOT NULL,
+    "vehiculeId" STRING NOT NULL,
+    "reseauId" STRING NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
@@ -333,15 +333,15 @@ CREATE TABLE "Control" (
 
 -- CreateTable
 CREATE TABLE "Regulation" (
-    "id" INT8 NOT NULL DEFAULT unique_rowid(),
-    "vehicules" INT8 NOT NULL DEFAULT 0,
+    "id" STRING NOT NULL,
+    "vehicules" INT4 NOT NULL DEFAULT 0,
     "startTime" TIMESTAMP(3),
     "endTime" TIMESTAMP(3),
-    "regulatorId" INT8 NOT NULL,
-    "itineraryId" INT8 NOT NULL,
-    "sellingId" INT8,
-    "companieId" INT8 NOT NULL,
-    "reseauId" INT8 NOT NULL,
+    "regulatorId" STRING NOT NULL,
+    "itineraryId" STRING NOT NULL,
+    "sellingId" STRING,
+    "companieId" STRING NOT NULL,
+    "reseauId" STRING NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
@@ -350,8 +350,8 @@ CREATE TABLE "Regulation" (
 
 -- CreateTable
 CREATE TABLE "Tracking" (
-    "id" INT8 NOT NULL DEFAULT unique_rowid(),
-    "sellingId" INT8 NOT NULL,
+    "id" STRING NOT NULL,
+    "sellingId" STRING NOT NULL,
     "timestamp" TIMESTAMP(3) NOT NULL,
     "latitude" FLOAT8 NOT NULL,
     "longitude" FLOAT8 NOT NULL,
@@ -364,19 +364,19 @@ CREATE TABLE "Tracking" (
 
 -- CreateTable
 CREATE TABLE "Trajet" (
-    "id" INT8 NOT NULL DEFAULT unique_rowid(),
-    "duration" INT8 NOT NULL,
+    "id" STRING NOT NULL,
+    "duration" STRING NOT NULL,
     "departureTime" TIMESTAMP(3) NOT NULL,
     "arrivalTime" TIMESTAMP(3) NOT NULL,
     "distance" FLOAT8 NOT NULL,
-    "sellingId" INT8 NOT NULL,
+    "sellingId" STRING NOT NULL,
 
     CONSTRAINT "Trajet_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "Ticket" (
-    "id" INT8 NOT NULL DEFAULT unique_rowid(),
+    "id" STRING NOT NULL,
     "code" STRING NOT NULL,
     "price" FLOAT8 NOT NULL,
     "name" STRING NOT NULL,
@@ -385,10 +385,10 @@ CREATE TABLE "Ticket" (
     "endTime" TIMESTAMP(3) NOT NULL,
     "status" STRING NOT NULL DEFAULT 'online',
     "isActivated" BOOL NOT NULL DEFAULT true,
-    "walletId" INT8 NOT NULL,
-    "tripId" INT8 NOT NULL,
-    "paymentMethodeId" INT8 NOT NULL,
-    "sellingId" INT8 NOT NULL,
+    "walletId" STRING NOT NULL,
+    "tripId" STRING NOT NULL,
+    "paymentMethodeId" STRING NOT NULL,
+    "sellingId" STRING NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -397,7 +397,7 @@ CREATE TABLE "Ticket" (
 
 -- CreateTable
 CREATE TABLE "Rental" (
-    "id" INT8 NOT NULL DEFAULT unique_rowid(),
+    "id" STRING NOT NULL,
     "custumer" STRING NOT NULL,
     "custumerPhone" STRING,
     "price" FLOAT8 NOT NULL,
@@ -405,7 +405,7 @@ CREATE TABLE "Rental" (
     "startTime" TIMESTAMP(3) NOT NULL,
     "endTime" TIMESTAMP(3) NOT NULL,
     "isActivated" BOOL NOT NULL DEFAULT true,
-    "sellingId" INT8 NOT NULL,
+    "sellingId" STRING NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -414,10 +414,10 @@ CREATE TABLE "Rental" (
 
 -- CreateTable
 CREATE TABLE "Costs" (
-    "id" INT8 NOT NULL DEFAULT unique_rowid(),
+    "id" STRING NOT NULL,
     "rubrics" STRING NOT NULL,
     "amount" FLOAT8 NOT NULL,
-    "sellingId" INT8 NOT NULL,
+    "sellingId" STRING NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -426,7 +426,7 @@ CREATE TABLE "Costs" (
 
 -- CreateTable
 CREATE TABLE "Passenger" (
-    "id" INT8 NOT NULL DEFAULT unique_rowid(),
+    "id" STRING NOT NULL,
     "name" STRING NOT NULL,
     "phone" STRING NOT NULL,
     "email" STRING NOT NULL,
@@ -442,31 +442,31 @@ CREATE TABLE "Passenger" (
 
 -- CreateTable
 CREATE TABLE "Wallet" (
-    "id" INT8 NOT NULL DEFAULT unique_rowid(),
+    "id" STRING NOT NULL,
     "balance" FLOAT8 NOT NULL DEFAULT 0,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
-    "passengerId" INT8 NOT NULL,
+    "passengerId" STRING NOT NULL,
 
     CONSTRAINT "Wallet_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "Recharge" (
-    "id" INT8 NOT NULL DEFAULT unique_rowid(),
+    "id" STRING NOT NULL,
     "amount" FLOAT8 NOT NULL,
     "ref" STRING NOT NULL,
     "status" STRING NOT NULL DEFAULT 'En cours',
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "walletId" INT8 NOT NULL,
-    "paymentMethodeId" INT8 NOT NULL,
+    "walletId" STRING NOT NULL,
+    "paymentMethodeId" STRING NOT NULL,
 
     CONSTRAINT "Recharge_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "PaymentMethod" (
-    "id" INT8 NOT NULL DEFAULT unique_rowid(),
+    "id" STRING NOT NULL,
     "name" STRING NOT NULL,
     "description" STRING,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -477,13 +477,13 @@ CREATE TABLE "PaymentMethod" (
 
 -- CreateTable
 CREATE TABLE "Subscription" (
-    "id" INT8 NOT NULL DEFAULT unique_rowid(),
-    "passengerId" INT8 NOT NULL,
+    "id" STRING NOT NULL,
+    "passengerId" STRING NOT NULL,
     "startDate" TIMESTAMP(3) NOT NULL,
     "endDate" TIMESTAMP(3) NOT NULL,
     "isActive" BOOL NOT NULL DEFAULT true,
-    "planId" INT8 NOT NULL,
-    "reseauId" INT8 NOT NULL,
+    "planId" STRING NOT NULL,
+    "reseauId" STRING NOT NULL,
 
     CONSTRAINT "Subscription_pkey" PRIMARY KEY ("id")
 );
@@ -564,7 +564,7 @@ CREATE UNIQUE INDEX "Wallet_passengerId_key" ON "Wallet"("passengerId");
 CREATE UNIQUE INDEX "PaymentMethod_name_key" ON "PaymentMethod"("name");
 
 -- AddForeignKey
-ALTER TABLE "User" ADD CONSTRAINT "User_roleId_fkey" FOREIGN KEY ("roleId") REFERENCES "Role"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "User" ADD CONSTRAINT "User_roleId_fkey" FOREIGN KEY ("roleId") REFERENCES "Role"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Account" ADD CONSTRAINT "Account_companieId_fkey" FOREIGN KEY ("companieId") REFERENCES "Companie"("id") ON DELETE SET NULL ON UPDATE CASCADE;
