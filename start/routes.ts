@@ -26,7 +26,7 @@ Route.get('/', async (ctx) => {
   )
   return new HomeController().index(ctx)
 })
-.middleware('auth')
+  .middleware('auth')
 
 
 Route.group(() => {
@@ -94,7 +94,7 @@ Route.group(() => {
     return new AppareilsController().destroy(ctx)
   })
 }).prefix('appareils')
-.middleware('auth')
+  .middleware('auth')
 
 //Sims
 Route.group(() => {
@@ -138,7 +138,51 @@ Route.group(() => {
     return new SimsController().destroy(ctx)
   })
 }).prefix('sims')
-.middleware('auth')
+  .middleware('auth')
+
+//Licences
+Route.group(() => {
+  Route.get('/', async (ctx) => {
+    const { default: LicencesController } = await import(
+      'App/Controllers/Http/LicencesController'
+    )
+    return new LicencesController().index(ctx)
+  })
+
+  Route.post('/create', async (ctx) => {
+    const { default: LicencesController } = await import(
+      'App/Controllers/Http/LicencesController'
+    )
+    return new LicencesController().store(ctx)
+  })
+
+  Route.post('/edit/:id', async (ctx) => {
+    const { default: LicencesController } = await import(
+      'App/Controllers/Http/LicencesController'
+    )
+    return new LicencesController().edit(ctx)
+  })
+
+  Route.get('/activeted/:id', async (ctx) => {
+    const { default: LicencesController } = await import(
+      'App/Controllers/Http/LicencesController'
+    )
+    return new LicencesController().activeted(ctx)
+  })
+  Route.get('/deactiveted/:id', async (ctx) => {
+    const { default: LicencesController } = await import(
+      'App/Controllers/Http/LicencesController'
+    )
+    return new LicencesController().deactiveted(ctx)
+  })
+  Route.get('/delete/:id', async (ctx) => {
+    const { default: LicencesController } = await import(
+      'App/Controllers/Http/LicencesController'
+    )
+    return new LicencesController().destroy(ctx)
+  })
+}).prefix('licences')
+  .middleware('auth')
 
 
 Route.get('/login', async ({ view }) => {

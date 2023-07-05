@@ -64,7 +64,7 @@ export default class SimsController {
     return response.redirect("back");
   }
 
-  public async edit({ params, view, request, response }: HttpContextContract) {
+  public async edit({ params, request, response }: HttpContextContract) {
     const id = params.id;
     const data = await request.only(["provider", "number", "imsi"]);
     // Query returns User or null

@@ -76,18 +76,13 @@ export default class AppareilsController {
     const id = params.id;
     const data = await request.only(["type", "simId"]);
     // Query returns User or null
-    const appareil = await prisma.device.findUniqueOrThrow({
-      where: {
-        id,
-      },
-    });
+
 
 
     await prisma.device.update({
-      where: { id: appareil.id },
+      where: { id: id },
       data: { simId: data.simId },
     });
-    console.log(appareil);
 
     return response.redirect("back");
 

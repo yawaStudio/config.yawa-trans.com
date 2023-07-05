@@ -50,7 +50,6 @@ model Device {
   attribution DeviceAttribution?
   simId    String @unique
   sim   Sim  @relation(fields: [simId], references: [id])
-
 }
 model Sim {
   id          String     @id @default(uuid())
