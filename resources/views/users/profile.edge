@@ -80,7 +80,7 @@
             </li>
             <li class="d-flex align-items-center mb-3">
               <i class="ti ti-mail"></i><span class="fw-bold mx-2">Email:</span>
-              <span>{{auth.user.email}}</span>
+              <span>{{users.email}}</span>
             </li>
           </ul>
           <div class="d-flex justify-content-center">
@@ -105,7 +105,7 @@
                 <div class="row">
                   <div class="col mb-3">
                     <label for="name" class="form-label">Prénom et nom</label>
-                    <input type="text" id="name" name="name" class="form-control" value="{{profile.name}}" />
+                    <input type="text" id="name" name="name" class="form-control" value="{{users.name}}" />
                   </div>
                 </div>
                 <div class="row g-2">
@@ -168,21 +168,21 @@
       <div class="card mb-4">
         <h5 class="card-header">Changer votre mot de passe</h5>
         <div class="card-body">
-          <form id="formAccountSettings" action="/profile/password-recovery/{{auth.user.id}}?_method=PUT" method="POST"
+          <form id="formAccountSettings" action="/profile/password-recovery/{{users.id}}?_method=PUT" method="POST"
             class="fv-plugins-bootstrap5 fv-plugins-framework" novalidate="novalidate">
             {{ csrfField() }}
             <div class="row">
               <div class="mb-3 col-md-6 form-password-toggle fv-plugins-icon-container">
-                <label class="form-label" for="username">Nom d'utilisateur</label>
+                <label class="form-label" for="username">Nom</label>
                 <div class="input-group input-group-merge has-validation">
-                  <input class="form-control" type="text" name="username" id="username" value="{{auth.user.username}}">
+                  <input class="form-control" type="text" name="name" id="name" value="{{users.name}}">
                 </div>
                 <div class="fv-plugins-message-container invalid-feedback"></div>
               </div>
               <div class="mb-3 col-md-6 form-password-toggle fv-plugins-icon-container">
                 <label class="form-label" for="username">Email</label>
                 <div class="input-group input-group-merge has-validation">
-                  <input class="form-control" type="email" name="email" id="email" value="{{auth.user.email}}">
+                  <input class="form-control" type="email" name="email" id="email" value="{{users.email}}">
                 </div>
                 <div class="fv-plugins-message-container invalid-feedback"></div>
               </div>

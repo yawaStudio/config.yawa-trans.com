@@ -503,7 +503,7 @@
 }
 
 .jstree-default .jstree-last {
-  background: transparent;
+  background-image: none;
 }
 
 .jstree-default .jstree-open > .jstree-ocl {
@@ -594,7 +594,7 @@
 }
 
 .jstree-default.jstree-rtl .jstree-last {
-  background: transparent;
+  background-image: none;
 }
 
 .jstree-default.jstree-rtl .jstree-open > .jstree-ocl {
@@ -677,7 +677,7 @@
 }
 
 .jstree-default .jstree-ellipsis .jstree-anchor {
-  width: calc(100% - 29px);
+  width: calc(100% - 24px + 5px);
   text-overflow: ellipsis;
   overflow: hidden;
 }
@@ -687,7 +687,7 @@
 }
 
 .jstree-default.jstree-rtl .jstree-last {
-  background: transparent;
+  background-image: none;
 }
 
 .jstree-default-small .jstree-node {
@@ -733,7 +733,7 @@
 }
 
 .jstree-default-small .jstree-last {
-  background: transparent;
+  background-image: none;
 }
 
 .jstree-default-small .jstree-open > .jstree-ocl {
@@ -824,7 +824,7 @@
 }
 
 .jstree-default-small.jstree-rtl .jstree-last {
-  background: transparent;
+  background-image: none;
 }
 
 .jstree-default-small.jstree-rtl .jstree-open > .jstree-ocl {
@@ -907,7 +907,7 @@
 }
 
 .jstree-default-small .jstree-ellipsis .jstree-anchor {
-  width: calc(100% - 23px);
+  width: calc(100% - 18px + 5px);
   text-overflow: ellipsis;
   overflow: hidden;
 }
@@ -917,7 +917,7 @@
 }
 
 .jstree-default-small.jstree-rtl .jstree-last {
-  background: transparent;
+  background-image: none;
 }
 
 .jstree-default-large .jstree-node {
@@ -963,7 +963,7 @@
 }
 
 .jstree-default-large .jstree-last {
-  background: transparent;
+  background-image: none;
 }
 
 .jstree-default-large .jstree-open > .jstree-ocl {
@@ -1054,7 +1054,7 @@
 }
 
 .jstree-default-large.jstree-rtl .jstree-last {
-  background: transparent;
+  background-image: none;
 }
 
 .jstree-default-large.jstree-rtl .jstree-open > .jstree-ocl {
@@ -1137,7 +1137,7 @@
 }
 
 .jstree-default-large .jstree-ellipsis .jstree-anchor {
-  width: calc(100% - 37px);
+  width: calc(100% - 32px + 5px);
   text-overflow: ellipsis;
   overflow: hidden;
 }
@@ -1147,7 +1147,7 @@
 }
 
 .jstree-default-large.jstree-rtl .jstree-last {
-  background: transparent;
+  background-image: none;
 }
 
 @media (max-width: 768px) {
@@ -1299,7 +1299,7 @@
     background-repeat: repeat-y;
   }
   .jstree-default-responsive .jstree-last {
-    background: transparent;
+    background-image: none;
   }
   .jstree-default-responsive .jstree-leaf > .jstree-ocl {
     background-position: -40px -120px;
@@ -1830,7 +1830,7 @@
 }
 
 .jstree-default-dark .jstree-last {
-  background: transparent;
+  background-image: none;
 }
 
 .jstree-default-dark .jstree-open > .jstree-ocl {
@@ -1921,7 +1921,7 @@
 }
 
 .jstree-default-dark.jstree-rtl .jstree-last {
-  background: transparent;
+  background-image: none;
 }
 
 .jstree-default-dark.jstree-rtl .jstree-open > .jstree-ocl {
@@ -2004,7 +2004,7 @@
 }
 
 .jstree-default-dark .jstree-ellipsis .jstree-anchor {
-  width: calc(100% - 29px);
+  width: calc(100% - 24px + 5px);
   text-overflow: ellipsis;
   overflow: hidden;
 }
@@ -2014,7 +2014,7 @@
 }
 
 .jstree-default-dark.jstree-rtl .jstree-last {
-  background: transparent;
+  background-image: none;
 }
 
 .jstree-default-dark-small .jstree-node {
@@ -2060,7 +2060,7 @@
 }
 
 .jstree-default-dark-small .jstree-last {
-  background: transparent;
+  background-image: none;
 }
 
 .jstree-default-dark-small .jstree-open > .jstree-ocl {
@@ -2151,7 +2151,7 @@
 }
 
 .jstree-default-dark-small.jstree-rtl .jstree-last {
-  background: transparent;
+  background-image: none;
 }
 
 .jstree-default-dark-small.jstree-rtl .jstree-open > .jstree-ocl {
@@ -2234,7 +2234,7 @@
 }
 
 .jstree-default-dark-small .jstree-ellipsis .jstree-anchor {
-  width: calc(100% - 23px);
+  width: calc(100% - 18px + 5px);
   text-overflow: ellipsis;
   overflow: hidden;
 }
@@ -2244,7 +2244,7 @@
 }
 
 .jstree-default-dark-small.jstree-rtl .jstree-last {
-  background: transparent;
+  background-image: none;
 }
 
 .jstree-default-dark-large .jstree-node {
@@ -2290,7 +2290,7 @@
 }
 
 .jstree-default-dark-large .jstree-last {
-  background: transparent;
+  background-image: none;
 }
 
 .jstree-default-dark-large .jstree-open > .jstree-ocl {
@@ -2381,7 +2381,7 @@
 }
 
 .jstree-default-dark-large.jstree-rtl .jstree-last {
-  background: transparent;
+  background-image: none;
 }
 
 .jstree-default-dark-large.jstree-rtl .jstree-open > .jstree-ocl {
@@ -2464,7 +2464,7 @@
 }
 
 .jstree-default-dark-large .jstree-ellipsis .jstree-anchor {
-  width: calc(100% - 37px);
+  width: calc(100% - 32px + 5px);
   text-overflow: ellipsis;
   overflow: hidden;
 }
@@ -2474,7 +2474,7 @@
 }
 
 .jstree-default-dark-large.jstree-rtl .jstree-last {
-  background: transparent;
+  background-image: none;
 }
 
 @media (max-width: 768px) {
@@ -2626,7 +2626,7 @@
     background-repeat: repeat-y;
   }
   .jstree-default-dark-responsive .jstree-last {
-    background: transparent;
+    background-image: none;
   }
   .jstree-default-dark-responsive .jstree-leaf > .jstree-ocl {
     background-position: -40px -120px;
@@ -2690,7 +2690,7 @@
 }
 
 .jstree-default-dark.jstree-rtl .jstree-last {
-  background: transparent;
+  background-image: none;
 }
 
 .jstree-default-dark-small.jstree-rtl .jstree-node {
@@ -2698,7 +2698,7 @@
 }
 
 .jstree-default-dark-small.jstree-rtl .jstree-last {
-  background: transparent;
+  background-image: none;
 }
 
 .jstree-default-dark-large.jstree-rtl .jstree-node {
@@ -2706,7 +2706,7 @@
 }
 
 .jstree-default-dark-large.jstree-rtl .jstree-last {
-  background: transparent;
+  background-image: none;
 }
 
 .jstree-default {

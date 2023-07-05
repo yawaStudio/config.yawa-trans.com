@@ -52,6 +52,93 @@ Route.group(() => {
   })
 }).prefix('users')
 
+//Appareils
+Route.group(() => {
+  Route.get('/', async (ctx) => {
+    const { default: AppareilsController } = await import(
+      'App/Controllers/Http/AppareilsController'
+    )
+    return new AppareilsController().index(ctx)
+  })
+
+  Route.post('/create', async (ctx) => {
+    const { default: AppareilsController } = await import(
+      'App/Controllers/Http/AppareilsController'
+    )
+    return new AppareilsController().store(ctx)
+  })
+
+  Route.post('/sim/:id', async (ctx) => {
+    const { default: AppareilsController } = await import(
+      'App/Controllers/Http/AppareilsController'
+    )
+    return new AppareilsController().sim(ctx)
+  })
+
+  Route.get('/activeted/:id', async (ctx) => {
+    const { default: AppareilsController } = await import(
+      'App/Controllers/Http/AppareilsController'
+    )
+    return new AppareilsController().activeted(ctx)
+  })
+  Route.get('/deactiveted/:id', async (ctx) => {
+    const { default: AppareilsController } = await import(
+      'App/Controllers/Http/AppareilsController'
+    )
+    return new AppareilsController().deactiveted(ctx)
+  })
+  Route.get('/delete/:id', async (ctx) => {
+    const { default: AppareilsController } = await import(
+      'App/Controllers/Http/AppareilsController'
+    )
+    return new AppareilsController().destroy(ctx)
+  })
+}).prefix('appareils')
+.middleware('auth')
+
+//Sims
+Route.group(() => {
+  Route.get('/', async (ctx) => {
+    const { default: SimsController } = await import(
+      'App/Controllers/Http/SimsController'
+    )
+    return new SimsController().index(ctx)
+  })
+
+  Route.post('/create', async (ctx) => {
+    const { default: SimsController } = await import(
+      'App/Controllers/Http/SimsController'
+    )
+    return new SimsController().store(ctx)
+  })
+
+  Route.post('/edit/:id', async (ctx) => {
+    const { default: SimsController } = await import(
+      'App/Controllers/Http/SimsController'
+    )
+    return new SimsController().edit(ctx)
+  })
+
+  Route.get('/activeted/:id', async (ctx) => {
+    const { default: SimsController } = await import(
+      'App/Controllers/Http/SimsController'
+    )
+    return new SimsController().activeted(ctx)
+  })
+  Route.get('/deactiveted/:id', async (ctx) => {
+    const { default: SimsController } = await import(
+      'App/Controllers/Http/SimsController'
+    )
+    return new SimsController().deactiveted(ctx)
+  })
+  Route.get('/delete/:id', async (ctx) => {
+    const { default: SimsController } = await import(
+      'App/Controllers/Http/SimsController'
+    )
+    return new SimsController().destroy(ctx)
+  })
+}).prefix('sims')
+.middleware('auth')
 
 
 Route.get('/login', async ({ view }) => {

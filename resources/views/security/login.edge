@@ -102,17 +102,17 @@
 
       </div>
       <!-- /Logo -->
+      @if(flashMessages.has('login'))
+      <div class="alert alert-danger alert-dismissible no-border mb-2 fade show" id="success-danger" role="alert">
+          {{ flashMessages.get('login') }}
 
+      </div>
+    @endif
       <form id="formAuthentication" class="mb-3" action="/login" method="POST">
         {{ csrfField() }}
         <div class="mb-3">
           
-          @if(flashMessages.has('errors'))
-            <div class="alert alert-danger alert-dismissible no-border mb-2 fade show" id="success-danger" role="alert">
-                {{ flashMessages.get('errors') }}
-
-            </div>
-          @endif
+         
           <!-- <div class="alert alert-danger alert-dismissible no-border mb-2 fade show" id="network" role="alert">
 
           </div> ---->

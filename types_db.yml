@@ -1,0 +1,26 @@
+PORT=3333
+HOST=0.0.0.0
+NODE_ENV=development
+APP_KEY=E4hneYEJiHZjUvou0gU4jAy7T4ICoeHj
+DRIVE_DISK=local
+SESSION_DRIVER=cookie
+CACHE_VIEWS=false
+
+#DATABASE_URL="postgresql://postgres:Mounty@890911@db.azrvbsqoffjtoatklqls.supabase.co:5432/postgres"
+#DIRECT_URL="postgresql://postgres:Mounty@890911@db.azrvbsqoffjtoatklqls.supabase.co:5432/postgres"
+DATABASE_URL="mongodb+srv://yawatechnologie:Yawa-trans@890911@yawa-cluster.cq5yr.mongodb.net/yawa-Cluster"
+##NEXT_PUBLIC_SUPABASE_URL=https://azrvbsqoffjtoatklqls.supabase.co
+#NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImF6cnZic3FvZmZqdG9hdGtscWxzIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODc4Njk3NzEsImV4cCI6MjAwMzQ0NTc3MX0.lZ9oity7OzbFt2DNYCtCWp1MWXyDx_X8euTbz4ZuHYsSMTP_HOST=localhost
+#API_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImF6cnZic3FvZmZqdG9hdGtscWxzIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODc4Njk3NzEsImV4cCI6MjAwMzQ0NTc3MX0.lZ9oity7OzbFt2DNYCtCWp1MWXyDx_X8euTbz4ZuHYs
+#PROJECT_ID=azrvbsqoffjtoatklqls
+S#ERVICE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImF6cnZic3FvZmZqdG9hdGtscWxzIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY4Nzg2OTc3MSwiZXhwIjoyMDAzNDQ1NzcxfQ.Z4_mfl5Kpegqu13t_LiajoCA4COKeN_FeTdE7UMu6U4
+
+#NODEMAIL CONFIG
+MAIL_CONNECTION=smtp
+MAIL_HOST=smtp.ethereal.email
+MAIL_PORT=587
+MAIL_USERNAME=nina.eichmann42@ethereal.email
+MAIL_PASSWORD=XrAExaT18sZJjWNSA5
+MAIL_ENCRYPTION=tls
+MAIL_FROM_EMAIL=noreply@yawa-trans.com
+MAIL_FROM_NAME=YAWA TECHNOLOGIE
