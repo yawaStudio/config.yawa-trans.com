@@ -74,10 +74,6 @@ model Licence {
   contract      Contract[]
 }
 
-
-
-
-
 model Reseau {
   id               String                @id @default(uuid())
   name             String              @unique
@@ -101,7 +97,17 @@ model Reseau {
   SubscriptionPlan SubscriptionPlan[]
   Vehicule         Vehicule[]
 }
-
+model ReseauConfig {
+  id               String    @id @default(uuid())
+  itinerary        String  @default("global")
+  invoicing        String  @default("global")
+  depatureDuration Int @default(15)
+  agentName        String?
+  agentPhone       String?
+  agentEmail       String?
+  reseauId         String     @unique
+  reseau           Reseau  @relation(fields: [reseauId], references: [id])
+}
 model Contract {
   id               String     @id @default(uuid())
   contractNumber   String   @unique
@@ -131,17 +137,7 @@ model Contract {
   reseau           Reseau   @relation(fields: [reseauId], references: [id])
 }
 
-model ReseauConfig {
-  id               String    @id @default(uuid())
-  itinerary        String  @default("global")
-  invoicing        String  @default("global")
-  depatureDuration Int @default(15)
-  agentName        String?
-  agentPhone       String?
-  agentEmail       String?
-  reseauId         String     @unique
-  reseau           Reseau  @relation(fields: [reseauId], references: [id])
-}
+
 
 model Companie {
   id          String                @id @default(uuid())

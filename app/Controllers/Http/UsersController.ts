@@ -1,7 +1,6 @@
 import type { HttpContextContract } from "@ioc:Adonis/Core/HttpContext";
 import { prisma } from "@ioc:Adonis/Addons/Prisma";
 import * as argon2 from "argon2";
-import Mail from "@ioc:Adonis/Addons/Mail";
 
 export default class UsersController {
   public async index({ view }: HttpContextContract) {
@@ -12,6 +11,12 @@ export default class UsersController {
         name: true,
         role: true,
         isActiveted: true,
+        account: {
+          select: {
+            phone: true,
+            img: true
+          }
+        }
       },
     });
 
@@ -104,9 +109,79 @@ export default class UsersController {
     }
   }
 
-  public async edit({ }: HttpContextContract) { }
+  public async edit({ params, request, response }: HttpContextContract) {
+    const id = params.id;
+    const data = await request.only(["name", "email", "roleId", "phone"]);
+    await prisma.user.update({
+      where: { id: id },
+      data: {
+        name: data.name,
+        email: data.email,
+        roleId: data.roleId
+      },
+    });
+    await prisma.account.update({
+      where: { userId: id },
+      data: {
+        name: data.name,
+        phone: data.phone,
+      },
+    });
+    return response.redirect("back");
 
-  public async update({ }: HttpContextContract) { }
+  }
 
-  public async destroy({ }: HttpContextContract) { }
+  public async activeted({ params, response }: HttpContextContract) {
+    const id = params.id;
+    await prisma.user.update({
+      where: {
+        id
+      },
+      data: {
+        isActiveted: true
+      }
+    });
+
+    return response.redirect("back");
+  }
+  public async deactiveted({ params, response }: HttpContextContract) {
+    const id = params.id;
+
+    await prisma.user.update({
+      where: {
+        id
+      },
+      data: {
+        isActiveted: false
+      }
+    });
+
+    return response.redirect("back");
+  }
+  public async password({ params, response }: HttpContextContract) {
+    const id = params.id;
+    const hash = await argon2.hash("123456");
+    await prisma.user.update({
+      where: {
+        id
+      },
+      data: {
+        password: hash,
+      }
+    });
+
+    return response.redirect("back");
+  }
+
+  public async destroy({ params, response }: HttpContextContract) {
+    const id = params.id;
+
+    await prisma.user.delete({
+      where: {
+        id
+      }
+    });
+
+    return response.redirect("back");
+  }
 }

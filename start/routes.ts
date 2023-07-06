@@ -44,11 +44,35 @@ Route.group(() => {
     return new UsersController().store(ctx)
   })
 
-  Route.get('/view/:id', async (ctx) => {
+  Route.post('/edit/:id', async (ctx) => {
     const { default: UsersController } = await import(
       'App/Controllers/Http/UsersController'
     )
-    return new UsersController().show(ctx)
+    return new UsersController().edit(ctx)
+  })
+  Route.get('/delete/:id', async (ctx) => {
+    const { default: UsersController } = await import(
+      'App/Controllers/Http/UsersController'
+    )
+    return new UsersController().destroy(ctx)
+  })
+  Route.get('/deactiveted/:id', async (ctx) => {
+    const { default: UsersController } = await import(
+      'App/Controllers/Http/UsersController'
+    )
+    return new UsersController().deactiveted(ctx)
+  })
+  Route.get('/activeted/:id', async (ctx) => {
+    const { default: UsersController } = await import(
+      'App/Controllers/Http/UsersController'
+    )
+    return new UsersController().activeted(ctx)
+  })
+  Route.get('/password/:id', async (ctx) => {
+    const { default: UsersController } = await import(
+      'App/Controllers/Http/UsersController'
+    )
+    return new UsersController().password(ctx)
   })
 }).prefix('users')
 
@@ -184,6 +208,74 @@ Route.group(() => {
 }).prefix('licences')
   .middleware('auth')
 
+//Setting
+Route.group(() => {
+  Route.get('/', async (ctx) => {
+    const { default: SettingController } = await import(
+      'App/Controllers/Http/SettingController'
+    )
+    return new SettingController().index(ctx)
+  })
+  Route.post('/roles/create', async (ctx) => {
+    const { default: SettingController } = await import(
+      'App/Controllers/Http/SettingController'
+    )
+    return new SettingController().store(ctx)
+  })
+
+  Route.post('/roles/edit/:id', async (ctx) => {
+    const { default: SettingController } = await import(
+      'App/Controllers/Http/SettingController'
+    )
+    return new SettingController().edit(ctx)
+  })
+
+}).prefix('settings')
+  .middleware('auth')
+
+//Réseaux
+Route.group(() => {
+  Route.get('/', async (ctx) => {
+    const { default: ReseauxController } = await import(
+      'App/Controllers/Http/ReseauxController'
+    )
+    return new ReseauxController().index(ctx)
+  })
+
+  Route.post('/create', async (ctx) => {
+    const { default: ReseauxController } = await import(
+      'App/Controllers/Http/ReseauxController'
+    )
+    return new ReseauxController().store(ctx)
+  })
+
+  Route.post('/edit/:id', async (ctx) => {
+    const { default: ReseauxController } = await import(
+      'App/Controllers/Http/ReseauxController'
+    )
+    return new ReseauxController().edit(ctx)
+  })
+
+  Route.get('/activeted/:id', async (ctx) => {
+    const { default: ReseauxController } = await import(
+      'App/Controllers/Http/ReseauxController'
+    )
+    return new ReseauxController().activeted(ctx)
+  })
+  Route.get('/deactiveted/:id', async (ctx) => {
+    const { default: ReseauxController } = await import(
+      'App/Controllers/Http/ReseauxController'
+    )
+    return new ReseauxController().deactiveted(ctx)
+  })
+  Route.get('/delete/:id', async (ctx) => {
+    const { default: ReseauxController } = await import(
+      'App/Controllers/Http/ReseauxController'
+    )
+    return new ReseauxController().destroy(ctx)
+  })
+}).prefix('reseaux')
+  .middleware('auth')
 
 Route.get('/login', async ({ view }) => {
   return view.render('security.login')

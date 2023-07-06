@@ -3,8 +3,9 @@
 @section('content')
 @set('title', 'Appareils')
 
+
 <div class="container-xxl flex-grow-1 container-p-y">
-  <h4 class="py-3 mb-2"><span class="text-muted fw-light">Gestion stocck /</span> Appareils</h4>
+  <h4 class="py-3 mb-2"><span class="text-muted fw-light">Gestion stock /</span> Appareils</h4>
 
   <!-- Order List Widget -->
 
@@ -55,23 +56,46 @@
     </div>
   </div>
   <div class="card">
-    <div class="card-header d-flex justify-content-between">
-      <div class="card-title mb-0">
-        <h5 class="card-header">Liste des Appareils</h5>
-      </div>
-      <div class="dropdown">
-        <button type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBackdrop"
-          aria-controls="offcanvasBackdrop" class="btn btn-label-primary waves-effect">
-          <span class="ti-xs ti ti-edit me-1"></span>Ajouter
-        </button>
-      </div>
-    </div>
     <div class="card-body">
+      <div class="card mb-4">
+        <div class="card-widget-separator-wrapper">
+          <div class="card-body card-widget-separator">
+            <div class="row gy-4 gy-sm-1">
+              <div class="col-sm-6 col-lg-4">
+                <div class="d-flex justify-content-between align-items-start card-widget-1 border-end pb-3 pb-sm-0">
+                  <div class="card-title mb-0">
+                    <h5 class="card-header">Liste des Appareils</h5>
+                  </div>
+                </div>
+                <hr class="d-none d-sm-block d-lg-none me-4" />
+              </div>
+              <div class="col-sm-6 col-lg-4">
+                <div class="d-flex justify-content-between align-items-start card-widget-1 border-end pb-3 pb-sm-0">
+                  <div>
+                    <label for="defaultFormControlInput" class="form-label">Recherche</label>
+                    <input type="text" id="filterInput" class="form-control" onkeyup="filterTable()"
+                      placeholder="Recherche">
+                  </div>
+                </div>
+                <hr class="d-none d-sm-block d-lg-none me-4" />
+              </div>
+              <div class="col-sm-6 col-lg-4">
+                <div class="d-flex justify-content-between align-items-end card-widget-1">
+                  <button type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBackdrop"
+                    aria-controls="offcanvasBackdrop" class="btn btn-label-primary waves-effect">
+                    <span class="ti-xs ti ti-edit me-1"></span>Ajouter
+                  </button>
+                </div>
+                <hr class="d-none d-sm-block d-lg-none me-4" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
       <div class="table-responsive text-nowrap">
-        <table class="table table-bordered">
+        <table class="table table-bordered" id="myTable">
           <thead>
             <tr>
-              <input id="table_name" value="Appareils" hidden>
               <th>Type</th>
               <th>Code</th>
               <th>IMSI SIM</th>

@@ -54,7 +54,7 @@ export default class AppareilsController {
 
     console.log(data);
     var uuid = Math.floor(1000 + Math.random() * 9000).toString();
-    uuid = data.type + uuid
+    uuid = data.type + '-' + uuid
     try {
       await prisma.device.create({
         data: {

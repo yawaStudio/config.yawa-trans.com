@@ -5,7 +5,7 @@ import type { HttpContextContract } from "@ioc:Adonis/Core/HttpContext";
 export default class LicencesController {
   public async index({ view }: HttpContextContract) {
 
-    const licence = await prisma.licence.findMany();
+    const licences = await prisma.licence.findMany();
 
     var activated;
     var blocked;
@@ -27,7 +27,7 @@ export default class LicencesController {
     });
     blocked = blocked._count.isActive;
     return view.render("licences.index", {
-      licence,
+      licences,
       activated,
       blocked,
       all,
@@ -35,18 +35,21 @@ export default class LicencesController {
   }
 
   public async store({ request, response }: HttpContextContract) {
-    const data = await request.only(["type", "licenceName", "frequence", "licenceAmount"]);
+    const data = await request.only(["type", "licenceName", "licenceAmount"]);
 
     console.log(data);
     var uuid = Math.floor(1000 + Math.random() * 9000).toString();
-    uuid = data.type + uuid
+    if (data.type == 'Forfait') {
+      uuid = 'F-' + uuid
+    } else {
+      uuid = 'P-' + uuid
+    }
     try {
       await prisma.licence.create({
         data: {
           licenceCode: uuid,
           type: data.type,
           licenceName: data.licenceName,
-          frequence: data.frequence,
           licenceAmount: data.licenceAmount,
         },
       });
@@ -58,14 +61,18 @@ export default class LicencesController {
 
   public async edit({ params, request, response }: HttpContextContract) {
     const id = params.id;
-    const data = await request.only(["type", "licenceName", "frequence", "licenceAmount"]);
-
+    const data = await request.only(["type", "licenceName", "licenceAmount"]);
+    var uuid = Math.floor(1000 + Math.random() * 9000).toString();
+    if (data.type == 'Forfait') {
+      uuid = 'F-' + uuid
+    } else {
+      uuid = 'P-' + uuid
+    }
     await prisma.licence.update({
       where: { id: id },
       data: {
         type: data.type,
         licenceName: data.licenceName,
-        frequence: data.frequence,
         licenceAmount: data.licenceAmount,
       },
     });
