@@ -83,7 +83,16 @@ export default class SimsController {
     return response.redirect("back");
 
   }
+  public async search({ request }: HttpContextContract) {
 
+    const data = await request.only(["imsi"]);
+    const sim = await prisma.sim.findFirst({
+      where: { imsi: data.imsi }
+    });
+    console.log(sim)
+    return sim;
+
+  }
   public async activeted({ params, response }: HttpContextContract) {
     const id = params.id;
 

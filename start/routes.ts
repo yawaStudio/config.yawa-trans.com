@@ -135,7 +135,12 @@ Route.group(() => {
     )
     return new SimsController().store(ctx)
   })
-
+  Route.post('/search', async (ctx) => {
+    const { default: SimsController } = await import(
+      'App/Controllers/Http/SimsController'
+    )
+    return new SimsController().search(ctx)
+  })
   Route.post('/edit/:id', async (ctx) => {
     const { default: SimsController } = await import(
       'App/Controllers/Http/SimsController'
@@ -255,7 +260,12 @@ Route.group(() => {
     )
     return new ReseauxController().edit(ctx)
   })
-
+  Route.get('/view/:id', async (ctx) => {
+    const { default: ReseauxController } = await import(
+      'App/Controllers/Http/ReseauxController'
+    )
+    return new ReseauxController().view(ctx)
+  })
   Route.get('/activeted/:id', async (ctx) => {
     const { default: ReseauxController } = await import(
       'App/Controllers/Http/ReseauxController'
@@ -275,6 +285,50 @@ Route.group(() => {
     return new ReseauxController().destroy(ctx)
   })
 }).prefix('reseaux')
+  .middleware('auth')
+
+//Itinéraires
+Route.group(() => {
+  Route.get('/', async (ctx) => {
+    const { default: ItineraryController } = await import(
+      'App/Controllers/Http/ItineraryController'
+    )
+    return new ItineraryController().index(ctx)
+  })
+
+  Route.post('/create', async (ctx) => {
+    const { default: ItineraryController } = await import(
+      'App/Controllers/Http/ItineraryController'
+    )
+    return new ItineraryController().store(ctx)
+  })
+
+  Route.post('/rates/:id', async (ctx) => {
+    const { default: ItineraryController } = await import(
+      'App/Controllers/Http/ItineraryController'
+    )
+    return new ItineraryController().rate(ctx)
+  })
+
+  Route.get('/activeted/:id', async (ctx) => {
+    const { default: ItineraryController } = await import(
+      'App/Controllers/Http/ItineraryController'
+    )
+    return new ItineraryController().activeted(ctx)
+  })
+  Route.get('/deactiveted/:id', async (ctx) => {
+    const { default: ItineraryController } = await import(
+      'App/Controllers/Http/ItineraryController'
+    )
+    return new ItineraryController().deactiveted(ctx)
+  })
+  Route.get('/delete/:id', async (ctx) => {
+    const { default: ItineraryController } = await import(
+      'App/Controllers/Http/ItineraryController'
+    )
+    return new ItineraryController().destroy(ctx)
+  })
+}).prefix('itinerarys')
   .middleware('auth')
 
 Route.get('/login', async ({ view }) => {

@@ -19,12 +19,11 @@
 
   //!YOUR_MAPBOX_ACCESS_TOKEN_HERE!
   mapboxgl.accessToken =
-    '';
+    'pk.eyJ1IjoieWF3YXRyYW5zIiwiYSI6ImNsanJpa20ycTBoYzAzdHFqZ2ZjNHNmY3gifQ.7FN5p4vysg2yeSQ4eicgtw';
 
   const geojson = {
     type: 'FeatureCollection',
-    features: [
-      {
+    features: [{
         type: 'Feature',
         properties: {
           iconSize: [20, 42],
@@ -89,8 +88,8 @@
     el.insertAdjacentHTML(
       'afterbegin',
       '<img src="../../assets/img/illustrations/fleet-car.png" alt="Fleet Car" width="20" class="rounded-3" id="carFleet-' +
-        marker.properties.message +
-        '">'
+      marker.properties.message +
+      '">'
     );
     el.style.width = `${width}px`;
     el.style.height = `${height}px`;

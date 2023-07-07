@@ -3,7 +3,7 @@ import type { HttpContextContract } from "@ioc:Adonis/Core/HttpContext";
 
 import * as argon2 from "argon2";
 
-export default class ReseauxController {
+export default class ItineraryController {
   public async index({ view }: HttpContextContract) {
 
     const reseaux = await prisma.reseau.findMany({
@@ -11,14 +11,12 @@ export default class ReseauxController {
       select: {
         name: true,
         id: true,
-        Config: {
+        Itinerary: {
           select: {
-            itinerary: true,
-            invoicing: true,
-            depatureDuration: true,
-            agentName: true,
-            agentPhone: true,
-            agentEmail: true,
+            name: true,
+            startPoString: true,
+            endPoString: true,
+            isActiveted: true
           },
         },
 
@@ -44,7 +42,7 @@ export default class ReseauxController {
       where: { isActiveted: false },
     });
     blocked = blocked._count.isActiveted;
-    return view.render("reseaux.index", {
+    return view.render("reseaux.itinerarys.index", {
       reseaux,
       activated,
       blocked,
@@ -123,7 +121,19 @@ export default class ReseauxController {
     return response.redirect("back");
 
   }
+  public async rate({ params, request, response }: HttpContextContract) {
+    const id = params.id;
+    const data = await request.only(["name",]);
+    await prisma.reseau.update({
+      where: { id: id },
+      data: {
+        name: data.name,
+      },
+    });
 
+    return response.redirect("back");
+
+  }
   public async config({ params, request, response }: HttpContextContract) {
     const id = params.id;
     const data = await request.only([
@@ -149,45 +159,7 @@ export default class ReseauxController {
     return response.redirect("back");
 
   }
-  public async view({ params, view }: HttpContextContract) {
-    const id = params.id;
-    const item = await prisma.reseau.findFirst({
-      where: {
-        id: id
-      },
-      include: {
-        Itinerary: true,
 
-      },
-    });
-    var activated;
-    var blocked;
-    var all;
-    all = await prisma.itinerary.aggregate({
-      where: { reseauId: id },
-      _count: { isActiveted: true },
-    });
-    all = all._count.isActiveted;
-
-    activated = await prisma.itinerary.aggregate({
-      _count: { isActiveted: true },
-      where: { isActiveted: true, reseauId: id },
-    });
-    activated = activated._count.isActiveted;
-
-    blocked = await prisma.itinerary.aggregate({
-      _count: { isActiveted: true },
-      where: { isActiveted: false, reseauId: id },
-    });
-    blocked = blocked._count.isActiveted;
-    console.log(item)
-    return view.render("reseaux.view", {
-      item,
-      activated,
-      blocked,
-      all,
-    });
-  }
   public async activeted({ params, response }: HttpContextContract) {
     const id = params.id;
     await prisma.reseau.update({

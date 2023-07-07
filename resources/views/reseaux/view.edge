@@ -1,10 +1,10 @@
 @layout('layouts.list')
 
 @section('content')
-@set('title', 'Sims')
+@set('title', 'Réseaux')
 
 <div class="container-xxl flex-grow-1 container-p-y">
-  <h4 class="py-3 mb-2"><span class="text-muted fw-light">Gestion stock /</span> Sims</h4>
+  <h4 class="py-3 mb-2"><span class="text-muted fw-light">Gestion Réseaux /</span> {{item.name}}</h4>
   <div class="card mb-4">
     <div class="card-widget-separator-wrapper">
       <div class="card-body card-widget-separator">
@@ -58,26 +58,25 @@
         <div class="d-flex align-items-end row">
           <div class="col-7">
             <div class="card-body text-nowrap">
-              <h5 class="card-title mb-0">Gestion des Sims! 🎉</h5>
-              <p class="mb-2">Vous pouvez ajouter, activer <br> et désactiver uns sim</p>
-              <h4 class="text-primary mb-1">{{all}} Sims</h4>
+              <h5 class="card-title mb-0">Gestion des itinéraires! 🎉</h5>
+              <p class="mb-2">Vous pouvez ajouter, activer <br> et désactiver un itinéraire</p>
+              <h4 class="text-primary mb-1">{{all}} Lignes</h4>
               <a href="javascript:;" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBackdrop"
                 aria-controls="offcanvasBackdrop" class="btn btn-primary waves-effect waves-light">Ajouter</a>
             </div>
           </div>
           <div class="col-5 text-center text-sm-left">
             <div class="card-body pb-0 px-0 px-md-4">
-              <img src="../../assets/img/sim.jpg" height="140">
+              <img src="../../assets/img/reseau.png" height="140">
             </div>
           </div>
         </div>
         <div class="d-flex align-items-center justify-content-center">
-          <form class="w-px-400 p-3 p-md-5" action="/sims/create?POST" method="POST" novalidate="novalidate">
+          <form class="w-px-400 p-3 p-md-5" action="#" method="POST" novalidate="novalidate">
             {{ csrfField() }}
             <div class="mb-3">
-              <label class="form-label" for="form-alignment-username">IMSI</label>
-              <input type="text" id="form-alignment-username" class="form-control"
-                placeholder="Chercher une sim par imsi">
+              <label class="form-label" for="form-alignment-username">Ligne</label>
+              <input type="text" id="form-alignment-username" class="form-control" placeholder="Chercher un itinéraire">
             </div>
 
             <div class="d-grid gap-2">
@@ -97,7 +96,7 @@
       <div class="card h-100">
         <div class="card-header d-flex justify-content-between pb-2 mb-1">
           <div class="card-title mb-1">
-            <h5 class="m-0 me-2">Liste des sims</h5>
+            <h5 class="m-0 me-2">Liste des itinéraires</h5>
           </div>
         </div>
         <div class="card-body">
@@ -106,7 +105,7 @@
               <li class="nav-item" role="presentation">
                 <button type="button" class="nav-link active" role="tab" data-bs-toggle="tab"
                   data-bs-target="#navs-justified-new" aria-controls="navs-justified-new" aria-selected="true">
-                  Toutes les sims
+                  Touts les itinéraires
                 </button>
               </li>
               <li class="nav-item" role="presentation">
@@ -127,33 +126,39 @@
             <div class="tab-content pb-0">
               <div class="tab-pane fade show active" id="navs-justified-new" role="tabpanel">
                 <div class="row">
-                  @each(sim in sims)
+                  @each(sim in Itinerary)
                   <div class="col-md-6 col-xl-4 mb-4">
                     <div class="card h-100">
                       <div class="card-body">
                         <div class="bg-label-white rounded-3 text-center mb-3 pt-4">
-                          <img class="img-fluid" src="../../assets/img/sim.jpg" width="80">
+                          <img class="img-fluid" src="../../assets/img/line.jpg" width="80">
                         </div>
-                        <h4 class="mb-2 pb-1">{{sim.imsi}}</h4>
-                        <p class="small">
-                          {{sim.provider}}: {{sim.number}}
-                        </p>
+                        <h4 class="mb-2 pb-1">{{sim.name}}</h4>
+
                         <div class="row mb-3 g-3">
-                          <div class="col-6">
-                            <div class="d-flex">
-                              @if(sim.isActiveted == true)
-                              <div class="avatar flex-shrink-0 me-2">
-                                <span class="avatar-initial rounded bg-label-success">
-                                  <i class="ti ti-circle-check ti-md"></i></span>
+                          <div class="row mb-3 g-3">
+                            <div class="col-6">
+                              <div class="d-flex">
+                                <div class="avatar flex-shrink-0 me-2">
+                                  <span class="avatar-initial rounded bg-label-primary"><i
+                                      class="ti ti-calendar-event ti-md"></i></span>
+                                </div>
+                                <div>
+                                  <h6 class="mb-0 text-nowrap">17 Nov 23</h6>
+                                  <small>Date</small>
+                                </div>
                               </div>
-                              @else
-                              <div class="avatar flex-shrink-0 me-2">
-                                <span class="avatar-initial rounded bg-label-danger">
-                                  <i class="ti ti-x ti-md"></i></span>
-                              </div>
-                              <h6 class="mb-0 text-nowrap">Inactive</h6>
-                              @endif
-                              <div>
+                            </div>
+                            <div class="col-6">
+                              <div class="d-flex">
+                                <div class="avatar flex-shrink-0 me-2">
+                                  <span class="avatar-initial rounded bg-label-primary"><i
+                                      class="ti ti-clock ti-md"></i></span>
+                                </div>
+                                <div>
+                                  <h6 class="mb-0 text-nowrap">32 minutes</h6>
+                                  <small>Duration</small>
+                                </div>
                               </div>
                             </div>
                           </div>
@@ -242,7 +247,7 @@
 
   <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasBackdrop" aria-labelledby="offcanvasBackdropLabel">
     <div class="offcanvas-header">
-      <h5 id="offcanvasBackdropLabel" class="offcanvas-title">Nouvelle carte sim</h5>
+      <h5 id="offcanvasBackdropLabel" class="offcanvas-title">Nouvel itinéraire</h5>
       <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body my-auto mx-0 flex-grow-0">
@@ -251,21 +256,17 @@
         {{ csrfField() }}
 
         <div class="mb-3">
-          <label class="form-label" for="user-role">Provider</label>
-          <select id="user-role" class="form-select" name="provider">
-
-            <option value="ORANGE">ORANGE</option>
-            <option value="FREE">FREE</option>
-          </select>
+          <label class="form-label" for="user-role">Nom</label>
+          <input type="text" id="add-user-email" class="form-control" placeholder="" name="name" required>
         </div>
         <div class="mb-3 fv-plugins-icon-container">
-          <label class="form-label" for="add-user-email">IMSI</label>
-          <input type="number" id="add-user-email" class="form-control" placeholder="" name="imsi" required>
+          <label class="form-label" for="add-user-email">Terminus 1</label>
+          <input type="text" id="add-user-email" class="form-control" placeholder="" name="startPoint" required>
           <div class="fv-plugins-message-container invalid-feedback"></div>
         </div>
         <div class="mb-3 fv-plugins-icon-container">
-          <label class="form-label" for="add-user-email">Numéro</label>
-          <input type="number" id="add-user-email" class="form-control" placeholder="" name="number" required>
+          <label class="form-label" for="add-user-email">Terminus 2</label>
+          <input type="text" id="add-user-email" class="form-control" placeholder="" name="endPoint" required>
           <div class="fv-plugins-message-container invalid-feedback"></div>
         </div>
         <button type="submit"
@@ -276,6 +277,7 @@
     </div>
   </div>
 </div>
+
 
 
 

@@ -56,6 +56,8 @@ model Sim {
   number      String     @unique
   imsi        String     @unique
   provider    String?    @default("ORANGE")
+  price       Int   @default(2000)
+  data        String @default("3GB")
   isActiveted Boolean    @default(false)
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt

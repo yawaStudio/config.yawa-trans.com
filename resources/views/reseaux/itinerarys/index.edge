@@ -1,0 +1,60 @@
+@layout('layouts.list')
+
+@section('content')
+@set('title', 'Itinéraires')
+
+<div class="container-xxl flex-grow-1 container-p-y">
+  <h4 class="py-3 mb-2"><span class="text-muted fw-light">Gestion Réseaux /</span> Itinéraires</h4>
+
+  <!-- Role cards -->
+  <div class="row g-4">
+    @each(item in reseaux)
+    <div class="col-xl-3 col-lg-6 col-md-6">
+      <div class="card h-100">
+        <div class="card-body">
+          <div class="bg-label-primary rounded-3 text-center mb-3 pt-4">
+            <span class="avatar-initial bg-primary">
+              <h4 class="mb-2 pb-1">{{item.name}}</h4>
+            </span>
+
+          </div>
+          <div class="row mb-3 g-3">
+            <div class="col-6">
+              <div class="d-flex">
+                <div class="avatar flex-shrink-0 me-2">
+                  <span class="avatar-initial rounded bg-label-success"><i class="ti ti-circle-check ti-md"></i></span>
+                </div>
+                <div>
+                  <h6 class="mb-0 text-nowrap">17 Lignes</h6>
+                  <small>Actifs</small>
+                </div>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="d-flex">
+                <div class="avatar flex-shrink-0 me-2">
+                  <span class="avatar-initial rounded bg-label-danger"><i class="ti ti-x ti-md"></i></span>
+                </div>
+                <div>
+                  <h6 class="mb-0 text-nowrap">02 Lignes</h6>
+                  <small>Désactivés</small>
+                </div>
+              </div>
+            </div>
+            <a href="/reseaux/view/{{item.id}}" class="btn btn-primary w-100 waves-effect waves-light">
+              Détails
+            </a>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    @end
+  </div>
+  <!--/ Role cards -->
+</div>
+
+
+
+
+@endsection
