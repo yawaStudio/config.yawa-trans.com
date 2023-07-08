@@ -14,8 +14,6 @@ export default class ItineraryController {
         Itinerary: {
           select: {
             name: true,
-            startPoString: true,
-            endPoString: true,
             isActiveted: true
           },
         },
@@ -111,10 +109,76 @@ export default class ItineraryController {
   public async edit({ params, request, response }: HttpContextContract) {
     const id = params.id;
     const data = await request.only(["name",]);
-    await prisma.reseau.update({
+    await prisma.itinerary.update({
       where: { id: id },
       data: {
         name: data.name,
+      },
+    });
+
+    return response.redirect("back");
+
+  }
+  public async points({ params, request, response }: HttpContextContract) {
+    const id = params.id;
+    const data = await request.only([
+      "id",
+      "name",
+      "longitude",
+      "latitude",
+    ]);
+    console.log(data)
+    await prisma.coordinate.delete({
+      where: {
+        id: data.id
+      }
+    });
+    const point = await prisma.coordinate.findFirstOrThrow({
+      where: {
+        itineraryId: id,
+      },
+      select: {
+        latitude: true,
+        longitude: true
+      }
+    })
+    console.log(point)
+    const earthRadiusKm = 6371;
+    const toRadians = (degrees) => {
+      return (degrees * Math.PI) / 180;
+    };
+    const lat1 = toRadians(data.latitude);
+    const lon1 = toRadians(data.longitude);
+    const lat2 = toRadians(point.latitude);
+    const lon2 = toRadians(point.longitude);
+    const dLat = lat2 - lat1;
+    const dLon = lon2 - lon1;
+
+    const a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(lat1) *
+      Math.cos(lat2) *
+      Math.sin(dLon / 2) *
+      Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+    let distance = earthRadiusKm * c;
+    distance = Math.round(distance)
+    data.latitude = Number(data.latitude)
+    data.longitude = Number(data.longitude)
+    await prisma.coordinate.create({
+      data:
+      {
+        name: data.name,
+        latitude: data.latitude,
+        longitude: data.longitude,
+        itineraryId: id
+      }
+    })
+    await prisma.itinerary.update({
+      where: { id: id },
+      data: {
+        distance: distance,
       },
     });
 
@@ -123,46 +187,35 @@ export default class ItineraryController {
   }
   public async rate({ params, request, response }: HttpContextContract) {
     const id = params.id;
-    const data = await request.only(["name",]);
-    await prisma.reseau.update({
-      where: { id: id },
+    const data = await request.only(["name", "price", "section"]);
+    data.name = data.name + ' ' + data.price
+    data.price = Number(data.price)
+    await prisma.rate.create({
       data: {
         name: data.name,
+        price: data.price,
+        section: data.section,
+        itineraryId: id,
       },
     });
 
     return response.redirect("back");
 
   }
-  public async config({ params, request, response }: HttpContextContract) {
+  public async delRate({ params, response }: HttpContextContract) {
     const id = params.id;
-    const data = await request.only([
-      "itinerary",
-      "invoicing",
-      "depatureDuration",
-      "agentName",
-      "agentPhone",
-      "agentEmail"
-    ]);
-    await prisma.reseauConfig.update({
-      where: { id: id },
-      data: {
-        itinerary: data.itinerary,
-        invoicing: data.invoicing,
-        depatureDuration: data.depatureDuration,
-        agentName: data.agentName,
-        agentPhone: data.agentPhone,
-        agentEmail: data.agentEmail,
-      },
+
+    await prisma.rate.delete({
+      where: {
+        id
+      }
     });
 
     return response.redirect("back");
-
   }
-
   public async activeted({ params, response }: HttpContextContract) {
     const id = params.id;
-    await prisma.reseau.update({
+    await prisma.itinerary.update({
       where: {
         id
       },
@@ -176,7 +229,7 @@ export default class ItineraryController {
   public async deactiveted({ params, response }: HttpContextContract) {
     const id = params.id;
 
-    await prisma.reseau.update({
+    await prisma.itinerary.update({
       where: {
         id
       },
@@ -191,7 +244,7 @@ export default class ItineraryController {
   public async destroy({ params, response }: HttpContextContract) {
     const id = params.id;
 
-    await prisma.reseau.delete({
+    await prisma.itinerary.delete({
       where: {
         id
       }

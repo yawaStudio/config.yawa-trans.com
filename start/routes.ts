@@ -260,6 +260,12 @@ Route.group(() => {
     )
     return new ReseauxController().edit(ctx)
   })
+  Route.post('/itinerary/create/:id', async (ctx) => {
+    const { default: ReseauxController } = await import(
+      'App/Controllers/Http/ReseauxController'
+    )
+    return new ReseauxController().addItinerary(ctx)
+  })
   Route.get('/view/:id', async (ctx) => {
     const { default: ReseauxController } = await import(
       'App/Controllers/Http/ReseauxController'
@@ -310,6 +316,24 @@ Route.group(() => {
     return new ItineraryController().rate(ctx)
   })
 
+  Route.post('/edit/:id', async (ctx) => {
+    const { default: ItineraryController } = await import(
+      'App/Controllers/Http/ItineraryController'
+    )
+    return new ItineraryController().edit(ctx)
+  })
+  Route.post('/points/edit/:id', async (ctx) => {
+    const { default: ItineraryController } = await import(
+      'App/Controllers/Http/ItineraryController'
+    )
+    return new ItineraryController().points(ctx)
+  })
+  Route.get('/rates/delete/:id', async (ctx) => {
+    const { default: ItineraryController } = await import(
+      'App/Controllers/Http/ItineraryController'
+    )
+    return new ItineraryController().delRate(ctx)
+  })
   Route.get('/activeted/:id', async (ctx) => {
     const { default: ItineraryController } = await import(
       'App/Controllers/Http/ItineraryController'

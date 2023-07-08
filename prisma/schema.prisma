@@ -159,7 +159,6 @@ model Companie {
   Contract    Contract[]
   Controls    Control[]
   Device      DeviceAttribution[]
-  Itinerary   Itinerary[]
   Operator    Operator[]
   Regulation  Regulation[]
   Rubrics     Rubrics[]
@@ -225,15 +224,11 @@ model DeviceAttribution {
 model Itinerary {
   id          String          @id @default(uuid())
   name        String
-  startPoString  String
-  endPoString    String
   distance    Float        @default(0)
   isActiveted Boolean      @default(true)
-  companieId  String
   reseauId    String
   Controls    Control[]
   coordinates Coordinate[]
-  companie    Companie     @relation(fields: [companieId], references: [id])
   reseau      Reseau       @relation(fields: [reseauId], references: [id], onDelete: Cascade)
   rates       Rate[]
   Regulation  Regulation[]
@@ -253,16 +248,17 @@ model Rubrics {
 model Coordinate {
   id          String       @id @default(uuid())
   name        String
-  latitude    Float
-  longitude   Float
+  latitude    Float @default(0.0)
+  longitude   Float @default(0.0)
   itineraryId String
-  itinerary   Itinerary @relation(fields: [itineraryId], references: [id])
+  itinerary   Itinerary @relation(fields: [itineraryId], references: [id], onDelete: Cascade)
 }
 
 model Rate {
   id          String       @id @default(uuid())
   name        String
-  price       String
+  price       Int @default(0)
+  section String @default("Section 1")
   itineraryId String
   itinerary   Itinerary @relation(fields: [itineraryId], references: [id])
 }
