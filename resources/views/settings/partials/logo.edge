@@ -1,0 +1,21 @@
+<div class="card mb-4">
+    <div class="card-header">
+      <h5 class="card-title m-0">Logo</h5>
+    </div>
+    <div class="card-body">
+      <form id="addRoleForm" class="row g-3" action="/settings/logo/{{config.id}}POST" method="POST" enctype="multipart/form-data">
+        {{ csrfField() }}
+        <div class="row mb-3 g-3">
+          <div class="col-12 col-md-12">
+            <label class="form-label mb-0" for="ecommerce-settings-details-name"></label>
+            <input type="file" class="form-control" id="ecommerce-settings-details-name" name="logo"
+              aria-label="settings Details">
+          </div>
+
+          <div class="d-flex justify-content-end pt-3 gap-3">
+
+            <button type="submit" class="btn btn-primary me-sm-3 me-1">Sauvegarder</button>
+          </div>
+      </form>
+    </div>
+  </div>

@@ -1,12 +1,14 @@
 generator client {
   provider = "prisma-client-js"
 }
+
 datasource db {
   provider = "cockroachdb"
   url      = env("DATABASE_URL")
 }
+
 model Role {
-  id          String     @id @default(uuid())
+  id          String   @id @default(uuid())
   name        String   @unique
   isActiveted Boolean  @default(true)
   createdAt   DateTime @default(now())
@@ -15,7 +17,7 @@ model Role {
 }
 
 model User {
-  id          String     @id @default(uuid())
+  id          String   @id @default(uuid())
   email       String   @unique
   password    String
   name        String?
@@ -28,43 +30,75 @@ model User {
 }
 
 model Account {
-  id         String      @id @default(uuid())
+  id         String    @id @default(uuid())
   name       String
   phone      String?
   img        String?
-  companieId String?
+  CompanieId String?
   reseauId   String?
-  userId     String       @unique
-  Companie   Companie? @relation(fields: [companieId], references: [id])
+  userId     String    @unique
+  Companie   Companie? @relation(fields: [CompanieId], references: [id])
   Reseau     Reseau?   @relation(fields: [reseauId], references: [id])
   user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
+model AppConfig {
+  id          String   @id @default(uuid())
+  name        String
+  ninea       String?
+  rccm        String?
+  logo        String?
+  phone       String?
+  email       String?
+  adress      String?
+  webSite     String?
+  version     String?
+  manager     String?
+  createdAt   String?
+  updatedAt   String?
+}
+
+model ApiProvider {
+  id          String   @id @default(uuid())
+  apiType     String   @default("Mobile Money")
+  provider    String
+  apiKey      String   @unique
+  secretKey   String   @unique
+  apiUrl      String
+  callbackUrl String?
+  description String?
+  isActiveted Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
 model Device {
-  id          String               @id @default(uuid())
+  id          String             @id @default(uuid())
   code        String?            @unique
   type        String?            @default("Orange")
   isActiveted Boolean            @default(false)
   createdAt   DateTime           @default(now())
   updatedAt   DateTime           @updatedAt
   attribution DeviceAttribution?
-  simId    String @unique
-  sim   Sim  @relation(fields: [simId], references: [id])
+  simId       String             @unique
+  sim         Sim                @relation(fields: [simId], references: [id])
 }
+
 model Sim {
-  id          String     @id @default(uuid())
-  number      String     @unique
-  imsi        String     @unique
-  provider    String?    @default("ORANGE")
-  price       Int   @default(2000)
-  data        String @default("3GB")
-  isActiveted Boolean    @default(false)
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @updatedAt
-  device Device?
+  id          String   @id @default(uuid())
+  number      String   @unique
+  imsi        String   @unique
+  provider    String?  @default("ORANGE")
+  price       Int      @default(2000)
+  data        String   @default("3GB")
+  isActiveted Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  device      Device?
 }
+
 model Licence {
-  id            String       @id @default(uuid())
+  id            String     @id @default(uuid())
   licenceCode   String?
   licenceName   String
   type          String
@@ -77,7 +111,8 @@ model Licence {
 }
 
 model Reseau {
-  id               String                @id @default(uuid())
+  id               String              @id @default(uuid())
+  type             String              @default("AFTU")
   name             String              @unique
   isActiveted      Boolean             @default(true)
   createdAt        DateTime            @default(now())
@@ -99,56 +134,29 @@ model Reseau {
   SubscriptionPlan SubscriptionPlan[]
   Vehicule         Vehicule[]
 }
+
 model ReseauConfig {
-  id               String    @id @default(uuid())
+  id               String  @id @default(uuid())
   itinerary        String  @default("global")
   invoicing        String  @default("global")
-  depatureDuration Int @default(15)
+  depatureDuration Int     @default(15)
   agentName        String?
   agentPhone       String?
   agentEmail       String?
-  reseauId         String     @unique
+  reseauId         String  @unique
   reseau           Reseau  @relation(fields: [reseauId], references: [id])
 }
-model Contract {
-  id               String     @id @default(uuid())
-  contractNumber   String   @unique
-  contractType     String   @default("Collectif")
-  contractorType   String   @default("GIE")
-  contractorName   String
-  contractorNINEA  String?
-  contractorPhone  String?
-  contractorEmail  String?
-  signatoryName    String
-  signatoryCNI     String
-  signatoryQuality String   @default("Président")
-  bobineQuantity   Int      @default(40)
-  deviceType       String
-  devicceModality  String?
-  duration         String   @default("1")
-  startDate        DateTime @default(now())
-  endDate          DateTime @default(now())
-  status           String   @default("active")
-  licenceId        String
-  companieId       String
-  reseauId         String
-  createdAt        DateTime @default(now())
-  updatedAt        DateTime @updatedAt
-  companie         Companie @relation(fields: [companieId], references: [id])
-  licence          Licence  @relation(fields: [licenceId], references: [id])
-  reseau           Reseau   @relation(fields: [reseauId], references: [id])
-}
-
-
 
 model Companie {
-  id          String                @id @default(uuid())
+  id          String              @id @default(uuid())
+  categorie   String              @default("AFTU")
+  gestionType String              @default("Commune")
   name        String
   email       String?             @unique
   phone       String?             @unique
   manager     String?
   adress      String?
-  type        String?
+  ninea       String?
   logo        String?
   isActiveted Boolean             @default(true)
   createdAt   DateTime            @default(now())
@@ -166,8 +174,42 @@ model Companie {
   Vehicules   Vehicule[]
 }
 
+model Contract {
+  id             String  @id @default(uuid())
+  number         String
+  contractType   String  @default("COLLECTIF")
+  contractorType String  @default("AFTU")
+  signator       String
+  cni            String?
+  quality        String  @default("Président")
+
+  bobineQuantity Int      @default(40)
+  deviceType     String?
+  deviceModality String?
+  duration       String   @default("1")
+  startDate      DateTime @default(now())
+  endDate        DateTime @default(now())
+  status         String   @default("En cours")
+  licenceId      String
+  CompanieId     String
+  reseauId       String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  Companie       Companie @relation(fields: [CompanieId], references: [id])
+  licence        Licence  @relation(fields: [licenceId], references: [id])
+  reseau         Reseau   @relation(fields: [reseauId], references: [id])
+}
+
+model ContratItem {
+  id          String  @id @default(uuid())
+  contractId  String
+  title       String
+  content     String
+  isPublished Boolean @default(false)
+}
+
 model Operator {
-  id          String                @id @default(uuid())
+  id          String              @id @default(uuid())
   name        String
   email       String?             @unique
   phone       String?             @unique
@@ -178,42 +220,42 @@ model Operator {
   reseauId    String
   Controls    Control[]
   Device      DeviceAttribution[]
-  companie    Companie            @relation(fields: [companieId], references: [id], onDelete: Cascade)
+  Companie    Companie            @relation(fields: [companieId], references: [id], onDelete: Cascade)
   reseau      Reseau              @relation(fields: [reseauId], references: [id], onDelete: Cascade)
   Selling     Selling[]
   Vehicules   Vehicule[]
 }
 
 model Vehicule {
-  id          String                @id @default(uuid())
+  id          String              @id @default(uuid())
   matricule   String              @unique
   type        String?
   isActiveted Boolean             @default(true)
   createdAt   DateTime            @default(now())
   updatedAt   DateTime            @updatedAt
   operatorId  String
-  companieId  String
+  CompanieId  String
   reseauId    String
   Controls    Control[]
   device      DeviceAttribution[]
   Selling     Selling[]
-  companie    Companie            @relation(fields: [companieId], references: [id], onDelete: Cascade)
+  Companie    Companie            @relation(fields: [CompanieId], references: [id], onDelete: Cascade)
   operator    Operator            @relation(fields: [operatorId], references: [id])
   reseau      Reseau              @relation(fields: [reseauId], references: [id], onDelete: Cascade)
 }
 
 model DeviceAttribution {
-  id          String       @id @default(uuid())
+  id          String    @id @default(uuid())
   code        String    @unique @default("2023")
   isActiveted Boolean   @default(true)
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
-  deviceId    String       @unique
+  deviceId    String    @unique
   operatorId  String
-  companieId  String
+  CompanieId  String
   vehiculeId  String
   reseauId    String
-  companie    Companie  @relation(fields: [companieId], references: [id], onDelete: Cascade)
+  Companie    Companie  @relation(fields: [CompanieId], references: [id], onDelete: Cascade)
   device      Device    @relation(fields: [deviceId], references: [id], onDelete: Cascade)
   operator    Operator  @relation(fields: [operatorId], references: [id], onDelete: Cascade)
   reseau      Reseau    @relation(fields: [reseauId], references: [id], onDelete: Cascade)
@@ -222,7 +264,7 @@ model DeviceAttribution {
 }
 
 model Itinerary {
-  id          String          @id @default(uuid())
+  id          String       @id @default(uuid())
   name        String
   distance    Float        @default(0)
   isActiveted Boolean      @default(true)
@@ -236,35 +278,35 @@ model Itinerary {
 }
 
 model Rubrics {
-  id          String      @id @default(uuid())
+  id          String   @id @default(uuid())
   name        String
   isActiveted Boolean  @default(true)
-  companieId  String
+  CompanieId  String
   reseauId    String
-  companie    Companie @relation(fields: [companieId], references: [id])
+  Companie    Companie @relation(fields: [CompanieId], references: [id])
   reseau      Reseau   @relation(fields: [reseauId], references: [id])
 }
 
 model Coordinate {
-  id          String       @id @default(uuid())
+  id          String    @id @default(uuid())
   name        String
-  latitude    Float @default(0.0)
-  longitude   Float @default(0.0)
+  latitude    Float     @default(0.0)
+  longitude   Float     @default(0.0)
   itineraryId String
   itinerary   Itinerary @relation(fields: [itineraryId], references: [id], onDelete: Cascade)
 }
 
 model Rate {
-  id          String       @id @default(uuid())
+  id          String    @id @default(uuid())
   name        String
-  price       Int @default(0)
-  section String @default("Section 1")
+  price       Int       @default(0)
+  section     String    @default("Section 1")
   itineraryId String
   itinerary   Itinerary @relation(fields: [itineraryId], references: [id])
 }
 
 model SubscriptionPlan {
-  id           String            @id @default(uuid())
+  id           String         @id @default(uuid())
   name         String
   price        Float          @default(0)
   duration     Int            @default(1)
@@ -275,7 +317,7 @@ model SubscriptionPlan {
 }
 
 model Controller {
-  id          String       @id @default(uuid())
+  id          String    @id @default(uuid())
   name        String
   phone       String?   @unique
   password    String?
@@ -289,7 +331,7 @@ model Controller {
 }
 
 model Regulator {
-  id          String          @id @default(uuid())
+  id          String       @id @default(uuid())
   name        String
   phone       String?      @unique
   password    String?
@@ -303,13 +345,13 @@ model Regulator {
 }
 
 model Selling {
-  id          String               @id @default(uuid())
+  id          String            @id @default(uuid())
   userId      String?
   userName    String?
   revenue     Float             @default(0)
   expense     Float             @default(0)
   solde       Float             @default(0)
-  totalTicket Int           @default(0)
+  totalTicket Int               @default(0)
   type        String?
   startTime   String?
   endTime     String?
@@ -318,14 +360,14 @@ model Selling {
   deviceId    String
   vehiculeId  String
   operatorId  String
-  companieId  String
+  CompanieId  String
   reseauId    String
   createdAt   DateTime          @default(now())
   updatedAt   DateTime          @default(now()) @updatedAt
   Controls    Control[]
   Costs       Costs[]
   Rental      Rental[]
-  companie    Companie          @relation(fields: [companieId], references: [id], onDelete: Cascade)
+  Companie    Companie          @relation(fields: [CompanieId], references: [id], onDelete: Cascade)
   device      DeviceAttribution @relation(fields: [deviceId], references: [id])
   itinerary   Itinerary         @relation(fields: [itineraryId], references: [id])
   operator    Operator          @relation(fields: [operatorId], references: [id])
@@ -337,10 +379,10 @@ model Selling {
 }
 
 model Control {
-  id             String        @id @default(uuid())
+  id             String     @id @default(uuid())
   controllerName String?
-  checkedTickets Int    @default(0)
-  ticketFraude   Int    @default(0)
+  checkedTickets Int        @default(0)
+  ticketFraude   Int        @default(0)
   comment        String?
   startTime      DateTime?
   endTime        DateTime?
@@ -349,12 +391,12 @@ model Control {
   itineraryId    String
   sellingId      String
   operatorId     String
-  companieId     String
+  CompanieId     String
   vehiculeId     String
   reseauId       String
   createdAt      DateTime   @default(now())
   updatedAt      DateTime   @default(now()) @updatedAt
-  companie       Companie   @relation(fields: [companieId], references: [id], onDelete: Cascade)
+  Companie       Companie   @relation(fields: [CompanieId], references: [id], onDelete: Cascade)
   controller     Controller @relation(fields: [controllerId], references: [id])
   itinerary      Itinerary  @relation(fields: [itineraryId], references: [id])
   operator       Operator   @relation(fields: [operatorId], references: [id], onDelete: Cascade)
@@ -365,25 +407,25 @@ model Control {
 }
 
 model Regulation {
-  id          String       @id @default(uuid())
-  vehicules   Int   @default(0)
+  id          String    @id @default(uuid())
+  vehicules   Int       @default(0)
   startTime   DateTime?
   endTime     DateTime?
   regulatorId String
   itineraryId String
   sellingId   String?
-  companieId  String
+  CompanieId  String
   reseauId    String
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @default(now()) @updatedAt
-  companie    Companie  @relation(fields: [companieId], references: [id], onDelete: Cascade)
+  Companie    Companie  @relation(fields: [CompanieId], references: [id], onDelete: Cascade)
   itinerary   Itinerary @relation(fields: [itineraryId], references: [id])
   regu        Regulator @relation(fields: [regulatorId], references: [id])
   reseau      Reseau    @relation(fields: [reseauId], references: [id], onDelete: Cascade)
 }
 
 model Tracking {
-  id        String      @id @default(uuid())
+  id        String   @id @default(uuid())
   sellingId String
   timestamp DateTime
   latitude  Float
@@ -395,7 +437,7 @@ model Tracking {
 }
 
 model Trajet {
-  id            String       @id @default(uuid())
+  id            String    @id @default(uuid())
   duration      String
   departureTime DateTime
   arrivalTime   DateTime
@@ -407,7 +449,7 @@ model Trajet {
 }
 
 model Ticket {
-  id               String           @id @default(uuid())
+  id               String        @id @default(uuid())
   code             String        @unique
   price            Float
   name             String
@@ -429,9 +471,9 @@ model Ticket {
 }
 
 model Rental {
-  id            String      @id @default(uuid())
-  custumer      String
-  custumerPhone String?
+  id            String   @id @default(uuid())
+  Companie      String
+  CompaniePhone String?
   price         Float
   destination   String
   startTime     DateTime
@@ -444,7 +486,7 @@ model Rental {
 }
 
 model Costs {
-  id        String      @id @default(uuid())
+  id        String   @id @default(uuid())
   rubrics   String
   amount    Float
   sellingId String
@@ -454,7 +496,7 @@ model Costs {
 }
 
 model Passenger {
-  id           String            @id @default(uuid())
+  id           String         @id @default(uuid())
   name         String
   phone        String         @unique
   email        String         @unique
@@ -469,18 +511,18 @@ model Passenger {
 }
 
 model Wallet {
-  id          String        @id @default(uuid())
+  id          String     @id @default(uuid())
   balance     Float      @default(0)
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
-  passengerId String        @unique
+  passengerId String     @unique
   recharges   Recharge[]
   Tickets     Ticket[]
   passenger   Passenger  @relation(fields: [passengerId], references: [id])
 }
 
 model Recharge {
-  id               String           @id @default(uuid())
+  id               String        @id @default(uuid())
   amount           Float
   ref              String
   status           String        @default("En cours")
@@ -492,7 +534,7 @@ model Recharge {
 }
 
 model PaymentMethod {
-  id          String        @id @default(uuid())
+  id          String     @id @default(uuid())
   name        String     @unique
   description String?
   createdAt   DateTime   @default(now())
@@ -502,7 +544,7 @@ model PaymentMethod {
 }
 
 model Subscription {
-  id          String              @id @default(uuid())
+  id          String           @id @default(uuid())
   passengerId String
   startDate   DateTime
   endDate     DateTime

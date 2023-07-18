@@ -219,6 +219,30 @@ Route.group(() => {
     const { default: SettingController } = await import(
       'App/Controllers/Http/SettingController'
     )
+    return new SettingController().config(ctx)
+  })
+  Route.post('/init', async (ctx) => {
+    const { default: SettingController } = await import(
+      'App/Controllers/Http/SettingController'
+    )
+    return new SettingController().init(ctx)
+  })
+  Route.post('/edit/:id', async (ctx) => {
+    const { default: SettingController } = await import(
+      'App/Controllers/Http/SettingController'
+    )
+    return new SettingController().edit(ctx)
+  })
+  Route.post('/logo/:id', async (ctx) => {
+    const { default: SettingController } = await import(
+      'App/Controllers/Http/SettingController'
+    )
+    return new SettingController().logo(ctx)
+  })
+  Route.get('/roles', async (ctx) => {
+    const { default: SettingController } = await import(
+      'App/Controllers/Http/SettingController'
+    )
     return new SettingController().index(ctx)
   })
   Route.post('/roles/create', async (ctx) => {
@@ -232,7 +256,7 @@ Route.group(() => {
     const { default: SettingController } = await import(
       'App/Controllers/Http/SettingController'
     )
-    return new SettingController().edit(ctx)
+    return new SettingController().update(ctx)
   })
 
 }).prefix('settings')
