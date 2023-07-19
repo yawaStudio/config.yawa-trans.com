@@ -1,0 +1,291 @@
+@layout('layouts.list')
+
+@section('content')
+@set('title', 'Gestion Matériels')
+
+<div class="container-xxl flex-grow-1 container-p-y">
+  <h4 class="py-3 mb-4"><span class="text-muted fw-light">Gestion matériels /</span> Liste sims</h4>
+
+  <div class="row g-4">
+    <!-- Navigation -->
+    <div class="col-12 col-lg-2">
+      <div class="d-flex justify-content-between flex-column mb-3 mb-md-0">
+        <ul class="nav nav-align-left nav-pills flex-column">
+          <li class="nav-item mb-1">
+            <a class="nav-link py-2 " href="/materiels">
+              <i class="ti ti-layout-grid me-2"></i>
+              <span class="align-middle">Stock materiel</span>
+            </a>
+          </li>
+          <li class="nav-item mb-1">
+            <a class="nav-link py-2 "  href="/materiels/devices/" >
+              <i class="ti ti-list me-2"></i>
+              <span class="align-middle">Liste appareils</span>
+            </a>
+          </li>
+          <li class="nav-item mb-1 ">
+            <a class="nav-link py-2 active" href="/sims">
+              <i class="ti ti-file me-2"></i>
+              <span class="align-middle">Liste sims</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <!-- /Navigation -->
+
+    <!-- Options -->
+    <div class="col-12 col-lg-10 pt-4 pt-lg-0">
+      <div class="tab-content p-0">
+        <!-- Store Details Tab -->
+        <div class="tab-pane fade show active" id="store_details" role="tabpanel">
+            <div class="card mb-4">
+                <div class="card-widget-separator-wrapper">
+                  <div class="card-body card-widget-separator">
+                    <div class="row gy-4 gy-sm-1">
+                      <div class="col-sm-6 col-lg-4">
+                        <div class="d-flex justify-content-between align-items-start card-widget-1 border-end pb-3 pb-sm-0">
+                          <div>
+                            <h4 class="mb-2">{{all}}</h4>
+                            <p class="mb-0 fw-medium">TOTAL</p>
+                          </div>
+                          <span class="avatar me-sm-4">
+                            <span class="avatar-initial bg-label-info rounded">
+                              <i class="menu-icon tf-icons ti ti-layout-sidebar"></i>
+                            </span>
+                          </span>
+                        </div>
+                        <hr class="d-none d-sm-block d-lg-none me-4" />
+                      </div>
+                      <div class="col-sm-6 col-lg-4">
+                        <div class="d-flex justify-content-between align-items-start card-widget-2 border-end pb-3 pb-sm-0">
+                          <div>
+                            <h4 class="mb-2">{{activated}}</h4>
+                            <p class="mb-0 fw-medium">ACTIVES</p>
+                          </div>
+                          <span class="avatar p-2 me-lg-4">
+                            <span class="avatar-initial bg-label-success rounded"><i
+                                class="ti-md ti ti-checks text-body"></i></span>
+                          </span>
+                        </div>
+                        <hr class="d-none d-sm-block d-lg-none" />
+                      </div>
+                      <div class="col-sm-6 col-lg-4">
+                        <div class="d-flex justify-content-between align-items-start border-end pb-3 pb-sm-0 card-widget-3">
+                          <div>
+                            <h4 class="mb-2">{{blocked}}</h4>
+                            <p class="mb-0 fw-medium">INACTIVES</p>
+                          </div>
+                          <span class="avatar p-2 me-sm-4">
+                            <span class="avatar-initial bg-label-danger rounded"><i class="ti-md ti ti-x text-body"></i></span>
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                    <hr>
+      <button data-bs-toggle="offcanvas" data-bs-target="#offcanvasBackdrop" aria-controls="offcanvasBackdrop"
+      class="btn btn-primary mb-2 text-nowrap add-new-role">
+      Ajouter
+    </button> 
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+            
+            
+            
+            
+                <!-- Sales by Countries tabs-->
+                <div class="col-xl-12 mb-4 col-lg-7 col-12">
+                  <div class="card h-100">
+                    <div class="card-header d-flex justify-content-between pb-2 mb-1">
+                      <div class="card-title mb-1">
+                        <h5 class="m-0 me-2">Liste des sims</h5>
+                      </div>
+                    </div>
+                    <div class="card-body">
+                      <div class="nav-align-top">
+                        <ul class="nav nav-tabs nav-fill" role="tablist">
+                          <li class="nav-item" role="presentation">
+                            <button type="button" class="nav-link active" role="tab" data-bs-toggle="tab"
+                              data-bs-target="#navs-justified-new" aria-controls="navs-justified-new" aria-selected="true">
+                              Toutes les sims
+                            </button>
+                          </li>
+                          <li class="nav-item" role="presentation">
+                            <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
+                              data-bs-target="#navs-justified-link-preparing" aria-controls="navs-justified-link-preparing"
+                              aria-selected="false" tabindex="-1">
+                              Sims actives
+                            </button>
+                          </li>
+                          <li class="nav-item" role="presentation">
+                            <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
+                              data-bs-target="#navs-justified-link-shipping" aria-controls="navs-justified-link-shipping"
+                              aria-selected="false" tabindex="-1">
+                              Sims inactives
+                            </button>
+                          </li>
+                        </ul>
+                        <div class="tab-content pb-0">
+                          <div class="tab-pane fade show active" id="navs-justified-new" role="tabpanel">
+                            <div class="row">
+                              @each(sim in sims)
+                              <div class="col-md-6 col-xl-3 mb-3">
+                                <div class="card h-100">
+                                  <div class="card-body">
+                                    <div class="bg-label-white rounded-3 text-center mb-3 pt-4">
+                                      <img class="img-fluid" src="../../assets/img/sim.jpg" width="80">
+                                    </div>
+                                    <h4 class="mb-2 pb-1">{{sim.imsi}}</h4>
+                                    <p class="small">
+                                      {{sim.provider}}: {{sim.number}}
+                                    </p>
+                                    <div class="row mb-3 g-3">
+                                      <div class="col-6">
+                                        <div class="d-flex">
+                                          @if(sim.isActiveted == true)
+                                          <div class="avatar flex-shrink-0 me-2">
+                                            <span class="avatar-initial rounded bg-label-success">
+                                              <i class="ti ti-circle-check ti-md"></i></span>
+                                          </div>
+                                          @else
+                                          <div class="avatar flex-shrink-0 me-2">
+                                            <span class="avatar-initial rounded bg-label-danger">
+                                              <i class="ti ti-x ti-md"></i></span>
+                                          </div>
+                                          <h6 class="mb-0 text-nowrap">Inactive</h6>
+                                          @endif
+                                          <div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#d{{sim.id}}"
+                                      class="btn btn-primary w-100 waves-effect waves-light">Détails</a>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="modal text-start" id="d{{sim.id}}" tabindex="-1" aria-labelledby="myModalLabel6"
+                                style="display: none;" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                  <div class="modal-content">
+                                    <div class="modal-header">
+                                      <h4 class="modal-title" id="myModalLabel6">{{sim.imsi}}</h4>
+                                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+            
+                                      <div class="alert alert-success" role="alert">
+            
+                                      </div>
+                                      <form class="add-new-user pt-0 fv-plugins-bootstrap5 fv-plugins-framework" id="addNewUserForm"
+                                        action="/sims/edit/{{sim.id}}?_method=PUT" method="POST" novalidate="novalidate">
+                                        {{ csrfField() }}
+            
+            
+                                        <div class="mb-3">
+                                          <label class="form-label" for="user-role">Provider</label>
+                                          <select id="user-role" class="form-select" name="type">
+                                            <option value="{{sim.provider}}">{{sim.provider}}</option>
+                                            @if(sim.provider == 'ORANGE')
+            
+                                            <option value="FREE">FREE</option>
+                                            @else
+            
+                                            <option value="ORANGE">ORANGE</option>
+                                            @end
+                                          </select>
+                                        </div>
+                                        <div class="mb-3 fv-plugins-icon-container">
+                                          <label class="form-label" for="add-user-email">IMSI</label>
+                                          <input type="number" id="add-user-email" class="form-control" value="{{sim.imsi}}"
+                                            name="imsi" required>
+                                          <div class="fv-plugins-message-container invalid-feedback"></div>
+                                        </div>
+                                        <div class="mb-3 fv-plugins-icon-container">
+                                          <label class="form-label" for="add-user-email">Numéro</label>
+                                          <input type="number" id="add-user-email" class="form-control" value="{{sim.number}}"
+                                            name="number" required>
+                                          <div class="fv-plugins-message-container invalid-feedback"></div>
+                                        </div>
+                                        <button type="submit"
+                                          class="btn btn-primary me-sm-3 me-1 data-submit waves-effect waves-light">Sauvegarder</button>
+            
+                                        <input type="hidden">
+                                      </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                      <button type="button" class="btn btn-danger waves-effect waves-float waves-light"
+                                        data-bs-dismiss="modal">Annuler</button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              @endeach
+                            </div>
+                            <div class="border-bottom border-bottom-dashed mt-0 mb-4"></div>
+                          </div>
+            
+                          <div class="tab-pane fade" id="navs-justified-link-preparing" role="tabpanel">
+            
+                          </div>
+                          <div class="tab-pane fade" id="navs-justified-link-shipping" role="tabpanel">
+            
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+            
+            
+              </div>
+            
+            
+              <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasBackdrop" aria-labelledby="offcanvasBackdropLabel">
+                <div class="offcanvas-header">
+                  <h5 id="offcanvasBackdropLabel" class="offcanvas-title">Nouvelle carte sim</h5>
+                  <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body my-auto mx-0 flex-grow-0">
+                  <form class="add-new-user pt-0 fv-plugins-bootstrap5 fv-plugins-framework" id="addNewUserForm"
+                    action="/sims/create?POST" method="POST" novalidate="novalidate">
+                    {{ csrfField() }}
+            
+                    <div class="mb-3">
+                      <label class="form-label" for="user-role">Provider</label>
+                      <select id="user-role" class="form-select" name="provider">
+            
+                        <option value="ORANGE">ORANGE</option>
+                        <option value="FREE">FREE</option>
+                      </select>
+                    </div>
+                    <div class="mb-3 fv-plugins-icon-container">
+                      <label class="form-label" for="add-user-email">IMSI</label>
+                      <input type="number" id="add-user-email" class="form-control" placeholder="" name="imsi" required>
+                      <div class="fv-plugins-message-container invalid-feedback"></div>
+                    </div>
+                    <div class="mb-3 fv-plugins-icon-container">
+                      <label class="form-label" for="add-user-email">Numéro</label>
+                      <input type="number" id="add-user-email" class="form-control" placeholder="" name="number" required>
+                      <div class="fv-plugins-message-container invalid-feedback"></div>
+                    </div>
+                    <button type="submit"
+                      class="btn btn-primary me-sm-3 me-1 data-submit waves-effect waves-light">Sauvegarder</button>
+                    <button type="reset" class="btn btn-label-danger waves-effect" data-bs-dismiss="offcanvas">Annuler</button>
+                    <input type="hidden">
+                  </form>
+                </div>
+              </div>
+        </div>
+      </div>
+    </div>
+    <!-- /Options-->
+  </div>
+</div>
+
+
+
+
+@endsection

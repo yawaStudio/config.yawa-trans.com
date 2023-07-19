@@ -1,6 +1,10 @@
 import { prisma } from "@ioc:Adonis/Addons/Prisma";
 import type { HttpContextContract } from "@ioc:Adonis/Core/HttpContext";
 var moment = require('moment');
+
+
+
+
 import Application from '@ioc:Adonis/Core/Application'
 export default class SettingController {
   public async index({ view }: HttpContextContract) {
@@ -44,7 +48,7 @@ export default class SettingController {
     moment().format();
     moment.locale('fr');
     var createdAt = moment().format('L');
-    var updatedAt = moment().format('L');
+    var updatedAt = moment().format('LLLL');
     try {
       await prisma.appConfig.create({
         data: {

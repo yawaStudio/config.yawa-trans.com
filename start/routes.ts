@@ -76,7 +76,7 @@ Route.group(() => {
   })
 }).prefix('users')
 
-//Appareils
+//Materiels
 Route.group(() => {
   Route.get('/', async (ctx) => {
     const { default: AppareilsController } = await import(
@@ -84,40 +84,66 @@ Route.group(() => {
     )
     return new AppareilsController().index(ctx)
   })
-
   Route.post('/create', async (ctx) => {
     const { default: AppareilsController } = await import(
       'App/Controllers/Http/AppareilsController'
     )
     return new AppareilsController().store(ctx)
   })
-
-  Route.post('/sim/:id', async (ctx) => {
+  Route.post('/edit/:id', async (ctx) => {
     const { default: AppareilsController } = await import(
       'App/Controllers/Http/AppareilsController'
     )
-    return new AppareilsController().sim(ctx)
+    return new AppareilsController().edit(ctx)
   })
-
-  Route.get('/activeted/:id', async (ctx) => {
+  Route.post('/add/:id', async (ctx) => {
     const { default: AppareilsController } = await import(
       'App/Controllers/Http/AppareilsController'
     )
-    return new AppareilsController().activeted(ctx)
+    return new AppareilsController().add(ctx)
   })
-  Route.get('/deactiveted/:id', async (ctx) => {
-    const { default: AppareilsController } = await import(
-      'App/Controllers/Http/AppareilsController'
-    )
-    return new AppareilsController().deactiveted(ctx)
-  })
-  Route.get('/delete/:id', async (ctx) => {
-    const { default: AppareilsController } = await import(
-      'App/Controllers/Http/AppareilsController'
-    )
-    return new AppareilsController().destroy(ctx)
-  })
-}).prefix('appareils')
+  Route.group(() => {
+    Route.get('/', async (ctx) => {
+      const { default: AppareilsController } = await import(
+        'App/Controllers/Http/AppareilsController'
+      )
+      return new AppareilsController().device(ctx)
+    })
+  
+    Route.post('/create', async (ctx) => {
+      const { default: AppareilsController } = await import(
+        'App/Controllers/Http/AppareilsController'
+      )
+      return new AppareilsController().store(ctx)
+    })
+  
+    Route.post('/sim/:id', async (ctx) => {
+      const { default: AppareilsController } = await import(
+        'App/Controllers/Http/AppareilsController'
+      )
+      return new AppareilsController().sim(ctx)
+    })
+  
+    Route.get('/activeted/:id', async (ctx) => {
+      const { default: AppareilsController } = await import(
+        'App/Controllers/Http/AppareilsController'
+      )
+      return new AppareilsController().activeted(ctx)
+    })
+    Route.get('/deactiveted/:id', async (ctx) => {
+      const { default: AppareilsController } = await import(
+        'App/Controllers/Http/AppareilsController'
+      )
+      return new AppareilsController().deactiveted(ctx)
+    })
+    Route.get('/delete/:id', async (ctx) => {
+      const { default: AppareilsController } = await import(
+        'App/Controllers/Http/AppareilsController'
+      )
+      return new AppareilsController().destroy(ctx)
+    })
+  }).prefix('devices')
+}).prefix('materiels')
   .middleware('auth')
 
 //Sims

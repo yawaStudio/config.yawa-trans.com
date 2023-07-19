@@ -35,7 +35,7 @@ export default class SimsController {
     });
     blocked = blocked._count.isActiveted;
     console.log('from prisma ', sims)
-    return view.render("stocks.sims.index", {
+    return view.render("materiels.sims", {
       sims,
       activated,
       blocked,

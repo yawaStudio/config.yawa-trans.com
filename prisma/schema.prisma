@@ -24,7 +24,7 @@ model User {
   roleId      String
   isActiveted Boolean  @default(true)
   createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  updatedAt   String?
   account     Account?
   role        Role     @relation(fields: [roleId], references: [id], onDelete: Cascade)
 }
@@ -43,19 +43,19 @@ model Account {
 }
 
 model AppConfig {
-  id          String   @id @default(uuid())
-  name        String
-  ninea       String?
-  rccm        String?
-  logo        String?
-  phone       String?
-  email       String?
-  adress      String?
-  webSite     String?
-  version     String?
-  manager     String?
-  createdAt   String?
-  updatedAt   String?
+  id        String  @id @default(uuid())
+  name      String
+  ninea     String?
+  rccm      String?
+  logo      String?
+  phone     String?
+  email     String?
+  adress    String?
+  webSite   String?
+  version   String?
+  manager   String?
+  createdAt String?
+  updatedAt String?
 }
 
 model ApiProvider {
@@ -69,32 +69,50 @@ model ApiProvider {
   description String?
   isActiveted Boolean  @default(true)
   createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  updatedAt   String?
+}
+
+model deviceType {
+  id      String   @id @default(uuid())
+  type    String
+  details String?
+  price   Int      @default(0)
+  updatedAt   String?
+  Device  Device[]
 }
 
 model Device {
   id          String             @id @default(uuid())
-  code        String?            @unique
-  type        String?            @default("Orange")
+  code        String?  
+  price       Int                @default(0)
   isActiveted Boolean            @default(false)
   createdAt   DateTime           @default(now())
-  updatedAt   DateTime           @updatedAt
+  updatedAt   String?
+  typeId      String             
+  device      deviceType         @relation(fields: [typeId], references: [id])
   attribution DeviceAttribution?
-  simId       String             @unique
-  sim         Sim                @relation(fields: [simId], references: [id])
+  Sim         simDevice?
 }
 
 model Sim {
-  id          String   @id @default(uuid())
-  number      String   @unique
-  imsi        String   @unique
-  provider    String?  @default("ORANGE")
-  price       Int      @default(2000)
-  data        String   @default("3GB")
-  isActiveted Boolean  @default(false)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  device      Device?
+  id          String     @id @default(uuid())
+  number      String     @unique
+  imsi        String     @unique
+  provider    String?    @default("ORANGE")
+  price       Int        @default(2000)
+  data        String     @default("3GB")
+  isActiveted Boolean    @default(false)
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  device      simDevice?
+}
+
+model simDevice {
+  id       String @id @default(uuid())
+  deviceId String @unique
+  device   Device @relation(fields: [deviceId], references: [id])
+  simId    String @unique
+  sim      Sim    @relation(fields: [simId], references: [id])
 }
 
 model Licence {
@@ -116,7 +134,7 @@ model Reseau {
   name             String              @unique
   isActiveted      Boolean             @default(true)
   createdAt        DateTime            @default(now())
-  updatedAt        DateTime            @updatedAt
+  updatedAt        String?
   Account          Account[]
   Companie         Companie[]
   Contract         Contract[]
@@ -150,7 +168,7 @@ model ReseauConfig {
 model Companie {
   id          String              @id @default(uuid())
   categorie   String              @default("AFTU")
-  gestionType String              @default("Commune")
+  gestionType String              @default("COMMUNE")
   name        String
   email       String?             @unique
   phone       String?             @unique
@@ -160,7 +178,7 @@ model Companie {
   logo        String?
   isActiveted Boolean             @default(true)
   createdAt   DateTime            @default(now())
-  updatedAt   DateTime            @updatedAt
+  updatedAt   String?
   ReseauId    String
   Account     Account[]
   Reseau      Reseau              @relation(fields: [ReseauId], references: [id], onDelete: Cascade)
@@ -187,8 +205,8 @@ model Contract {
   deviceType     String?
   deviceModality String?
   duration       String   @default("1")
-  startDate      DateTime @default(now())
-  endDate        DateTime @default(now())
+  startDate      String
+  endDate        String
   status         String   @default("En cours")
   licenceId      String
   CompanieId     String
@@ -198,6 +216,17 @@ model Contract {
   Companie       Companie @relation(fields: [CompanieId], references: [id])
   licence        Licence  @relation(fields: [licenceId], references: [id])
   reseau         Reseau   @relation(fields: [reseauId], references: [id])
+}
+
+model deviceModality {
+  id         String @id @default(uuid())
+  contractId String
+  type       String
+  value      BigInt @default(100000)
+  avance     BigInt @default(0)
+  echeance   BigInt @default(0)
+  duration   Int    @default(3)
+  statut     String @default("En cours")
 }
 
 model ContratItem {
