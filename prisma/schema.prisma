@@ -3,7 +3,7 @@ generator client {
 }
 
 datasource db {
-  provider = "cockroachdb"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -24,7 +24,7 @@ model User {
   roleId      String
   isActiveted Boolean  @default(true)
   createdAt   DateTime @default(now())
-  updatedAt   String?
+  updatedAt   DateTime   @updatedAt
   account     Account?
   role        Role     @relation(fields: [roleId], references: [id], onDelete: Cascade)
 }
@@ -155,14 +155,14 @@ model Reseau {
 
 model ReseauConfig {
   id               String  @id @default(uuid())
-  itinerary        String  @default("global")
-  invoicing        String  @default("global")
+  itinerary        String  @default("Global")
+  invoicing        String  @default("Global")
   depatureDuration Int     @default(15)
   agentName        String?
   agentPhone       String?
   agentEmail       String?
   reseauId         String  @unique
-  reseau           Reseau  @relation(fields: [reseauId], references: [id])
+  reseau           Reseau  @relation(fields: [reseauId], references: [id], onDelete: Cascade)
 }
 
 model Companie {
@@ -181,7 +181,7 @@ model Companie {
   updatedAt   String?
   ReseauId    String
   Account     Account[]
-  Reseau      Reseau              @relation(fields: [ReseauId], references: [id], onDelete: Cascade)
+  Reseau      Reseau              @relation(fields: [ReseauId], references: [id])
   Contract    Contract[]
   Controls    Control[]
   Device      DeviceAttribution[]

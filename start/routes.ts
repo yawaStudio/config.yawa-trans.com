@@ -286,7 +286,6 @@ Route.group(() => {
   })
 
 }).prefix('settings')
-  .middleware('auth')
 
 //Réseaux
 Route.group(() => {

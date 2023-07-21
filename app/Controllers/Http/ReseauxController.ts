@@ -1,4 +1,4 @@
-import { Coordinate } from './../../../node_modules/.prisma/client/index.d';
+
 import { prisma } from "@ioc:Adonis/Addons/Prisma";
 import type { HttpContextContract } from "@ioc:Adonis/Core/HttpContext";
 
@@ -82,7 +82,7 @@ export default class ReseauxController {
         const hash = await argon2.hash("123456");
         const role = await prisma.role.findFirstOrThrow({
           where: {
-            name: 'Gestionnaire'
+            name: 'AGENT CETUD'
           }
         })
         const user = await prisma.user.create({
