@@ -28,7 +28,7 @@
     "@adonisjs/session": "^6.2.0",
     "@adonisjs/shield": "^7.1.0",
     "@adonisjs/view": "^6.1.0",
-    "@prisma/client": "^4.11.0",
+    "@prisma/client": "^5.0.0",
     "@supabase/supabase-js": "^2.26.0",
     "@wahyubucil/adonis-prisma": "^0.4.0",
     "firebase-admin": "^11.6.0",
