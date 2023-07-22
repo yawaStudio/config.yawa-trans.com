@@ -8,21 +8,13 @@ export default class ReseauxController {
   public async index({ view }: HttpContextContract) {
 
     const reseaux = await prisma.reseau.findMany({
-
-      select: {
-        name: true,
-        id: true,
-        Config: {
-          select: {
-            itinerary: true,
-            invoicing: true,
-            depatureDuration: true,
-            agentName: true,
-            agentPhone: true,
-            agentEmail: true,
-          },
+      
+      include:{
+        Companie: true,
+        Config:true,
+        _count: {
+          select: { Vehicule: true, Operator:true, Companie:true },
         },
-
       },
     });
     console.log(reseaux)

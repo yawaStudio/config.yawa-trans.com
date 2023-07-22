@@ -245,7 +245,7 @@ Route.group(() => {
     const { default: SettingController } = await import(
       'App/Controllers/Http/SettingController'
     )
-    return new SettingController().config(ctx)
+    return new SettingController().index(ctx)
   })
   Route.post('/init', async (ctx) => {
     const { default: SettingController } = await import(
@@ -341,6 +341,113 @@ Route.group(() => {
   })
 }).prefix('reseaux')
   .middleware('auth')
+
+//Operators
+Route.group(() => {
+  Route.get('/', async (ctx) => {
+    const { default: OperatorController } = await import(
+      'App/Controllers/Http/OperatorController'
+    )
+    return new OperatorController().index(ctx)
+  })
+
+  Route.post('/create', async (ctx) => {
+    const { default: OperatorController } = await import(
+      'App/Controllers/Http/OperatorController'
+    )
+    return new OperatorController().store(ctx)
+  })
+
+  Route.post('/edit/:id', async (ctx) => {
+    const { default: OperatorController } = await import(
+      'App/Controllers/Http/OperatorController'
+    )
+    return new OperatorController().edit(ctx)
+  })
+  Route.post('/vehicules/create/:id', async (ctx) => {
+    const { default: OperatorController } = await import(
+      'App/Controllers/Http/OperatorController'
+    )
+    return new OperatorController().addAuto(ctx)
+  })
+  Route.get('/view/:id', async (ctx) => {
+    const { default: OperatorController } = await import(
+      'App/Controllers/Http/OperatorController'
+    )
+    return new OperatorController().view(ctx)
+  })
+  Route.get('/activeted/:id', async (ctx) => {
+    const { default: OperatorController } = await import(
+      'App/Controllers/Http/OperatorController'
+    )
+    return new OperatorController().activeted(ctx)
+  })
+  Route.get('/deactiveted/:id', async (ctx) => {
+    const { default: OperatorController } = await import(
+      'App/Controllers/Http/OperatorController'
+    )
+    return new OperatorController().deactiveted(ctx)
+  })
+  Route.get('/delete/:id', async (ctx) => {
+    const { default: OperatorController } = await import(
+      'App/Controllers/Http/OperatorController'
+    )
+    return new OperatorController().destroy(ctx)
+  })
+}).prefix('operators')
+  .middleware('auth')
+
+
+//Vehicule
+Route.group(() => {
+  Route.get('/', async (ctx) => {
+    const { default: VehiculeController } = await import(
+      'App/Controllers/Http/VehiculeController'
+    )
+    return new VehiculeController().index(ctx)
+  })
+
+  Route.post('/create', async (ctx) => {
+    const { default: VehiculeController } = await import(
+      'App/Controllers/Http/VehiculeController'
+    )
+    return new VehiculeController().store(ctx)
+  })
+
+  Route.post('/edit/:id', async (ctx) => {
+    const { default: VehiculeController } = await import(
+      'App/Controllers/Http/VehiculeController'
+    )
+    return new VehiculeController().edit(ctx)
+  })
+  
+  Route.get('/view/:id', async (ctx) => {
+    const { default: VehiculeController } = await import(
+      'App/Controllers/Http/VehiculeController'
+    )
+    return new VehiculeController().view(ctx)
+  })
+  Route.get('/activeted/:id', async (ctx) => {
+    const { default: VehiculeController } = await import(
+      'App/Controllers/Http/VehiculeController'
+    )
+    return new VehiculeController().activeted(ctx)
+  })
+  Route.get('/deactiveted/:id', async (ctx) => {
+    const { default: VehiculeController } = await import(
+      'App/Controllers/Http/VehiculeController'
+    )
+    return new VehiculeController().deactiveted(ctx)
+  })
+  Route.get('/delete/:id', async (ctx) => {
+    const { default: VehiculeController } = await import(
+      'App/Controllers/Http/VehiculeController'
+    )
+    return new VehiculeController().destroy(ctx)
+  })
+}).prefix('vehicules')
+  .middleware('auth')
+
 
 //Itinéraires
 Route.group(() => {

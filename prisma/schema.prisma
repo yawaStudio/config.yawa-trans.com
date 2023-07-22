@@ -77,8 +77,13 @@ model deviceType {
   type    String
   details String?
   price   Int      @default(0)
+  value      BigInt @default(100000)
+  avance     BigInt @default(0)
+  echeance   BigInt @default(0)
+  duration   Int    @default(3)
   updatedAt   String?
   Device  Device[]
+  Contract Contract[]
 }
 
 model Device {
@@ -196,38 +201,28 @@ model Contract {
   id             String  @id @default(uuid())
   number         String
   contractType   String  @default("COLLECTIF")
-  contractorType String  @default("AFTU")
   signator       String
   cni            String?
   quality        String  @default("Président")
 
   bobineQuantity Int      @default(40)
-  deviceType     String?
-  deviceModality String?
   duration       String   @default("1")
   startDate      String
-  endDate        String
-  status         String   @default("En cours")
+  isActiveted         Boolean   @default(true)
   licenceId      String
-  CompanieId     String
+  companieId     String
   reseauId       String
+  deviceId String
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
-  Companie       Companie @relation(fields: [CompanieId], references: [id])
+  Items ContratItem[]
+  Companie       Companie @relation(fields: [companieId], references: [id])
+  Device       deviceType @relation(fields: [deviceId], references: [id])
   licence        Licence  @relation(fields: [licenceId], references: [id])
   reseau         Reseau   @relation(fields: [reseauId], references: [id])
 }
 
-model deviceModality {
-  id         String @id @default(uuid())
-  contractId String
-  type       String
-  value      BigInt @default(100000)
-  avance     BigInt @default(0)
-  echeance   BigInt @default(0)
-  duration   Int    @default(3)
-  statut     String @default("En cours")
-}
+
 
 model ContratItem {
   id          String  @id @default(uuid())
@@ -235,6 +230,7 @@ model ContratItem {
   title       String
   content     String
   isPublished Boolean @default(false)
+  Contract       Contract @relation(fields: [contractId], references: [id], onDelete: Cascade)
 }
 
 model Operator {

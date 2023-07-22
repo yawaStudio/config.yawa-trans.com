@@ -35,12 +35,12 @@
   <link rel="stylesheet" href="/assets/vendor/libs/node-waves/node-waves.css" />
   <link rel="stylesheet" href="/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
   <link rel="stylesheet" href="/assets/vendor/libs/typeahead-js/typeahead.css" />
-    <!-- <link rel="stylesheet" href="/assets/vendor/libs/datatables-bs5/datatables.bootstrap5.css" />
-  <link rel="stylesheet" href="/assets/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css" />
-  <link rel="stylesheet" href="/assets/vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.css" /> -->
-<link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/jquery.dataTables.min.css">
+  <link rel="stylesheet" href="/assets/vendor/libs/mapbox-gl/mapbox-gl.css" />
+
   <!-- Page CSS -->
-  <link rel="stylesheet" href="/assets/vendor/libs/leaflet/leaflet.css">
+
+  <link rel="stylesheet" href="/assets/vendor/css/pages/app-logistics-fleet.css" />
+
   <!-- Helpers -->
   <script src="/assets/vendor/js/helpers.js"></script>
   <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
@@ -48,31 +48,7 @@
   <script src="/assets/vendor/js/template-customizer.js"></script>
   <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
   <script src="/assets/js/config.js"></script>
-  <script>
-    function filterTable() {
-      var input, filter, table, tr, td, i, txtValue;
-      input = document.getElementById("filterInput");
-      filter = input.value.toUpperCase();
-      table = document.getElementById("myTable");
-      tr = table.getElementsByTagName("tr");
-
-      // Parcours des lignes de la table et affichage/masquage en fonction du filtre
-      for (i = 0; i < tr.length; i++) {
-        td = tr[i].getElementsByTagName("td")[0];
-        // Modifier l'index si votre colonne de filtrage est différente
-        if (td) {
-          txtValue = td.textContent || td.innerText;
-          if (txtValue.toUpperCase().indexOf(filter) > -1) {
-            tr[i].style.display = "";
-          } else {
-            tr[i].style.display = "none";
-          }
-        }
-      }
-    }
-
-    
-  </script>
+ 
 </head>
 
 <body>
@@ -112,6 +88,7 @@
   <!-- Drag Target Area To SlideIn Menu On Small Screens -->
   <div class="drag-target"></div>
   <!-- build:js assets/vendor/js/core.js -->
+
   <script src="/assets/vendor/libs/jquery/jquery.js"></script>
   <script src="/assets/vendor/libs/popper/popper.js"></script>
   <script src="/assets/vendor/js/bootstrap.js"></script>
@@ -124,17 +101,16 @@
 
   <!-- endbuild -->
 
-  <!-- Vendors JS 
-  <script src="/assets/vendor/libs/datatables-bs5/datatables-bootstrap5.js"></script> -->
-    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
-    <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
-    <script src="/assets/js/libs/datatable.js"></script>
+  <!-- Vendors JS -->
+  <script src="/assets/vendor/libs/mapbox-gl/mapbox-gl.js"></script>
+
   <!-- Main JS -->
   <script src="/assets/js/main.js"></script>
-  <script src="/assets/vendor/libs/leaflet/leaflet.js"></script>
-  <script src="/assets/js/maps-leaflet.js"></script>
+
   <!-- Page JS -->
-  <script src="/assets/js/app-ecommerce-order-list.js"></script>
+  <script src="/assets/js/app-logistics-fleet.js"></script>
+  <!-- Page JS -->
+ 
 </body>
 
 </html>

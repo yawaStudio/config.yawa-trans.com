@@ -16,7 +16,7 @@ export default class SettingController {
       },
     });
     //console.log(users)
-    return view.render("settings.index", {
+    return view.render("settings.role", {
       roles,
     });
   }
