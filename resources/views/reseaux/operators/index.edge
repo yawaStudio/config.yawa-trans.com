@@ -4,7 +4,7 @@
 @set('title', 'Operateurs')
 
 <div class="container-xxl flex-grow-1 container-p-y">
-  <h4 class="py-3 mb-2"><span class="text-muted fw-light">Gestion Réseaux /</span> Opérateurs</h4>
+  <h4 class="py-3 mb-2"><span class="text-muted fw-light">Gestion Réseaux / {{item.name}} /</span> Opérateurs</h4>
   <div class="row g-4">
     <!-- Navigation -->
     <div class="col-12 col-lg-2">
@@ -17,21 +17,21 @@
             </a>
           </li>
           <li class="nav-item mb-1">
-            <a class="nav-link py-2 active" href="/operators">
+            <a class="nav-link py-2 " href="/reseaux/itinerarys/{{item.id}}">
+              <i class="ti ti-map me-2"></i>
+              <span class="align-middle">Itinéraires</span>
+            </a>
+          </li>
+          <li class="nav-item mb-1">
+            <a class="nav-link py-2 active" href="/reseaux/operators/{{item.id}}">
               <i class="ti ti-users me-2"></i>
               <span class="align-middle">Liste Opérateurs</span>
             </a>
           </li>
           <li class="nav-item mb-1">
-            <a class="nav-link py-2" href="/vehicules">
+            <a class="nav-link py-2 " href="/reseaux/vehicules/{{item.id}}">
               <i class="ti ti-truck me-2"></i>
               <span class="align-middle">Liste véhicules</span>
-            </a>
-          </li>
-          <li class="nav-item mb-1">
-            <a class="nav-link py-2 " href="/itinerarys">
-              <i class="ti ti-map me-2"></i>
-              <span class="align-middle">Itinéraires</span>
             </a>
           </li>
         </ul>
@@ -111,7 +111,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  @each(item in operators)
+                  @each(item in item.Operator)
                   <tr>
                     <td>{{item.name}}</td>
                     <td>{{item.Companie.name}}</td>

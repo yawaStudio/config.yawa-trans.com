@@ -103,8 +103,20 @@
       </div>
       <!-- /Logo -->
       @if(flashMessages.has('login'))
+      <div class="alert alert-danger d-flex align-items-center" role="alert">
+        <span class="alert-icon text-danger me-2">
+          <i class="ti ti-ban ti-xs"></i>
+        </span>
+        This is a danger solid alert — check it out!
+      </div>
+      @if(flashMessage('error'))
+      <div class="alert alert-danger alert-dismissible no-border mb-2 fade show" id="success-danger" role="alert">
+        {{ flashMessage('error') }}
+      </div>
+      @endif
       <div class="alert alert-danger alert-dismissible no-border mb-2 fade show" id="success-danger" role="alert">
           {{ flashMessages.get('login') }}
+          {{ flashMessages.get('username', 'Enter username') }}
 
       </div>
     @endif
@@ -117,7 +129,7 @@
 
           </div> ---->
           <label for="email" class="form-label">Email</label>
-          <input type="email" class="form-control" id="email" name="email"
+          <input type="text" class="form-control" id="email" name="email"
             placeholder="Entrer votre nom d'utilisateur" autofocus required />
         </div>
         <div class="mb-3 form-password-toggle">

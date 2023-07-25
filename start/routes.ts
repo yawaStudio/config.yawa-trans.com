@@ -321,6 +321,24 @@ Route.group(() => {
     )
     return new ReseauxController().view(ctx)
   })
+  Route.get('/operators/:id', async (ctx) => {
+    const { default: ReseauxController } = await import(
+      'App/Controllers/Http/ReseauxController'
+    )
+    return new ReseauxController().op(ctx)
+  })
+  Route.get('/itinerarys/:id', async (ctx) => {
+    const { default: ReseauxController } = await import(
+      'App/Controllers/Http/ReseauxController'
+    )
+    return new ReseauxController().view(ctx)
+  })
+  Route.get('/vehicules/:id', async (ctx) => {
+    const { default: ReseauxController } = await import(
+      'App/Controllers/Http/ReseauxController'
+    )
+    return new ReseauxController().bus(ctx)
+  })
   Route.get('/activeted/:id', async (ctx) => {
     const { default: ReseauxController } = await import(
       'App/Controllers/Http/ReseauxController'

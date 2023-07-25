@@ -264,9 +264,9 @@ model Vehicule {
   Controls    Control[]
   device      DeviceAttribution[]
   Selling     Selling[]
-  Companie    Companie            @relation(fields: [CompanieId], references: [id], onDelete: Cascade)
+  Companie    Companie            @relation(fields: [CompanieId], references: [id])
   operator    Operator            @relation(fields: [operatorId], references: [id])
-  reseau      Reseau              @relation(fields: [reseauId], references: [id], onDelete: Cascade)
+  reseau      Reseau              @relation(fields: [reseauId], references: [id])
 }
 
 model DeviceAttribution {

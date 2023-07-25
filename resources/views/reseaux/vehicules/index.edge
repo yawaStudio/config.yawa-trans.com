@@ -4,7 +4,7 @@
 @set('title', 'Vehicules')
 
 <div class="container-xxl flex-grow-1 container-p-y">
-  <h4 class="py-3 mb-2"><span class="text-muted fw-light">Gestion Réseaux /</span> Véhicules</h4>
+  <h4 class="py-3 mb-2"><span class="text-muted fw-light">Gestion Réseaux / {{item.name}} /</span> Véhicules</h4>
   <div class="row g-4">
     <!-- Navigation -->
     <div class="col-12 col-lg-2">
@@ -17,21 +17,21 @@
             </a>
           </li>
           <li class="nav-item mb-1">
-            <a class="nav-link py-2 " href="/operators">
+            <a class="nav-link py-2 " href="/reseaux/itinerarys/{{item.id}}">
+              <i class="ti ti-map me-2"></i>
+              <span class="align-middle">Itinéraires</span>
+            </a>
+          </li>
+          <li class="nav-item mb-1">
+            <a class="nav-link py-2 " href="/reseaux/operators/{{item.id}}">
               <i class="ti ti-users me-2"></i>
               <span class="align-middle">Liste Opérateurs</span>
             </a>
           </li>
           <li class="nav-item mb-1">
-            <a class="nav-link py-2 active" href="/vehicules">
+            <a class="nav-link py-2 active" href="/reseaux/vehicules/{{item.id}}">
               <i class="ti ti-truck me-2"></i>
               <span class="align-middle">Liste véhicules</span>
-            </a>
-          </li>
-          <li class="nav-item mb-1">
-            <a class="nav-link py-2 " href="/itinerarys">
-              <i class="ti ti-map me-2"></i>
-              <span class="align-middle">Itinéraires</span>
             </a>
           </li>
         </ul>
@@ -111,20 +111,18 @@
                   </tr>
                 </thead>
                 <tbody>
-                  @each(item in vehicules)
+                  @each(item in item.Vehicule)
                   <tr>
                     <td>{{item.matricule}}</td>
                     <td>{{item.operator.name}}</td>
                     <td>{{item.Companie.name}}</td>
                     <td>{{item.reseau.name}}</td>
                     <td>
-                      <a class="badge bg-label-success me-1" href="/vehicules/view/{{item.id}}">
-                        <i class="ti ti-eye ti-md"></i>
-                        </a>
+                      
                         <a class="badge bg-label-danger me-1" href="javascript:;" data-bs-toggle="modal" data-bs-target="#del{{item.id}}" class="text-danger"><i
                           class="ti ti-trash ti-md"></i></a>
-                      <a class="badge bg-label-success me-1" href="javascript:;" data-bs-toggle="modal" data-bs-target="#config{{item.id}}" class="text-dark"><i
-                        class="ti ti-truck ti-md"></i></a>
+                      <a class="badge bg-label-success me-1" href="javascript:;" data-bs-toggle="modal" data-bs-target="#edit{{item.id}}" class="text-dark"><i
+                        class="ti ti-edit ti-md"></i></a>
                     </td>
                   </tr>
           
@@ -142,30 +140,19 @@
                             {{ csrfField() }}
                             <div class="col-13 mb-4">
                               <label class="form-label" for="modalRoleName">Opérateur</label>
-                              <input type="text" id="modalRoleName" name="name" value="{{item.name}}" class="form-control" 
-                                tabindex="-2" />
-                            </div>
-                            <div class="col-6 mb-4">
-                              <label class="form-label" for="modalRoleName">Téléphone</label>
-                              <input type="text" id="modalRoleName" name="phone" value="{{item.phone}}" class="form-control" 
-                                tabindex="-2" />
-                            </div>
-                            <div class="col-6 mb-4">
-                              <label class="form-label" for="modalRoleName">Email</label>
-                              <input type="text" id="modalRoleName" name="email" value="{{item.email}}" class="form-control" 
-                                tabindex="-2" />
-                            </div>
-                            <div class="col-12 mb-4">
-                              <label class="form-label" for="user-role">Membre GIE</label>
-                              <select id="user-role" class="form-select" name="companieId">
-                                <option value="{{item.companieId}}">{{item.Companie.name}}</option>
-                                @each(item in custumers)
+                              <select id="user-role" class="form-select" name="operatorId">
+                                <option value="{{item.operatorId}}" selected>{{item.operator.name}}</option>
+                                @each(item in operators)
                                 <option value="{{item.id}}">{{item.name}}</option>
                   
                                 @end
                   
                               </select>
-                            
+                            </div>
+                            <div class="col-6 mb-4">
+                              <label class="form-label" for="modalRoleName">Matricule</label>
+                              <input type="text" id="modalRoleName" name="matricule" value="{{item.matricule}}" class="form-control" 
+                                tabindex="-2" />
                             </div>
                             <div class="col-13 text-center mt-4">
                               <button type="submit" class="btn btn-primary me-sm-4 me-1">Submit</button>
@@ -179,38 +166,7 @@
                       </div>
                     </div>
                   </div>
-                  <div class="modal fade" id="config{{item.id}}" tabindex="-2" aria-hidden="true">
-                    <div class="modal-dialog modal-lg modal-dialog-centered modal-add-new-role">
-                      <div class="modal-content p-4 p-md-5">
-                        <button type="button" class="btn-close btn-pinned" data-bs-dismiss="modal" aria-label="Close"></button>
-                        <div class="modal-body">
-                          <div class="text-center mb-5">
-                            <h2 class="role-title mb-2">Ajouter un véhicule de {{item.name}}</h3>
-                          </div>
-                          <!-- Add role form -->
-                          <form id="addRoleForm" class="row g-4" action="/vehicules/vehicules/create/{{item.id}}?_method=POST" method="POST"
-                            novalidate="novalidate">
-                            {{ csrfField() }}
-                           
-                            <div class="col-13 mb-4">
-                              <label class="form-label" for="modalRoleName">Matricule Véhicule</label>
-                              <input type="text" id="modalRoleName" name="matricule" 
-                                class="form-control" tabindex="-2" />
-                            </div>
-                            
-                            <div class="col-13 text-center mt-4">
-                              <button type="submit" class="btn btn-primary me-sm-4 me-1">Submit</button>
-                              <button type="reset" class="btn btn-label-secondary" data-bs-dismiss="modal" aria-label="Close">
-                                Cancel
-                              </button>
-                            </div>
-                          </form>
-                         
-                          <!--/ Add role form -->
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                 
                   <div class="modal fade" id="del{{item.id}}" tabindex="-2" aria-hidden="true">
                     <div class="modal-dialog modal-lg modal-dialog-centered modal-add-new-role">
                       <div class="modal-content p-4 p-md-5">
@@ -265,32 +221,20 @@
                   <!-- Add role form -->
                   <form id="addRoleForm" class="row g-4" action="/vehicules/create?POST" method="POST" novalidate="novalidate">
                     {{ csrfField() }}
-                    <div class="col-13 mb-4">
+                    <div class="col-3 mb-4">
                       <label class="form-label" for="modalRoleName">Opérateur</label>
-                      <input type="text" id="modalRoleName" name="name"  class="form-control" 
-                        tabindex="-2" />
-                    </div>
-                    <div class="col-6 mb-4">
-                      <label class="form-label" for="modalRoleName">Téléphone</label>
-                      <input type="text" id="modalRoleName" name="phone"  class="form-control" 
-                        tabindex="-2" />
-                    </div>
-                    <div class="col-6 mb-4">
-                      <label class="form-label" for="modalRoleName">Email</label>
-                      <input type="text" id="modalRoleName" name="email"  class="form-control" 
-                        tabindex="-2" />
-                    </div>
-                    <div class="col-12 mb-4">
-                      <label class="form-label" for="user-role">Membre GIE</label>
-                      <select id="user-role" class="form-select" name="companieId">
-                        
-                        @each(item in custumers)
+                      <select id="user-role" class="form-select" name="operatorId">
+                        @each(item in operators)
                         <option value="{{item.id}}">{{item.name}}</option>
           
                         @end
           
                       </select>
-                    
+                    </div>
+                    <div class="col-6 mb-4">
+                      <label class="form-label" for="modalRoleName">Matricule</label>
+                      <input type="text" id="modalRoleName" name="matricule" class="form-control" 
+                        tabindex="-2" />
                     </div>
                     <div class="col-13 text-center mt-4">
                       <button type="submit" class="btn btn-primary me-sm-4 me-1">Submit</button>

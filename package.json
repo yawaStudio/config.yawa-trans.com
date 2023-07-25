@@ -1,5 +1,5 @@
 {
-  "name": "voyagel.yawa-trans.com",
+  "name": "config.yawa-trans.com",
   "version": "1.0.0",
   "private": true,
   "scripts": {
@@ -29,9 +29,7 @@
     "@adonisjs/shield": "^7.1.0",
     "@adonisjs/view": "^6.1.0",
     "@prisma/client": "^5.0.0",
-    "@supabase/supabase-js": "^2.26.0",
     "@wahyubucil/adonis-prisma": "^0.4.0",
-    "firebase-admin": "^11.6.0",
     "moment": "^2.29.4",
     "phc-argon2": "^1.1.4",
     "prisma": "^5.0.0",

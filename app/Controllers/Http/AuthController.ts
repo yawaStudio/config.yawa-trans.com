@@ -8,13 +8,12 @@ export default class AuthController {
         try {
             await auth.use('web').attempt(email, password)
         } catch (error) {
-          
-            console.log('error ',  error) 
+            session.flashExcept(["password"]);
             session.flash('login', 'Oups! Identifiants incorrects.')
         }
 
 
-            console.log('auth ',  auth.use('web').isLoggedIn)
+        console.log('auth ',  auth.use('web').isLoggedIn)
         return response.redirect("/");
       }
    

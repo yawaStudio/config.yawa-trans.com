@@ -72,12 +72,13 @@ export default class VehiculeController {
       "matricule",
       "operatorId"
     ]);
-
+    console.log(data)
     const op  = await prisma.operator.findFirstOrThrow({
       where:{
         id:data.operatorId
       }
     })
+    console.log(op)
     await prisma.vehicule.update({
       where:{
         id
