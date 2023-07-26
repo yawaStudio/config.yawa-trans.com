@@ -192,7 +192,6 @@ model Companie {
   Device      DeviceAttribution[]
   Operator    Operator[]
   Regulation  Regulation[]
-  Rubrics     Rubrics[]
   Selling     Selling[]
   Vehicules   Vehicule[]
 }
@@ -255,7 +254,7 @@ model Vehicule {
   id          String              @id @default(uuid())
   matricule   String              @unique
   type        String?
-  isActiveted Boolean             @default(true)
+  isActiveted Boolean             @default(false)
   createdAt   DateTime            @default(now())
   updatedAt   DateTime            @updatedAt
   operatorId  String
@@ -271,7 +270,7 @@ model Vehicule {
 
 model DeviceAttribution {
   id          String    @id @default(uuid())
-  code        String    @unique @default("2023")
+  code        String    @default("2023")
   isActiveted Boolean   @default(true)
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
@@ -282,7 +281,7 @@ model DeviceAttribution {
   reseauId    String
   Companie    Companie  @relation(fields: [CompanieId], references: [id], onDelete: Cascade)
   device      Device    @relation(fields: [deviceId], references: [id], onDelete: Cascade)
-  operator    Operator  @relation(fields: [operatorId], references: [id], onDelete: Cascade)
+  operator    Operator  @relation(fields: [operatorId], references: [id])
   reseau      Reseau    @relation(fields: [reseauId], references: [id], onDelete: Cascade)
   vehicule    Vehicule  @relation(fields: [vehiculeId], references: [id], onDelete: Cascade)
   Selling     Selling[]
@@ -302,16 +301,6 @@ model Itinerary {
   selling     Selling[]
 }
 
-model Rubrics {
-  id          String   @id @default(uuid())
-  name        String
-  isActiveted Boolean  @default(true)
-  CompanieId  String
-  reseauId    String
-  Companie    Companie @relation(fields: [CompanieId], references: [id])
-  reseau      Reseau   @relation(fields: [reseauId], references: [id])
-}
-
 model Coordinate {
   id          String    @id @default(uuid())
   name        String
@@ -329,6 +318,14 @@ model Rate {
   itineraryId String
   itinerary   Itinerary @relation(fields: [itineraryId], references: [id])
 }
+model Rubrics {
+  id          String   @id @default(uuid())
+  name        String
+  isActiveted Boolean  @default(true)
+  reseauId    String
+  reseau      Reseau   @relation(fields: [reseauId], references: [id])
+}
+
 
 model SubscriptionPlan {
   id           String         @id @default(uuid())

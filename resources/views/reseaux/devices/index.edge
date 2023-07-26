@@ -1,10 +1,10 @@
 @layout('layouts.list')
 
 @section('content')
-@set('title', 'Vehicules')
+@set('title', 'Appareils')
 
 <div class="container-xxl flex-grow-1 container-p-y">
-  <h4 class="py-3 mb-2"><span class="text-muted fw-light">Gestion Réseaux / {{item.name}} /</span> Véhicules</h4>
+  <h4 class="py-3 mb-2"><span class="text-muted fw-light">Gestion Réseaux / {{item.name}} /</span> Appareils</h4>
   <div class="row g-4">
     <!-- Navigation -->
     <div class="col-12 col-lg-2">
@@ -29,7 +29,7 @@
             </a>
           </li>
           <li class="nav-item mb-1">
-            <a class="nav-link py-2 active" href="/reseaux/vehicules/{{item.id}}">
+            <a class="nav-link py-2 " href="/reseaux/vehicules/{{item.id}}">
               <i class="ti ti-truck me-2"></i>
               <span class="align-middle">Liste véhicules</span>
             </a>
@@ -49,7 +49,7 @@
             </a>
           </li>
           <li class="nav-item mb-1">
-            <a class="nav-link py-2 " href="/reseaux/devices/{{item.id}}">
+            <a class="nav-link py-2 active" href="/reseaux/devices/{{item.id}}">
               <i class="ti ti-phone me-2"></i>
               <span class="align-middle">Liste Appareils</span>
             </a>
@@ -129,17 +129,17 @@
                 <thead>
                   <tr>
                     <input id="table_name" value="vehicules" hidden>
-                    <th>Véhicules</th>
-                    <th>Opérateur</th>
+                    <th>Codes</th>
+                    <th>Opérateurs</th>
                     <th>GIE</th>
                     <th>Réseau</th>
                     <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
-                  @each(item in item.Vehicule)
+                  @each(item in item.Device)
                   <tr>
-                    <td>{{item.matricule}}</td>
+                    <td>{{item.device.code}}</td>
                     <td>{{item.operator.name}}</td>
                     <td>{{item.Companie.name}}</td>
                     <td>{{item.reseau.name}}</td>
@@ -161,24 +161,30 @@
                             <h2 class="role-title mb-2">Modification</h3>
                           </div>
                           <!-- Add role form -->
-                          <form id="addRoleForm" class="row g-4" action="/vehicules/edit/{{item.id}}?_method=POST" method="POST"
+                          <form id="addRoleForm" class="row g-4" action="/attributions/edit/{{item.id}}?_method=POST" method="POST"
                             novalidate="novalidate">
                             {{ csrfField() }}
                             <div class="col-13 mb-4">
-                              <label class="form-label" for="modalRoleName">Opérateur</label>
-                              <select id="user-role" class="form-select" name="operatorId">
-                                <option value="{{item.operatorId}}" selected>{{item.operator.name}}</option>
-                                @each(item in operators)
-                                <option value="{{item.id}}">{{item.name}}</option>
+                              <label class="form-label" for="modalRoleName">Véhicule</label>
+                              <select id="user-role" class="form-select" name="vehiculeId">
+                                <option value="{{item.vehiculeId}}" selected>{{item.vehicule.matricule}} - {{item.operator.name}} ({{item.operator.Companie.name}})</option>
+                                @each(item in vehicules)
+                                <option value="{{item.id}}">{{item.matricule}} - {{item.operator.name}} ({{item.operator.Companie.name}})</option>
                   
                                 @end
                   
                               </select>
                             </div>
-                            <div class="col-6 mb-4">
-                              <label class="form-label" for="modalRoleName">Matricule</label>
-                              <input type="text" id="modalRoleName" name="matricule" value="{{item.matricule}}" class="form-control" 
-                                tabindex="-2" />
+                            <div class="col-13 mb-4">
+                              <label class="form-label" for="modalRoleName">Appareil</label>
+                              <select id="user-role" class="form-select" name="deviceId">
+                                <option value="{{item.deviceId}}" selected>{{item.device.code}}</option>
+                                @each(item in devices)
+                                <option value="{{item.id}}">{{item.code}} </option>
+                  
+                                @end
+                  
+                              </select>
                             </div>
                             <div class="col-13 text-center mt-4">
                               <button type="submit" class="btn btn-primary me-sm-4 me-1">Submit</button>
@@ -201,13 +207,13 @@
                 
                           <div class="alert alert-danger" role="alert">
                             <div class="alert-body">
-                              <span class="fw-bolder">Voulez-vous supprimer le véhicule {{item.matricule}}</span>
+                              <span class="fw-bolder">Voulez-vous supprimer l'appareil {{item.device.code}}</span>
                             </div>
                           </div>
                 
                         </div>
                         <div class="modal-footer">
-                          <a class="btn btn-danger waves-effect waves-float waves-light" href="/vehicules/delete/{{item.id}}">
+                          <a class="btn btn-danger waves-effect waves-float waves-light" href="/attributions/delete/{{item.id}}">
                             Confirmer</a>
                           <button type="button" class="btn btn-success waves-effect waves-float waves-light"
                             data-bs-dismiss="modal">Fermer</button>
@@ -219,8 +225,8 @@
                 </tbody>
                 <tfoot>
                   <tr>
-                    <th>Véhicules</th>
-                    <th>Opérateur</th>
+                    <th>Codes</th>
+                    <th>Opérateurs</th>
                     <th>GIE</th>
                     <th>Réseau</th>
                     <th>Action</th>
@@ -245,22 +251,27 @@
                     <h2 class="role-title mb-2">Ajouter</h3>
                   </div>
                   <!-- Add role form -->
-                  <form id="addRoleForm" class="row g-4" action="/vehicules/create?POST" method="POST" novalidate="novalidate">
+                  <form id="addRoleForm" class="row g-4" action="/attributions/create?POST" method="POST" novalidate="novalidate">
                     {{ csrfField() }}
-                    <div class="col-3 mb-4">
-                      <label class="form-label" for="modalRoleName">Opérateur</label>
-                      <select id="user-role" class="form-select" name="operatorId">
-                        @each(item in operators)
-                        <option value="{{item.id}}">{{item.name}}</option>
+                    <div class="col-13 mb-4">
+                      <label class="form-label" for="modalRoleName">Véhicule</label>
+                      <select id="user-role" class="form-select" name="vehiculeId">
+                        @each(item in vehicules)
+                        <option value="{{item.id}}">{{item.matricule}} - {{item.operator.name}} ({{item.operator.Companie.name}})</option>
           
                         @end
           
                       </select>
                     </div>
-                    <div class="col-6 mb-4">
-                      <label class="form-label" for="modalRoleName">Matricule</label>
-                      <input type="text" id="modalRoleName" name="matricule" class="form-control" 
-                        tabindex="-2" />
+                    <div class="col-13 mb-4">
+                      <label class="form-label" for="modalRoleName">Appareil</label>
+                      <select id="user-role" class="form-select" name="deviceId">
+                        @each(item in devices)
+                        <option value="{{item.id}}">{{item.code}} </option>
+          
+                        @end
+          
+                      </select>
                     </div>
                     <div class="col-13 text-center mt-4">
                       <button type="submit" class="btn btn-primary me-sm-4 me-1">Submit</button>

@@ -327,11 +327,35 @@ Route.group(() => {
     )
     return new ReseauxController().op(ctx)
   })
+  Route.get('/controllers/:id', async (ctx) => {
+    const { default: ReseauxController } = await import(
+      'App/Controllers/Http/ReseauxController'
+    )
+    return new ReseauxController().controllers(ctx)
+  })
+  Route.get('/regulator/:id', async (ctx) => {
+    const { default: ReseauxController } = await import(
+      'App/Controllers/Http/ReseauxController'
+    )
+    return new ReseauxController().regulators(ctx)
+  })
+  Route.get('/devices/:id', async (ctx) => {
+    const { default: ReseauxController } = await import(
+      'App/Controllers/Http/ReseauxController'
+    )
+    return new ReseauxController().device(ctx)
+  })
   Route.get('/itinerarys/:id', async (ctx) => {
     const { default: ReseauxController } = await import(
       'App/Controllers/Http/ReseauxController'
     )
     return new ReseauxController().view(ctx)
+  })
+  Route.get('/rubrics/:id', async (ctx) => {
+    const { default: ReseauxController } = await import(
+      'App/Controllers/Http/ReseauxController'
+    )
+    return new ReseauxController().rubrics(ctx)
   })
   Route.get('/vehicules/:id', async (ctx) => {
     const { default: ReseauxController } = await import(
@@ -415,6 +439,197 @@ Route.group(() => {
 }).prefix('operators')
   .middleware('auth')
 
+
+//Controllers
+Route.group(() => {
+  Route.get('/', async (ctx) => {
+    const { default: ControllersController } = await import(
+      'App/Controllers/Http/ControllersController'
+    )
+    return new ControllersController().index(ctx)
+  })
+
+  Route.post('/create', async (ctx) => {
+    const { default: ControllersController } = await import(
+      'App/Controllers/Http/ControllersController'
+    )
+    return new ControllersController().store(ctx)
+  })
+
+  Route.post('/edit/:id', async (ctx) => {
+    const { default: ControllersController } = await import(
+      'App/Controllers/Http/ControllersController'
+    )
+    return new ControllersController().edit(ctx)
+  })
+  Route.post('/password/:id', async (ctx) => {
+    const { default: ControllersController } = await import(
+      'App/Controllers/Http/ControllersController'
+    )
+    return new ControllersController().editPwd(ctx)
+  })
+  Route.get('/view/:id', async (ctx) => {
+    const { default: ControllersController } = await import(
+      'App/Controllers/Http/ControllersController'
+    )
+    return new ControllersController().view(ctx)
+  })
+  Route.get('/activeted/:id', async (ctx) => {
+    const { default: ControllersController } = await import(
+      'App/Controllers/Http/ControllersController'
+    )
+    return new ControllersController().activeted(ctx)
+  })
+  Route.get('/deactiveted/:id', async (ctx) => {
+    const { default: ControllersController } = await import(
+      'App/Controllers/Http/ControllersController'
+    )
+    return new ControllersController().deactiveted(ctx)
+  })
+  Route.get('/delete/:id', async (ctx) => {
+    const { default: ControllersController } = await import(
+      'App/Controllers/Http/ControllersController'
+    )
+    return new ControllersController().destroy(ctx)
+  })
+}).prefix('controllers')
+  .middleware('auth')
+
+
+//Rubriques
+Route.group(() => {
+  Route.get('/', async (ctx) => {
+    const { default: RubricsController } = await import(
+      'App/Controllers/Http/RubricsController'
+    )
+    return new RubricsController().index(ctx)
+  })
+
+  Route.post('/create', async (ctx) => {
+    const { default: RubricsController } = await import(
+      'App/Controllers/Http/RubricsController'
+    )
+    return new RubricsController().store(ctx)
+  })
+
+  Route.post('/edit/:id', async (ctx) => {
+    const { default: RubricsController } = await import(
+      'App/Controllers/Http/RubricsController'
+    )
+    return new RubricsController().edit(ctx)
+  })
+  
+ 
+  Route.get('/activeted/:id', async (ctx) => {
+    const { default: RubricsController } = await import(
+      'App/Controllers/Http/RubricsController'
+    )
+    return new RubricsController().activeted(ctx)
+  })
+  Route.get('/deactiveted/:id', async (ctx) => {
+    const { default: RubricsController } = await import(
+      'App/Controllers/Http/RubricsController'
+    )
+    return new RubricsController().deactiveted(ctx)
+  })
+  Route.get('/delete/:id', async (ctx) => {
+    const { default: RubricsController } = await import(
+      'App/Controllers/Http/RubricsController'
+    )
+    return new RubricsController().destroy(ctx)
+  })
+}).prefix('rubrics')
+  .middleware('auth')
+
+//regulators
+Route.group(() => {
+  Route.get('/', async (ctx) => {
+    const { default: RegulatorsController } = await import(
+      'App/Controllers/Http/RegulatorsController'
+    )
+    return new RegulatorsController().index(ctx)
+  })
+
+  Route.post('/create', async (ctx) => {
+    const { default: RegulatorsController } = await import(
+      'App/Controllers/Http/RegulatorsController'
+    )
+    return new RegulatorsController().store(ctx)
+  })
+
+  Route.post('/edit/:id', async (ctx) => {
+    const { default: RegulatorsController } = await import(
+      'App/Controllers/Http/RegulatorsController'
+    )
+    return new RegulatorsController().edit(ctx)
+  })
+  
+ 
+  Route.get('/activeted/:id', async (ctx) => {
+    const { default: RegulatorsController } = await import(
+      'App/Controllers/Http/RegulatorsController'
+    )
+    return new RegulatorsController().activeted(ctx)
+  })
+  Route.get('/deactiveted/:id', async (ctx) => {
+    const { default: ControllersController } = await import(
+      'App/Controllers/Http/ControllersController'
+    )
+    return new ControllersController().deactiveted(ctx)
+  })
+  Route.get('/delete/:id', async (ctx) => {
+    const { default: RegulatorsController } = await import(
+      'App/Controllers/Http/RegulatorsController'
+    )
+    return new RegulatorsController().destroy(ctx)
+  })
+}).prefix('regulators')
+  .middleware('auth')
+
+  //Réseau devices
+Route.group(() => {
+  Route.get('/', async (ctx) => {
+    const { default: DevicesController } = await import(
+      'App/Controllers/Http/DevicesController'
+    )
+    return new DevicesController().index(ctx)
+  })
+
+  Route.post('/create', async (ctx) => {
+    const { default: DevicesController } = await import(
+      'App/Controllers/Http/DevicesController'
+    )
+    return new DevicesController().store(ctx)
+  })
+
+  Route.post('/edit/:id', async (ctx) => {
+    const { default: DevicesController } = await import(
+      'App/Controllers/Http/DevicesController'
+    )
+    return new DevicesController().edit(ctx)
+  })
+  
+ 
+  Route.get('/activeted/:id', async (ctx) => {
+    const { default: DevicesController } = await import(
+      'App/Controllers/Http/DevicesController'
+    )
+    return new DevicesController().activeted(ctx)
+  })
+  Route.get('/deactiveted/:id', async (ctx) => {
+    const { default: DevicesController } = await import(
+      'App/Controllers/Http/DevicesController'
+    )
+    return new DevicesController().deactiveted(ctx)
+  })
+  Route.get('/delete/:id', async (ctx) => {
+    const { default: DevicesController } = await import(
+      'App/Controllers/Http/DevicesController'
+    )
+    return new DevicesController().destroy(ctx)
+  })
+}).prefix('attributions')
+  .middleware('auth')
 
 //Vehicule
 Route.group(() => {

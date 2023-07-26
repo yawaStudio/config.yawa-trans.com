@@ -363,6 +363,199 @@ export default class ReseauxController {
       operators
     });
   }
+  public async controllers({ params, view }: HttpContextContract) {
+    const id = params.id;
+    const item = await prisma.reseau.findFirst({
+      where: {
+        id: id
+      },
+      include:{
+        Controller:{
+          select: {name: true, id:true, password: true, phone: true, isActiveted: true},
+          
+        },
+      }
+    });
+    
+    var activated;
+    var blocked;
+    var all;
+    all = await prisma.controller.aggregate({
+      where: { ReseauId: id },
+      _count: { isActiveted: true },
+    });
+    all = all._count.isActiveted;
+
+    activated = await prisma.controller.aggregate({
+      _count: { isActiveted: true },
+      where: { isActiveted: true, ReseauId: id },
+    });
+    activated = activated._count.isActiveted;
+
+    blocked = await prisma.controller.aggregate({
+      _count: { isActiveted: true },
+      where: { isActiveted: false, ReseauId: id },
+    });
+    blocked = blocked._count.isActiveted;
+    console.log(item)
+    return view.render("reseaux.controller.index", {
+      item,
+      activated,
+      blocked,
+      all,
+    });
+  }
+  public async regulators({ params, view }: HttpContextContract) {
+    const id = params.id;
+    const item = await prisma.reseau.findFirst({
+      where: {
+        id: id
+      },
+      include:{
+        Regulator:{
+          select: {name: true, id:true, password: true, phone: true, isActiveted: true},
+          
+        },
+      }
+    });
+    
+    var activated;
+    var blocked;
+    var all;
+    all = await prisma.regulator.aggregate({
+      where: { ReseauId: id },
+      _count: { isActiveted: true },
+    });
+    all = all._count.isActiveted;
+
+    activated = await prisma.regulator.aggregate({
+      _count: { isActiveted: true },
+      where: { isActiveted: true, ReseauId: id },
+    });
+    activated = activated._count.isActiveted;
+
+    blocked = await prisma.regulator.aggregate({
+      _count: { isActiveted: true },
+      where: { isActiveted: false, ReseauId: id },
+    });
+    blocked = blocked._count.isActiveted;
+    console.log(item)
+    return view.render("reseaux.regulators.index", {
+      item,
+      activated,
+      blocked,
+      all,
+    });
+  }
+  public async device({ params, view }: HttpContextContract) {
+    const id = params.id;
+    const item = await prisma.reseau.findFirst({
+      where: {
+        id: id
+      },
+      include:{
+        Device: {
+          include:{
+            Companie: true,
+            device:true,
+            operator:{
+              include:{
+                Companie: true
+              }
+            },
+            reseau:true,
+            vehicule: true
+          }
+        },
+      }
+    });
+    const devices = await prisma.device.findMany({
+      where:{
+        isActiveted: false
+      }
+    })
+    const vehicules = await prisma.vehicule.findMany({
+      where:{
+        reseauId: id,
+        isActiveted: false
+      },
+      include:{
+        operator:{
+          include:{
+            Companie:true
+          }
+        }
+      }
+    })
+    var activated;
+    var blocked;
+    var all;
+    all = await prisma.deviceAttribution.aggregate({
+      where: { reseauId: id },
+      _count: { isActiveted: true },
+    });
+    all = all._count.isActiveted;
+
+    activated = await prisma.deviceAttribution.aggregate({
+      _count: { isActiveted: true },
+      where: { isActiveted: true, reseauId: id },
+    });
+    activated = activated._count.isActiveted;
+
+    blocked = await prisma.deviceAttribution.aggregate({
+      _count: { isActiveted: true },
+      where: { isActiveted: false, reseauId: id },
+    });
+    blocked = blocked._count.isActiveted;
+    console.log(item)
+    return view.render("reseaux.devices.index", {
+      item,
+      activated,
+      blocked,
+      all,
+      devices,
+      vehicules
+    });
+  }
+  public async rubrics({ params, view }: HttpContextContract) {
+    const id = params.id;
+    const item = await prisma.reseau.findFirst({
+      where: {
+        id: id
+      },
+      include:{
+        Rubrics:true
+      }
+    });
+    
+    var activated;
+    var blocked;
+    var all;
+    all = await prisma.rubrics.aggregate({
+      where: { reseauId: id },
+      _count: { isActiveted: true },
+    });
+    all = all._count.isActiveted;
+
+    activated = await prisma.rubrics.aggregate({
+      _count: { isActiveted: true },
+      where: { isActiveted: true, reseauId: id },
+    });
+    activated = activated._count.isActiveted;
+
+    blocked = await prisma.rubrics.aggregate({
+      _count: { isActiveted: true },
+      where: { isActiveted: false, reseauId: id },
+    });
+    blocked = blocked._count.isActiveted;
+    console.log(item)
+    return view.render("reseaux.rubrics.index", {
+      item,
+      activated,
+      blocked,
+      all,
+    });
+  }
   public async activeted({ params, response }: HttpContextContract) {
     const id = params.id;
     await prisma.reseau.update({
