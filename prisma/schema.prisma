@@ -156,6 +156,8 @@ model Reseau {
   Subscription     Subscription[]
   SubscriptionPlan SubscriptionPlan[]
   Vehicule         Vehicule[]
+  Sellers Seller[]
+  Driver Driver[]
 }
 
 model ReseauConfig {
@@ -263,6 +265,8 @@ model Vehicule {
   Controls    Control[]
   device      DeviceAttribution[]
   Selling     Selling[]
+  Driver Driver[]
+  Seller Seller[]
   Companie    Companie            @relation(fields: [CompanieId], references: [id])
   operator    Operator            @relation(fields: [operatorId], references: [id])
   reseau      Reseau              @relation(fields: [reseauId], references: [id])
@@ -365,11 +369,39 @@ model Regulator {
   Regulation  Regulation[]
   Reseau      Reseau       @relation(fields: [ReseauId], references: [id], onDelete: Cascade)
 }
+model Seller {
+  id          String       @id @default(uuid())
+  name        String
+  phone       String?      @unique
+  gender      String?
+  isActiveted Boolean      @default(true)
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  ReseauId    String
+  Selling  Selling[]
+  vehiculeId String 
+  vehicule Vehicule @relation(fields: [vehiculeId], references: [id])
+  Reseau      Reseau       @relation(fields: [ReseauId], references: [id], onDelete: Cascade)
+}
 
+model Driver {
+  id          String       @id @default(uuid())
+  name        String
+  phone       String?      @unique
+  gender      String?
+  isActiveted Boolean      @default(true)
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  ReseauId    String
+  Selling  Selling[]
+  vehiculeId String 
+  vehicule Vehicule @relation(fields: [vehiculeId], references: [id])
+  Reseau      Reseau       @relation(fields: [ReseauId], references: [id], onDelete: Cascade)
+}
 model Selling {
   id          String            @id @default(uuid())
-  userId      String?
-  userName    String?
+  sellerId    String
+  driverId String
   revenue     Float             @default(0)
   expense     Float             @default(0)
   solde       Float             @default(0)
@@ -389,6 +421,8 @@ model Selling {
   Controls    Control[]
   Costs       Costs[]
   Rental      Rental[]
+  driver Driver @relation(fields: [driverId], references: [id])
+  seller Seller @relation(fields: [sellerId], references: [id])
   Companie    Companie          @relation(fields: [CompanieId], references: [id], onDelete: Cascade)
   device      DeviceAttribution @relation(fields: [deviceId], references: [id])
   itinerary   Itinerary         @relation(fields: [itineraryId], references: [id])

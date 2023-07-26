@@ -3,7 +3,7 @@ import { prisma } from "@ioc:Adonis/Addons/Prisma";
 import type { HttpContextContract } from "@ioc:Adonis/Core/HttpContext";
 
 
-export default class  {
+export default class DevicesController {
   public async index({ view }: HttpContextContract) {
 
     const operators = await prisma.deviceAttribution.findMany({

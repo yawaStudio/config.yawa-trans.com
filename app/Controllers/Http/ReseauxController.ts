@@ -517,6 +517,126 @@ export default class ReseauxController {
       vehicules
     });
   }
+  public async seller({ params, view }: HttpContextContract) {
+    const id = params.id;
+    const item = await prisma.reseau.findFirst({
+      where: {
+        id: id
+      },
+      include:{
+        Sellers: {
+          include:{
+            vehicule:{
+              include:{
+                Companie: true,
+                operator:true
+              }
+            },
+          }
+        },
+      }
+    });
+    const vehicules = await prisma.vehicule.findMany({
+      where:{
+        reseauId: id,
+      },
+      include:{
+        operator:{
+          include:{
+            Companie:true
+          }
+        }
+      }
+    })
+    var activated;
+    var blocked;
+    var all;
+    all = await prisma.seller.aggregate({
+      where: { ReseauId: id },
+      _count: { isActiveted: true },
+    });
+    all = all._count.isActiveted;
+
+    activated = await prisma.seller.aggregate({
+      _count: { isActiveted: true },
+      where: { isActiveted: true, ReseauId: id },
+    });
+    activated = activated._count.isActiveted;
+
+    blocked = await prisma.seller.aggregate({
+      _count: { isActiveted: true },
+      where: { isActiveted: false, ReseauId: id },
+    });
+    blocked = blocked._count.isActiveted;
+    console.log(item)
+    return view.render("reseaux.sellers.index", {
+      item,
+      activated,
+      blocked,
+      all,
+      vehicules
+    });
+  }
+  public async driver({ params, view }: HttpContextContract) {
+    const id = params.id;
+    const item = await prisma.reseau.findFirst({
+      where: {
+        id: id
+      },
+      include:{
+        Driver: {
+          include:{
+            vehicule:{
+              include:{
+                Companie: true,
+                operator:true
+              }
+            },
+          }
+        },
+      }
+    });
+    const vehicules = await prisma.vehicule.findMany({
+      where:{
+        reseauId: id,
+      },
+      include:{
+        operator:{
+          include:{
+            Companie:true
+          }
+        }
+      }
+    })
+    var activated;
+    var blocked;
+    var all;
+    all = await prisma.driver.aggregate({
+      where: { ReseauId: id },
+      _count: { isActiveted: true },
+    });
+    all = all._count.isActiveted;
+
+    activated = await prisma.driver.aggregate({
+      _count: { isActiveted: true },
+      where: { isActiveted: true, ReseauId: id },
+    });
+    activated = activated._count.isActiveted;
+
+    blocked = await prisma.driver.aggregate({
+      _count: { isActiveted: true },
+      where: { isActiveted: false, ReseauId: id },
+    });
+    blocked = blocked._count.isActiveted;
+    console.log(item)
+    return view.render("reseaux.drivers.index", {
+      item,
+      activated,
+      blocked,
+      all,
+      vehicules
+    });
+  }
   public async rubrics({ params, view }: HttpContextContract) {
     const id = params.id;
     const item = await prisma.reseau.findFirst({

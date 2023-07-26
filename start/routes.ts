@@ -339,6 +339,18 @@ Route.group(() => {
     )
     return new ReseauxController().regulators(ctx)
   })
+  Route.get('/sellers/:id', async (ctx) => {
+    const { default: ReseauxController } = await import(
+      'App/Controllers/Http/ReseauxController'
+    )
+    return new ReseauxController().seller(ctx)
+  })
+  Route.get('/drivers/:id', async (ctx) => {
+    const { default: ReseauxController } = await import(
+      'App/Controllers/Http/ReseauxController'
+    )
+    return new ReseauxController().driver(ctx)
+  })
   Route.get('/devices/:id', async (ctx) => {
     const { default: ReseauxController } = await import(
       'App/Controllers/Http/ReseauxController'
@@ -495,6 +507,104 @@ Route.group(() => {
 }).prefix('controllers')
   .middleware('auth')
 
+//Sellers
+Route.group(() => {
+  Route.get('/', async (ctx) => {
+    const { default: SellersController } = await import(
+      'App/Controllers/Http/SellersController'
+    )
+    return new SellersController().index(ctx)
+  })
+
+  Route.post('/create', async (ctx) => {
+    const { default: SellersController } = await import(
+      'App/Controllers/Http/SellersController'
+    )
+    return new SellersController().store(ctx)
+  })
+
+  Route.post('/edit/:id', async (ctx) => {
+    const { default: SellersController } = await import(
+      'App/Controllers/Http/SellersController'
+    )
+    return new SellersController().edit(ctx)
+  })
+  
+  Route.get('/view/:id', async (ctx) => {
+    const { default: SellersController } = await import(
+      'App/Controllers/Http/SellersController'
+    )
+    return new SellersController().view(ctx)
+  })
+  Route.get('/activeted/:id', async (ctx) => {
+    const { default: SellersController } = await import(
+      'App/Controllers/Http/SellersController'
+    )
+    return new SellersController().activeted(ctx)
+  })
+  Route.get('/deactiveted/:id', async (ctx) => {
+    const { default: SellersController } = await import(
+      'App/Controllers/Http/SellersController'
+    )
+    return new SellersController().deactiveted(ctx)
+  })
+  Route.get('/delete/:id', async (ctx) => {
+    const { default: SellersController } = await import(
+      'App/Controllers/Http/SellersController'
+    )
+    return new SellersController().destroy(ctx)
+  })
+}).prefix('sellers')
+  .middleware('auth')
+//Drivers
+Route.group(() => {
+  Route.get('/', async (ctx) => {
+    const { default: DriversController } = await import(
+      'App/Controllers/Http/DriversController'
+    )
+    return new DriversController().index(ctx)
+  })
+
+  Route.post('/create', async (ctx) => {
+    const { default: DriversController } = await import(
+      'App/Controllers/Http/DriversController'
+    )
+    return new DriversController().store(ctx)
+  })
+
+  Route.post('/edit/:id', async (ctx) => {
+    const { default: DriversController } = await import(
+      'App/Controllers/Http/DriversController'
+    )
+    return new DriversController().edit(ctx)
+  })
+  
+  Route.get('/view/:id', async (ctx) => {
+    const { default: DriversController } = await import(
+      'App/Controllers/Http/DriversController'
+    )
+    return new DriversController().view(ctx)
+  })
+  Route.get('/activeted/:id', async (ctx) => {
+    const { default: DriversController } = await import(
+      'App/Controllers/Http/DriversController'
+    )
+    return new DriversController().activeted(ctx)
+  })
+  Route.get('/deactiveted/:id', async (ctx) => {
+    const { default: DriversController } = await import(
+      'App/Controllers/Http/DriversController'
+    )
+    return new DriversController().deactiveted(ctx)
+  })
+  Route.get('/delete/:id', async (ctx) => {
+    const { default: DriversController } = await import(
+      'App/Controllers/Http/DriversController'
+    )
+    return new DriversController().destroy(ctx)
+  })
+}).prefix('drivers')
+  .middleware('auth')
 
 //Rubriques
 Route.group(() => {
