@@ -107,7 +107,7 @@ export default class AppareilsController {
     })
     for (let i = 0; i < count; i++) {
     var uuid = Math.floor(1000 + Math.random() * 9000).toString();
-      uuid = data.type + '-' + uuid
+      uuid = data.type + uuid
       await prisma.device.create({
         data: {
           code: uuid,
@@ -136,7 +136,7 @@ export default class AppareilsController {
     var updatedAt = moment().format('LLLL');
     for (let i = 0; i < count; i++) {
       var uuid = Math.floor(1000 + Math.random() * 9000).toString();
-        uuid = model.type + '-' + uuid
+        uuid = model.type  + uuid
         await prisma.device.create({
           data: {
             code: uuid,
@@ -231,7 +231,17 @@ export default class AppareilsController {
 
     return response.redirect("back");
   }
+  public async delete({ params, response }: HttpContextContract) {
+    const id = params.id;
 
+    await prisma.deviceType.delete({
+      where: {
+        id
+      }
+    });
+
+    return response.redirect("back");
+  }
   public async destroy({ params, response }: HttpContextContract) {
     const id = params.id;
 

@@ -4,7 +4,7 @@
 @set('title', 'Contrôleurs')
 
 <div class="container-xxl flex-grow-1 container-p-y">
-  <h4 class="py-3 mb-2"><span class="text-muted fw-light">Gestion Réseaux / {{item.name}} /</span> Contrôlleurs</h4>
+  <h4 class="py-3 mb-2"><span class="text-muted fw-light">Gestion Réseaux / {{item.name}} /</span> Contrôleurs</h4>
   <div class="row g-4">
     <!-- Navigation -->
     <div class="col-12 col-lg-2">
@@ -31,32 +31,37 @@
           <li class="nav-item mb-1">
             <a class="nav-link py-2 " href="/reseaux/vehicules/{{item.id}}">
               <i class="ti ti-truck me-2"></i>
-              <span class="align-middle">Liste véhicules</span>
+              <span class="align-middle">Liste Véhicules</span>
             </a>
           </li>
           <li class="nav-item mb-1">
             <a class="nav-link py-2 active" href="/reseaux/controllers/{{item.id}}">
               <i class="ti ti-users me-2"></i>
-              <span class="align-middle">Liste contrôlleurs</span>
+              <span class="align-middle">Liste Contrôleurs</span>
             </a>
           </li>
-
+          <li class="nav-item mb-1">
+            <a class="nav-link py-2 " href="/reseaux/line-managers/{{item.id}}">
+              <i class="ti ti-users me-2"></i>
+              <span class="align-middle">Liste Gérant ligne</span>
+            </a>
+          </li>
           <li class="nav-item mb-1">
             <a class="nav-link py-2" href="/reseaux/regulator/{{item.id}}">
               <i class="ti ti-users me-2"></i>
-              <span class="align-middle">Liste régulateurs</span>
+              <span class="align-middle">Liste Régulateurs</span>
             </a>
           </li>
           <li class="nav-item mb-1">
             <a class="nav-link py-2" href="/reseaux/sellers/{{item.id}}">
               <i class="ti ti-users me-2"></i>
-              <span class="align-middle">Liste receveurs</span>
+              <span class="align-middle">Liste Receveurs</span>
             </a>
           </li>
           <li class="nav-item mb-1">
             <a class="nav-link py-2" href="/reseaux/drivers/{{item.id}}">
               <i class="ti ti-users me-2"></i>
-              <span class="align-middle">Liste chauffeurs</span>
+              <span class="align-middle">Liste Chauffeurs</span>
             </a>
           </li>
           <li class="nav-item mb-1">
@@ -140,7 +145,7 @@
                 <thead>
                   <tr>
                     <input id="table_name" value="export_users" hidden>
-                    <th>Contrôlleur</th>
+                    <th>Contrôleur</th>
                     <th>Code</th>
                     <th>Action</th>
                   </tr>
@@ -176,7 +181,7 @@
                             novalidate="novalidate">
                             {{ csrfField() }}
                             <div class="col-12 mb-4">
-                              <label class="form-label" for="modalRoleName">Contrôlleur</label>
+                              <label class="form-label" for="modalRoleName">Contrôleur</label>
                               <input type="text" id="modalRoleName" name="name" value="{{cont.name}}" class="form-control" 
                                 tabindex="-2" />
                             </div>
@@ -213,7 +218,7 @@
                 
                           <div class="alert alert-danger" role="alert">
                             <div class="alert-body">
-                              <span class="fw-bolder">Voulez-vous supprimer le contrôlleur {{cont.name}}</span>
+                              <span class="fw-bolder">Voulez-vous supprimer le Contrôleur {{cont.name}}</span>
                             </div>
                           </div>
                 
@@ -231,7 +236,7 @@
                 </tbody>
                 <tfoot>
                   <tr>
-                    <th>Contrôlleur</th>
+                    <th>Contrôleur</th>
                     <th>Code</th>
                     <th>Action</th>
                   </tr>
@@ -258,7 +263,7 @@
                   <form id="addRoleForm" class="row g-4" action="/controllers/create?POST" method="POST" novalidate="novalidate">
                     {{ csrfField() }}
                     <div class="col-6 mb-4">
-                      <label class="form-label" for="modalRoleName">Contrôlleur</label>
+                      <label class="form-label" for="modalRoleName">Contrôleur</label>
                       <input type="text" id="modalRoleName" name="name"  class="form-control" 
                         tabindex="-2" />
                     </div>

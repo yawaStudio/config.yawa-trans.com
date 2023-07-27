@@ -61,12 +61,17 @@ export default class DevicesController {
         Companie: true
       }
     })
-
+    const device = await prisma.device.findFirstOrThrow({
+      where:{
+        id: data.deviceId
+      }
+    })
     console.log(companie)
     try {
       const save = await prisma.deviceAttribution.create({
         data: {
           deviceId: data.deviceId,
+          deviceCode: device.code,
           operatorId: companie.operator.id,
           vehiculeId: data.vehiculeId,
           CompanieId: companie.Companie.id,
@@ -107,6 +112,11 @@ export default class DevicesController {
     const dev = await prisma.deviceAttribution.findFirstOrThrow({
       where:{id}
     })
+    const device = await prisma.device.findFirstOrThrow({
+      where:{
+        id: data.deviceId
+      }
+    })
     const companie = await prisma.vehicule.findFirstOrThrow({
       where: {
         id : data.vehiculeId
@@ -139,6 +149,7 @@ export default class DevicesController {
         deviceId: data.deviceId,
           operatorId: companie.operator.id,
           vehiculeId: data.vehiculeId,
+          deviceCode: device.code,
           CompanieId: companie.Companie.id,
           reseauId: companie.reseau.id,
       },

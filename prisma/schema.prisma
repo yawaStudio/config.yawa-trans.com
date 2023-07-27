@@ -94,7 +94,7 @@ model Device {
   createdAt   DateTime           @default(now())
   updatedAt   String?
   typeId      String             
-  device      deviceType         @relation(fields: [typeId], references: [id])
+  device      deviceType         @relation(fields: [typeId], references: [id], onDelete: Cascade)
   attribution DeviceAttribution?
   Sim         simDevice?
 }
@@ -158,6 +158,7 @@ model Reseau {
   Vehicule         Vehicule[]
   Sellers Seller[]
   Driver Driver[]
+  LineManager LineManager[]
 }
 
 model ReseauConfig {
@@ -274,6 +275,7 @@ model Vehicule {
 
 model DeviceAttribution {
   id          String    @id @default(uuid())
+  deviceCode String?
   code        String    @default("2023")
   isActiveted Boolean   @default(true)
   createdAt   DateTime  @default(now())
@@ -321,12 +323,14 @@ model Rate {
   section     String    @default("Section 1")
   itineraryId String
   itinerary   Itinerary @relation(fields: [itineraryId], references: [id])
+  Tickets Ticket[]
 }
 model Rubrics {
   id          String   @id @default(uuid())
   name        String
   isActiveted Boolean  @default(true)
   reseauId    String
+  cost Costs[]
   reseau      Reseau   @relation(fields: [reseauId], references: [id])
 }
 
@@ -355,7 +359,18 @@ model Controller {
   Controls    Control[]
   Reseau      Reseau    @relation(fields: [ReseauId], references: [id], onDelete: Cascade)
 }
-
+model LineManager {
+  id          String       @id @default(uuid())
+  name        String
+  phone       String?      
+  password    String?
+  gender      String?
+  isActiveted Boolean      @default(true)
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  ReseauId    String
+  Reseau      Reseau       @relation(fields: [ReseauId], references: [id], onDelete: Cascade)
+}
 model Regulator {
   id          String       @id @default(uuid())
   name        String
@@ -409,6 +424,7 @@ model Selling {
   type        String?
   startTime   String?
   endTime     String?
+  sellingDate String
   isActiveted Boolean           @default(true)
   itineraryId String
   deviceId    String
@@ -483,7 +499,7 @@ model Regulation {
 model Tracking {
   id        String   @id @default(uuid())
   sellingId String
-  timestamp DateTime
+  timestamp String
   latitude  Float
   longitude Float
   speed     Float?
@@ -494,11 +510,12 @@ model Tracking {
 
 model Trajet {
   id            String    @id @default(uuid())
-  duration      String
-  departureTime DateTime
-  arrivalTime   DateTime
-  distance      Float
+  duration      String?
+  departureTime String
+  arrivalTime   String?
+  distance      Float 
   sellingId     String
+  isActivated   Boolean  @default(true)
   Controls      Control[]
   Tickets       Ticket[]
   selling       Selling   @relation(fields: [sellingId], references: [id])
@@ -509,21 +526,23 @@ model Ticket {
   code             String        @unique
   price            Float
   name             String
-  validUntil       DateTime
-  startTime        DateTime
-  endTime          DateTime
-  status           String        @default("online")
+  validUntil       String
+  startTime        String
+  endTime          String
+  status           String        @default("Valide")
   isActivated      Boolean       @default(true)
-  walletId         String
+  walletId         String?
   tripId           String
+  rateId String
   paymentMethodeId String
   sellingId        String
   createdAt        DateTime      @default(now())
   updatedAt        DateTime      @updatedAt
+  rate Rate @relation(fields: [rateId], references: [id])
   paymentMethode   PaymentMethod @relation(fields: [paymentMethodeId], references: [id])
   selling          Selling       @relation(fields: [sellingId], references: [id])
   trip             Trajet        @relation(fields: [tripId], references: [id])
-  wallet           Wallet        @relation(fields: [walletId], references: [id])
+  wallet           Wallet ?       @relation(fields: [walletId], references: [id])
 }
 
 model Rental {
@@ -532,8 +551,8 @@ model Rental {
   CompaniePhone String?
   price         Float
   destination   String
-  startTime     DateTime
-  endTime       DateTime
+  startTime     String
+  endTime       String
   isActivated   Boolean  @default(true)
   sellingId     String
   createdAt     DateTime @default(now())
@@ -543,9 +562,10 @@ model Rental {
 
 model Costs {
   id        String   @id @default(uuid())
-  rubrics   String
+  rubricsId  String 
   amount    Float
   sellingId String
+  rubric Rubrics  @relation(fields: [rubricsId], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   selling   Selling  @relation(fields: [sellingId], references: [id])
@@ -602,8 +622,8 @@ model PaymentMethod {
 model Subscription {
   id          String           @id @default(uuid())
   passengerId String
-  startDate   DateTime
-  endDate     DateTime
+  startDate   String
+  endDate     String
   isActive    Boolean          @default(true)
   planId      String
   reseauId    String

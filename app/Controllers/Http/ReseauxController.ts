@@ -447,6 +447,49 @@ export default class ReseauxController {
       all,
     });
   }
+
+  public async lineManger({ params, view }: HttpContextContract) {
+    const id = params.id;
+    const item = await prisma.reseau.findFirst({
+      where: {
+        id: id
+      },
+      include:{
+        LineManager:{
+          select: {name: true, id:true, password: true, phone: true, isActiveted: true},
+          
+        },
+      }
+    });
+    
+    var activated;
+    var blocked;
+    var all;
+    all = await prisma.lineManager.aggregate({
+      where: { ReseauId: id },
+      _count: { isActiveted: true },
+    });
+    all = all._count.isActiveted;
+
+    activated = await prisma.lineManager.aggregate({
+      _count: { isActiveted: true },
+      where: { isActiveted: true, ReseauId: id },
+    });
+    activated = activated._count.isActiveted;
+
+    blocked = await prisma.lineManager.aggregate({
+      _count: { isActiveted: true },
+      where: { isActiveted: false, ReseauId: id },
+    });
+    blocked = blocked._count.isActiveted;
+    console.log(item)
+    return view.render("reseaux.line-managers.index", {
+      item,
+      activated,
+      blocked,
+      all,
+    });
+  }
   public async device({ params, view }: HttpContextContract) {
     const id = params.id;
     const item = await prisma.reseau.findFirst({

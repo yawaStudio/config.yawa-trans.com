@@ -1,10 +1,10 @@
 @layout('layouts.list')
 
 @section('content')
-@set('title', 'Régulateurs')
+@set('title', 'Contrôleurs')
 
 <div class="container-xxl flex-grow-1 container-p-y">
-  <h4 class="py-3 mb-2"><span class="text-muted fw-light">Gestion Réseaux / {{item.name}} /</span> Chauffeurs</h4>
+  <h4 class="py-3 mb-2"><span class="text-muted fw-light">Gestion Réseaux / {{item.name}} /</span> Gérant Ligne</h4>
   <div class="row g-4">
     <!-- Navigation -->
     <div class="col-12 col-lg-2">
@@ -41,7 +41,7 @@
             </a>
           </li>
           <li class="nav-item mb-1">
-            <a class="nav-link py-2" href="/reseaux/line-managers/{{item.id}}">
+            <a class="nav-link py-2 active" href="/reseaux/line-managers/{{item.id}}">
               <i class="ti ti-users me-2"></i>
               <span class="align-middle">Liste Gérant ligne</span>
             </a>
@@ -59,7 +59,7 @@
             </a>
           </li>
           <li class="nav-item mb-1">
-            <a class="nav-link py-2 active" href="/reseaux/drivers/{{item.id}}">
+            <a class="nav-link py-2" href="/reseaux/drivers/{{item.id}}">
               <i class="ti ti-users me-2"></i>
               <span class="align-middle">Liste Chauffeurs</span>
             </a>
@@ -71,7 +71,7 @@
             </a>
           </li>
           <li class="nav-item mb-1">
-            <a class="nav-link py-2 " href="/reseaux/rubrics/{{item.id}}">
+            <a class="nav-link py-2" href="/reseaux/rubrics/{{item.id}}">
               <i class="ti ti-list me-2"></i>
               <span class="align-middle">Liste Rubriques</span>
             </a>
@@ -145,18 +145,16 @@
                 <thead>
                   <tr>
                     <input id="table_name" value="export_users" hidden>
-                    <th>Chauffeurs</th>
-                    <th>Véhicules</th>
-                    <th>GIE</th>
+                    <th>Gérant ligne</th>
+                    <th>Code</th>
                     <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
-                  @each(cont in item.Driver)
+                  @each(cont in item.LineManager)
                   <tr>
                     <td>{{cont.name}}</td>
-                    <td>{{cont.vehicule.matricule}}</td>
-                    <td>{{cont.vehicule.Companie.name}}</td>
+                    <td>{{cont.phone}}</td>
                     <td>
                       <a class="badge bg-label-success me-1" href="javascript:;" 
                       data-bs-toggle="modal" data-bs-target="#edit{{cont.id}}" >
@@ -179,28 +177,22 @@
                             <h2 class="role-title mb-2">Modification</h3>
                           </div>
                           <!-- Add role form -->
-                          <form id="addRoleForm" class="row g-4" action="/drivers/edit/{{cont.id}}?_method=POST" method="POST"
+                          <form id="addRoleForm" class="row g-4" action="/line-managers/edit/{{cont.id}}?_method=POST" method="POST"
                             novalidate="novalidate">
                             {{ csrfField() }}
                             <div class="col-12 mb-4">
-                              <label class="form-label" for="modalRoleName">Véhicule</label>
-                              <select id="user-role" class="form-select" name="vehiculeId">
-                                <option value="{{cont.vehiculeId}}" selected>{{cont.vehicule.matricule}} - {{cont.vehicule.operator.name}} ({{cont.vehicule.Companie.name}})</option>
-                                @each(item in vehicules)
-                                <option value="{{item.id}}">{{item.matricule}} - {{item.operator.name}} ({{item.operator.Companie.name}})</option>
-                  
-                                @end
-                  
-                              </select>
-                            </div>
-                            <div class="col-12 mb-4">
-                              <label class="form-label" for="modalRoleName">Chauffeur</label>
+                              <label class="form-label" for="modalRoleName">Gérant ligne</label>
                               <input type="text" id="modalRoleName" name="name" value="{{cont.name}}" class="form-control" 
                                 tabindex="-2" />
                             </div>
                             <div class="col-12 mb-4">
                               <label class="form-label" for="modalRoleName">Téléphone</label>
                               <input type="text" id="modalRoleName" name="phone" value="{{cont.phone}}" class="form-control" 
+                                tabindex="-2" />
+                            </div>
+                            <div class="col-12 mb-4">
+                              <label class="form-label" for="modalRoleName">Mot de passe</label>
+                              <input type="text" id="modalRoleName" name="password" value="{{cont.password}}" class="form-control" 
                                 tabindex="-2" />
                             </div>
                             
@@ -226,13 +218,13 @@
                 
                           <div class="alert alert-danger" role="alert">
                             <div class="alert-body">
-                              <span class="fw-bolder">Voulez-vous supprimer le chauffeur {{cont.name}}</span>
+                              <span class="fw-bolder">Voulez-vous supprimer le Gérant de ligne {{cont.name}}</span>
                             </div>
                           </div>
                 
                         </div>
                         <div class="modal-footer">
-                          <a class="btn btn-danger waves-effect waves-float waves-light" href="/drivers/delete/{{cont.id}}">
+                          <a class="btn btn-danger waves-effect waves-float waves-light" href="/line-managers/delete/{{cont.id}}">
                             Confirmer</a>
                           <button type="button" class="btn btn-success waves-effect waves-float waves-light"
                             data-bs-dismiss="modal">Fermer</button>
@@ -244,9 +236,8 @@
                 </tbody>
                 <tfoot>
                   <tr>
-                    <th>Chauffeurs</th>
-                    <th>Véhicules</th>
-                    <th>GIE</th>
+                    <th>Gérant ligne</th>
+                    <th>Code</th>
                     <th>Action</th>
                   </tr>
                 </tfoot>
@@ -269,21 +260,10 @@
                     <h2 class="role-title mb-2">Ajouter</h3>
                   </div>
                   <!-- Add role form -->
-                  <form id="addRoleForm" class="row g-4" action="/drivers/create?POST" method="POST" novalidate="novalidate">
+                  <form id="addRoleForm" class="row g-4" action="/line-managers/create?POST" method="POST" novalidate="novalidate">
                     {{ csrfField() }}
-                    <div class="col-12 mb-4">
-                      <label class="form-label" for="modalRoleName">Véhicule</label>
-                      <select id="user-role" class="form-select" name="vehiculeId">
-                        
-                        @each(item in vehicules)
-                        <option value="{{item.id}}">{{item.matricule}} - {{item.operator.name}} ({{item.operator.Companie.name}})</option>
-          
-                        @end
-          
-                      </select>
-                    </div>
                     <div class="col-6 mb-4">
-                      <label class="form-label" for="modalRoleName">Chauffeur</label>
+                      <label class="form-label" for="modalRoleName">Gérant ligne</label>
                       <input type="text" id="modalRoleName" name="name"  class="form-control" 
                         tabindex="-2" />
                     </div>

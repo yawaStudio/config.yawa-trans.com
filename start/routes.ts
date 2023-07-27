@@ -143,6 +143,12 @@ Route.group(() => {
       return new AppareilsController().destroy(ctx)
     })
   }).prefix('devices')
+  Route.get('/delete/:id', async (ctx) => {
+    const { default: AppareilsController } = await import(
+      'App/Controllers/Http/AppareilsController'
+    )
+    return new AppareilsController().delete(ctx)
+  })
 }).prefix('materiels')
   .middleware('auth')
 
@@ -327,6 +333,14 @@ Route.group(() => {
     )
     return new ReseauxController().op(ctx)
   })
+
+  Route.get('/line-managers/:id', async (ctx) => {
+    const { default: ReseauxController } = await import(
+      'App/Controllers/Http/ReseauxController'
+    )
+    return new ReseauxController().lineManger(ctx)
+  })
+
   Route.get('/controllers/:id', async (ctx) => {
     const { default: ReseauxController } = await import(
       'App/Controllers/Http/ReseauxController'
@@ -556,6 +570,57 @@ Route.group(() => {
   })
 }).prefix('sellers')
   .middleware('auth')
+
+//Line Manager
+Route.group(() => {
+  Route.get('/', async (ctx) => {
+    const { default: LineManagerController } = await import(
+      'App/Controllers/Http/LineManagerController'
+    )
+    return new LineManagerController().index(ctx)
+  })
+
+  Route.post('/create', async (ctx) => {
+    const { default: LineManagerController } = await import(
+      'App/Controllers/Http/LineManagerController'
+    )
+    return new LineManagerController().store(ctx)
+  })
+
+  Route.post('/edit/:id', async (ctx) => {
+    const { default: LineManagerController } = await import(
+      'App/Controllers/Http/LineManagerController'
+    )
+    return new LineManagerController().edit(ctx)
+  })
+  
+  Route.get('/view/:id', async (ctx) => {
+    const { default: LineManagerController } = await import(
+      'App/Controllers/Http/LineManagerController'
+    )
+    return new LineManagerController().view(ctx)
+  })
+  Route.get('/activeted/:id', async (ctx) => {
+    const { default: LineManagerController } = await import(
+      'App/Controllers/Http/LineManagerController'
+    )
+    return new LineManagerController().activeted(ctx)
+  })
+  Route.get('/deactiveted/:id', async (ctx) => {
+    const { default: LineManagerController } = await import(
+      'App/Controllers/Http/LineManagerController'
+    )
+    return new LineManagerController().deactiveted(ctx)
+  })
+  Route.get('/delete/:id', async (ctx) => {
+    const { default: LineManagerController } = await import(
+      'App/Controllers/Http/LineManagerController'
+    )
+    return new LineManagerController().destroy(ctx)
+  })
+}).prefix('line-managers')
+  .middleware('auth')
+
 //Drivers
 Route.group(() => {
   Route.get('/', async (ctx) => {
