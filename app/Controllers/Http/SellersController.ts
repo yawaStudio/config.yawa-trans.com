@@ -45,7 +45,7 @@ export default class SellersController {
   }
 
   public async store({ request, response }: HttpContextContract) {
-    const data = await request.only([
+    const data =  request.only([
       "ReseauId",
       "vehiculeId",
       "name",
@@ -55,7 +55,7 @@ export default class SellersController {
 
     
     try {
-      const save = await prisma.seller.create({
+      await prisma.seller.create({
         data: {
           vehiculeId: data.vehiculeId,
           name: data.name,
@@ -73,7 +73,7 @@ export default class SellersController {
 
   public async edit({ params, request, response }: HttpContextContract) {
     const id = params.id;
-    const data = await request.only([
+    const data = request.only([
       "ReseauId",
       "vehiculeId",
       "name",
@@ -82,7 +82,7 @@ export default class SellersController {
 
     
     
-   const save = await prisma.seller.update({
+   await prisma.seller.update({
       where: { id: id },
       data: {
         name: data.name,

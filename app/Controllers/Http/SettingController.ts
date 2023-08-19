@@ -2,10 +2,6 @@ import { prisma } from "@ioc:Adonis/Addons/Prisma";
 import type { HttpContextContract } from "@ioc:Adonis/Core/HttpContext";
 var moment = require('moment');
 
-
-
-
-import Application from '@ioc:Adonis/Core/Application'
 export default class SettingController {
   public async index({ view }: HttpContextContract) {
 
@@ -34,7 +30,7 @@ export default class SettingController {
     }); 
   }
   public async init({ request, response }: HttpContextContract) {
-    const data = await request.only([
+    const data = request.only([
       "name", 
       "ninea",
       "rccm",
@@ -71,7 +67,7 @@ export default class SettingController {
     return response.redirect("back");
   }
   public async store({ request, response }: HttpContextContract) {
-    const data = await request.only(["name",]);
+    const data = request.only(["name",]);
 
     try {
       await prisma.role.create({
@@ -86,7 +82,7 @@ export default class SettingController {
   }
   public async edit({ params, request, response }: HttpContextContract) {
     const id = params.id;
-    const data = await request.only([
+    const data = request.only([
       "name", 
       "ninea",
       "rccm",
@@ -119,26 +115,10 @@ export default class SettingController {
     return response.redirect("back");
 
   }
-  public async logo({ params, request, response }: HttpContextContract) {
-    const id = params.id;
-   
-    const coverImage = request.file('cover_image')
-
-    if (coverImage) {
-      await coverImage.move(Application.tmpPath('uploads'))
-    }
-    console.log('logo', coverImage)
-    moment().format();
-    moment.locale('fr');
-    var updatedAt = moment().format('LLLL');
-    
-
-    return response.redirect("back");
-
-  }
+  
   public async update({ params, request, response }: HttpContextContract) {
     const id = params.id;
-    const data = await request.only(["name",]);
+    const data =  request.only(["name",]);
     await prisma.role.update({
       where: { id: id },
       data: {

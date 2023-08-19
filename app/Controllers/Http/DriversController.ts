@@ -45,7 +45,7 @@ export default class DriversController {
   }
 
   public async store({ request, response }: HttpContextContract) {
-    const data = await request.only([
+    const data = request.only([
       "ReseauId",
       "vehiculeId",
       "name",
@@ -55,7 +55,7 @@ export default class DriversController {
 
     
     try {
-      const save = await prisma.driver.create({
+      await prisma.driver.create({
         data: {
           vehiculeId: data.vehiculeId,
           name: data.name,
@@ -73,7 +73,7 @@ export default class DriversController {
 
   public async edit({ params, request, response }: HttpContextContract) {
     const id = params.id;
-    const data = await request.only([
+    const data = request.only([
       "ReseauId",
       "vehiculeId",
       "name",
@@ -82,7 +82,7 @@ export default class DriversController {
 
     
     
-   const save = await prisma.driver.update({
+   await prisma.driver.update({
       where: { id: id },
       data: {
         name: data.name,

@@ -1,0 +1,276 @@
+<div class="card mb-4">
+  <div class="card-widget-separator-wrapper">
+    <div class="card-body card-widget-separator">
+      <div class="row gy-4 gy-sm-1">
+        <div class="col-sm-6 col-lg-4">
+          <div class="d-flex justify-content-between align-apps-start card-widget-1 border-end pb-3 pb-sm-0">
+            <div>
+              <h4 class="mb-2">{{all}}</h4>
+              <p class="mb-0 fw-medium">TOTAL</p>
+            </div>
+            <span class="avatar me-sm-4">
+              <span class="avatar-initial bg-label-info rounded">
+                <i class="menu-icon tf-icons ti ti-users"></i>
+              </span>
+            </span>
+          </div>
+          <hr class="d-none d-sm-block d-lg-none me-4" />
+        </div>
+        <div class="col-sm-6 col-lg-4">
+          <div class="d-flex justify-content-between align-apps-start card-widget-2 border-end pb-3 pb-sm-0">
+            <div>
+              <h4 class="mb-2">{{activated}}</h4>
+              <p class="mb-0 fw-medium">ACTIFS</p>
+            </div>
+            <span class="avatar p-2 me-lg-4">
+              <span class="avatar-initial bg-label-success rounded"><i
+                  class="ti-md ti ti-checks text-body"></i></span>
+            </span>
+          </div>
+          <hr class="d-none d-sm-block d-lg-none" />
+        </div>
+        <div class="col-sm-6 col-lg-4">
+          <div class="d-flex justify-content-between align-apps-start border-end pb-3 pb-sm-0 card-widget-3">
+            <div>
+              <h4 class="mb-2">{{blocked}}</h4>
+              <p class="mb-0 fw-medium">INACTIFS</p>
+            </div>
+            <span class="avatar p-2 me-sm-4">
+              <span class="avatar-initial bg-label-danger rounded"><i class="ti-md ti ti-x text-body"></i></span>
+            </span>
+          </div>
+        </div>
+      </div>
+      <hr>
+      <button data-bs-toggle="offcanvas" data-bs-target="#offcanvasBackdrop" aria-controls="offcanvasBackdrop"
+      class="btn btn-primary mb-2 text-nowrap add-new-role">
+      Ajouter
+    </button> 
+    </div>
+  </div>
+</div>
+<div class="row g-4">
+  
+
+  @each(app in devices)
+  <div class="col-xl-4 cl-lg-6 col-md-6" id="myTable">
+    <div class="card">
+      <div class="card-body">
+        <div class="d-flex justify-content-between">
+          
+          <h6 class="fw-normal mb-2">{{app.type}}</h6>
+
+        </div>
+        <hr>
+        <div class="d-flex justify-content-between align-apps-end mt-1">
+          <div class="role-heading">
+            <h4 class="mb-1">{{app.details}}</h4>
+          </div>
+          <hr>
+        </div>
+        <ul class="p-0 m-0">
+          <li class="mb-4 pb-1 d-flex justify-content-between align-apps-center">
+            <div class="badge bg-label-success rounded p-2"><i class="ti ti-file-dollar ti-sm"></i></div>
+            <div class="d-flex justify-content-between w-100 flex-wrap">
+              <h6 class="mb-0 ms-3">Prix</h6>
+
+              <div class="d-flex">
+                <p class="mb-0 fw-medium">{{app.price}} FCFA</p>
+              </div>
+            </div>
+          </li>
+          <li class="mb-4 pb-1 d-flex justify-content-between align-apps-center">
+            <div class="badge bg-label-success rounded p-2"><i class="ti ti-layout-grid ti-sm"></i></div>
+            <div class="d-flex justify-content-between w-100 flex-wrap">
+              <h6 class="mb-0 ms-3">Quantité</h6>
+
+              <div class="d-flex">
+                <p class="mb-0 fw-medium">{{app._count.Device}} </p>
+              </div>
+            </div>
+          </li> 
+          
+          <li class="mb-4 pb-1 d-flex justify-content-between align-apps-center">
+            <div class="alert d-flex align-apps-center bg-label-success mb-0" role="alert">
+              <span class="alert-icon text-success me-2 bg-label-light px-2 pb-2 rounded-2">
+                <i class="ti ti-bell ti-xs mt-1"></i>
+              </span>
+              Dernières modification le {{app.updatedAt}}.
+            </div>
+          </li>
+        </ul>
+        <div class="d-flex justify-content-between align-apps-end mt-1">
+          <div class="role-heading">
+            <a href="javascript:;" data-bs-toggle="modal" data-bs-target="#del{{app.id}}" class="text-dark"><i
+                class="ti ti-trash ti-md"></i></a>
+                <a href="javascript:;" data-bs-toggle="offcanvas" data-bs-target="#add{{app.id}}" aria-controls="offcanvasBackdrop"  class="text-dark"><i
+                  class="ti ti-plus ti-md"></i></a>
+                  
+            
+          </div>
+          <a href="javascript:;" data-bs-toggle="offcanvas" data-bs-target="#edit{{app.id}}" aria-controls="offcanvasBackdrop" class="text-primary"><i
+              class="ti ti-edit ti-md"></i></a>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+  <div class="modal fade" id="del{{app.id}}" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-add-new-role">
+      <div class="modal-content p-3 p-md-5">
+        <button type="button" class="btn-close btn-pinned" data-bs-dismiss="modal" aria-label="Close"></button>
+        <div class="modal-body">
+
+          <div class="alert alert-danger" role="alert">
+            <div class="alert-body">
+              <span class="fw-bolder">Voulez-vous supprimer les appareils {{app.type}}</span>
+            </div>
+          </div>
+
+        </div>
+        <div class="modal-footer text-center mt-4">
+          <a class="btn btn-danger me-sm-3 me-1" href="/materiels/delete/{{app.id}}">
+            Confirmer</a>
+          <button type="button" class="btn btn-success me-sm-3 me-1" data-bs-dismiss="modal">Fermer</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="blocked{{app.id}}" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-add-new-role">
+      <div class="modal-content p-3 p-md-5">
+        <button type="button" class="btn-close btn-pinned" data-bs-dismiss="modal" aria-label="Close"></button>
+        <div class="modal-body">
+
+          <div class="alert alert-danger" role="alert">
+            <div class="alert-body">
+              <span class="fw-bolder">Voulez-vous désactiver l'appareil  {{app.code}}</span>
+            </div>
+          </div>
+
+        </div>
+        <div class="modal-footer text-center mt-4">
+          <a class="btn btn-danger me-sm-3 me-1" href="/appareils/deactiveted/{{app.id}}">
+            Confirmer</a>
+          <button type="button" class="btn btn-success me-sm-3 me-1" data-bs-dismiss="modal">Fermer</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="modal fade" id="activeted{{app.id}}" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-add-new-role">
+      <div class="modal-content p-3 p-md-5">
+        <button type="button" class="btn-close btn-pinned" data-bs-dismiss="modal" aria-label="Close"></button>
+        <div class="modal-body">
+
+          <div class="alert alert-danger" role="alert">
+            <div class="alert-body">
+              <span class="fw-bolder">Voulez-vous activer le compte {{app.name}}</span>
+            </div>
+          </div>
+
+        </div>
+        <div class="modal-footer text-center mt-4">
+          <a class="btn btn-danger me-sm-3 me-1" href="/appareils/activeted/{{app.id}}">
+            Confirmer</a>
+          <button type="button" class="btn btn-success me-sm-3 me-1" data-bs-dismiss="modal">Fermer</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<div class="offcanvas offcanvas-end" tabindex="-1" id="edit{{app.id}}" aria-labelledby="offcanvasBackdropLabel">
+  <div class="offcanvas-header">
+    <h5 id="offcanvasBackdropLabel" class="offcanvas-title">Modification</h5>
+    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body my-auto mx-0 flex-grow-0">
+    <form class="add-new-user pt-0 fv-plugins-bootstrap5 fv-plugins-framework" id="addNewUserForm"
+      action="/materiels/edit/{{app.id}}?POST" method="POST" novalidate="novalidate">
+      {{ csrfField() }}
+
+      <div class="mb-3">
+        <label class="form-label" for="modalRoleName">Description</label>
+        <input type="text" id="modalRoleName" name="details" value="{{app.details}}" class="form-control"
+          tabindex="-1" />
+      </div> 
+      <div class="mb-3">
+        <label class="form-label" for="modalRoleName">Prix unitaire</label>
+        <input type="number" id="modalRoleName" name="price" value="{{app.price}}"  class="form-control"
+          tabindex="-1" />
+      </div>
+      <button type="submit"
+        class="btn btn-primary me-sm-3 me-1 data-submit waves-effect waves-light">Sauvegarder</button>
+      <button type="reset" class="btn btn-label-danger waves-effect" data-bs-dismiss="offcanvas">Annuler</button>
+      <input type="hidden">
+    </form>
+  </div>
+</div>
+<div class="offcanvas offcanvas-end" tabindex="-1" id="add{{app.id}}" aria-labelledby="offcanvasBackdropLabel">
+  <div class="offcanvas-header">
+    <h5 id="offcanvasBackdropLabel" class="offcanvas-title">Nouvel appareil</h5>
+    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body my-auto mx-0 flex-grow-0">
+    <form class="add-new-user pt-0 fv-plugins-bootstrap5 fv-plugins-framework" id="addNewUserForm"
+      action="/materiels/add/{{app.id}}?POST" method="POST" novalidate="novalidate">
+      {{ csrfField() }}
+
+      
+      
+      <div class="mb-3">
+        <label class="form-label" for="modalRoleName">Quantité en stock</label>
+        <input type="number" id="modalRoleName" name="quantity" value="1" class="form-control"
+          tabindex="-1" />
+      </div>
+      <button type="submit"
+        class="btn btn-primary me-sm-3 me-1 data-submit waves-effect waves-light">Sauvegarder</button>
+      <button type="reset" class="btn btn-label-danger waves-effect" data-bs-dismiss="offcanvas">Annuler</button>
+      <input type="hidden">
+    </form>
+  </div>
+</div>
+  @end
+</div>
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasBackdrop" aria-labelledby="offcanvasBackdropLabel">
+  <div class="offcanvas-header">
+    <h5 id="offcanvasBackdropLabel" class="offcanvas-title">Nouvel appareil</h5>
+    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body my-auto mx-0 flex-grow-0">
+    <form class="add-new-user pt-0 fv-plugins-bootstrap5 fv-plugins-framework" id="addNewUserForm"
+      action="/materiels/create?POST" method="POST" novalidate="novalidate">
+      {{ csrfField() }}
+
+      <div class="mb-3">
+        <label class="form-label" for="user-role">Type</label>
+        <select id="user-role" class="form-select" name="type">
+
+          <option value="POS">POS</option>
+          <option value="PI">PI</option>
+        </select>
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="modalRoleName">Description</label>
+        <input type="text" id="modalRoleName" name="details" class="form-control"
+          tabindex="-1" />
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="modalRoleName">Quantité en stock</label>
+        <input type="number" id="modalRoleName" name="quantity" value="1" class="form-control"
+          tabindex="-1" />
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="modalRoleName">Prix unitaire</label>
+        <input type="number" id="modalRoleName" name="price"  class="form-control"
+          tabindex="-1" />
+      </div>
+      <button type="submit"
+        class="btn btn-primary me-sm-3 me-1 data-submit waves-effect waves-light">Sauvegarder</button>
+      <button type="reset" class="btn btn-label-danger waves-effect" data-bs-dismiss="offcanvas">Annuler</button>
+      <input type="hidden">
+    </form>
+  </div>
+</div>

@@ -1,0 +1,324 @@
+@layout('layouts.list')
+
+@section('content')
+@set('title', 'Utilisateurs')
+
+<div class="container-xxl flex-grow-1 container-p-y">
+  <h4 class="py-3 mb-2"><span class="text-muted fw-light">Configuration /</span> Utilisateurs</h4>
+
+  <div class="card mb-4">
+    <div class="card-widget-separator-wrapper">
+      <div class="card-body card-widget-separator">
+        <div class="row gy-4 gy-sm-1">
+          <div class="col-sm-6 col-lg-4">
+            <div class="d-flex justify-content-between align-items-start card-widget-1 border-end pb-3 pb-sm-0">
+              <div>
+                <h4 class="mb-2">{{all}}</h4>
+                <p class="mb-0 fw-medium">TOTAL</p>
+              </div>
+              <span class="avatar me-sm-4">
+                <span class="avatar-initial bg-label-info rounded">
+                  <i class="menu-icon tf-icons ti ti-users"></i>
+                </span>
+              </span>
+            </div>
+            <hr class="d-none d-sm-block d-lg-none me-4" />
+          </div>
+          <div class="col-sm-6 col-lg-4">
+            <div class="d-flex justify-content-between align-items-start card-widget-2 border-end pb-3 pb-sm-0">
+              <div>
+                <h4 class="mb-2">{{activated}}</h4>
+                <p class="mb-0 fw-medium">ACTIFS</p>
+              </div>
+              <span class="avatar p-2 me-lg-4">
+                <span class="avatar-initial bg-label-success rounded"><i
+                    class="ti-md ti ti-checks text-body"></i></span>
+              </span>
+            </div>
+            <hr class="d-none d-sm-block d-lg-none" />
+          </div>
+          <div class="col-sm-6 col-lg-4">
+            <div class="d-flex justify-content-between align-items-start border-end pb-3 pb-sm-0 card-widget-3">
+              <div>
+                <h4 class="mb-2">{{blocked}}</h4>
+                <p class="mb-0 fw-medium">INACTIFS</p>
+              </div>
+              <span class="avatar p-2 me-sm-4">
+                <span class="avatar-initial bg-label-danger rounded"><i class="ti-md ti ti-x text-body"></i></span>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row g-4">
+    <div class="col-xl-3 col-lg-6 col-md-6">
+      <div class="card h-100">
+        <div class="row h-100">
+          <div class="col-sm-5">
+            <div class="d-flex align-items-end h-100 justify-content-center mt-sm-0 mt-3">
+              <img src="../../assets/img/illustrations/add-new-roles.png" class="img-fluid mt-sm-4 mt-md-0"
+                alt="add-new-roles" width="83" />
+            </div>
+          </div>
+          <div class="col-sm-7">
+            <div class="card-body text-sm-end text-center ps-sm-0">
+              <button data-bs-toggle="offcanvas" data-bs-target="#offcanvasBackdrop" aria-controls="offcanvasBackdrop"
+                class="btn btn-primary mb-2 text-nowrap add-new-role">
+                Ajouter un compte
+              </button>
+              <p class="mb-0 mt-1">Ajouter un compte, s'il n'existe pas</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    @each(item in users)
+    <div class="col-xl-3 col-lg-6 col-md-6" id="myTable">
+      <div class="card">
+        <div class="card-body">
+          <div class="d-flex justify-content-between">
+            <h6 class="fw-normal mb-2">{{item.role.name}}</h6>
+
+          </div>
+          <hr>
+          <div class="d-flex justify-content-between align-items-end mt-1">
+            <div class="role-heading">
+              <h4 class="mb-1">{{item.name}}</h4>
+            </div>
+            <hr>
+          </div>
+          <ul class="p-0 m-0">
+            <li class="mb-4 pb-1 d-flex justify-content-between align-items-center">
+              <div class="badge bg-label-success rounded p-2"><i class="ti ti-mail ti-sm"></i></div>
+              <div class="d-flex justify-content-between w-100 flex-wrap">
+                <h6 class="mb-0 ms-3">Email</h6>
+
+                <div class="d-flex">
+                  <p class="mb-0 fw-medium">{{item.email}}</p>
+                </div>
+              </div>
+            </li>
+            <li class="mb-4 pb-1 d-flex justify-content-between align-items-center">
+              <div class="badge bg-label-info rounded p-2"><i class="ti ti-phone ti-sm"></i></div>
+              <div class="d-flex justify-content-between w-100 flex-wrap">
+                <h6 class="mb-0 ms-3">Téléphone</h6>
+                <div class="d-flex">
+                  <p class="mb-0 fw-medium">{{item.account.phone}}</p>
+                </div>
+              </div>
+            </li>
+            <li class="mb-4 pb-1 d-flex justify-content-between align-items-center">
+              @if(item.isActiveted== true)
+              <div class="badge bg-label-success rounded p-2"><i class="ti ti-circle-check ti-sm"></i></div>
+              <div class="d-flex justify-content-between w-100 flex-wrap">
+                <h6 class="mb-0 ms-3">Actif</h6>
+              </div>
+              @else
+              <div class="badge bg-label-danger rounded p-2"><i class="ti ti-x ti-sm"></i></div>
+              <div class="d-flex justify-content-between w-100 flex-wrap">
+                <h6 class="mb-0 ms-3">Déactivé</h6>
+              </div>
+              @endif
+            </li>
+          </ul>
+          <div class="d-flex justify-content-between align-items-end mt-1">
+            <div class="role-heading">
+              <a href="javascript:;" data-bs-toggle="modal" data-bs-target="#del{{item.id}}" class="text-dark"><i
+                  class="ti ti-trash ti-md"></i></a>
+              @if(item.isActiveted== true)
+              <a href="javascript:;" data-bs-toggle="modal" data-bs-target="#blocked{{item.id}}" class="text-danger"><i
+                  class="ti ti-x ti-md"></i></a>
+              @else
+              <a href="javascript:;" data-bs-toggle="modal" data-bs-target="#activeted{{item.id}}"
+                class="text-success"><i class="ti ti-circle-check ti-md"></i></a>
+              @endif
+              <a href="javascript:;" data-bs-toggle="modal" data-bs-target="#pass{{item.id}}" class="text-dark"><i
+                  class="ti ti-lock ti-md"></i></a>
+            </div>
+            <a href="javascript:;" data-bs-toggle="modal" data-bs-target="#edit{{item.id}}" class="text-primary"><i
+                class="ti ti-edit ti-md"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal fade" id="edit{{item.id}}" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-lg modal-dialog-centered modal-add-new-role">
+        <div class="modal-content p-3 p-md-5">
+          <button type="button" class="btn-close btn-pinned" data-bs-dismiss="modal" aria-label="Close"></button>
+          <div class="modal-body">
+            <div class="text-center mb-4">
+              <h3 class="role-title mb-2">Modifification</h3>
+            </div>
+            <!-- Add role form -->
+            <form id="addRoleForm" class="row g-3" action="/users/edit/{{item.id}}?_method=POST" method="POST"
+              novalidate="novalidate">
+              {{ csrfField() }}
+              <div class="col-12 mb-4">
+                <label class="form-label" for="modalRoleName">Prénom et nom</label>
+                <input type="text" id="modalRoleName" name="name" value="{{item.name}}" class="form-control"
+                  tabindex="-1" />
+              </div>
+              <div class="col-6 mb-4">
+                <label class="form-label" for="modalRoleName">Email</label>
+                <input type="email" id="modalRoleName" name="email" value="{{item.email}}" class="form-control"
+                  tabindex="-1" />
+              </div>
+              <div class="col-6 mb-4">
+                <label class="form-label" for="modalRoleName">Téléphone</label>
+                <input type="text" id="modalRoleName" name="phone" value="{{item.account.phone}}" class="form-control"
+                  tabindex="-1" />
+              </div>
+              <div class="col-12 mb-4">
+                <label class="form-label" for="user-role">Rôle</label>
+                <select id="user-role" class="form-select" name="roleId">
+                  <option value="{{item.roleId}}" selected>{{item.role.name}}</option>
+                  @each(role in roles)
+                  <option value="{{role.id}}">{{role.name}}</option>
+
+                  @end
+
+                </select>
+              </div>
+              <div class="col-12 text-center mt-4">
+                <button type="submit" class="btn btn-primary me-sm-3 me-1">Submit</button>
+                <button type="reset" class="btn btn-label-secondary" data-bs-dismiss="modal" aria-label="Close">
+                  Cancel
+                </button>
+              </div>
+            </form>
+            <!--/ Add role form -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="del{{item.id}}" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-lg modal-dialog-centered modal-add-new-role">
+        <div class="modal-content p-3 p-md-5">
+          <button type="button" class="btn-close btn-pinned" data-bs-dismiss="modal" aria-label="Close"></button>
+          <div class="modal-body">
+
+            <div class="alert alert-danger" role="alert">
+              <div class="alert-body">
+                <span class="fw-bolder">Voulez-vous supprimer le compte {{item.name}}</span>
+              </div>
+            </div>
+
+          </div>
+          <div class="modal-footer text-center mt-4">
+            <a class="btn btn-danger me-sm-3 me-1" href="/users/delete/{{item.id}}">
+              Confirmer</a>
+            <button type="button" class="btn btn-success me-sm-3 me-1" data-bs-dismiss="modal">Fermer</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal fade" id="blocked{{item.id}}" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-lg modal-dialog-centered modal-add-new-role">
+        <div class="modal-content p-3 p-md-5">
+          <button type="button" class="btn-close btn-pinned" data-bs-dismiss="modal" aria-label="Close"></button>
+          <div class="modal-body">
+
+            <div class="alert alert-danger" role="alert">
+              <div class="alert-body">
+                <span class="fw-bolder">Voulez-vous désactiver le compte {{item.name}}</span>
+              </div>
+            </div>
+
+          </div>
+          <div class="modal-footer text-center mt-4">
+            <a class="btn btn-danger me-sm-3 me-1" href="/users/deactiveted/{{item.id}}">
+              Confirmer</a>
+            <button type="button" class="btn btn-success me-sm-3 me-1" data-bs-dismiss="modal">Fermer</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal fade" id="pass{{item.id}}" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-lg modal-dialog-centered modal-add-new-role">
+        <div class="modal-content p-3 p-md-5">
+          <button type="button" class="btn-close btn-pinned" data-bs-dismiss="modal" aria-label="Close"></button>
+          <div class="modal-body">
+
+            <div class="alert alert-danger" role="alert">
+              <div class="alert-body">
+                <span class="fw-bolder">Voulez-vous re-générer le mot de passe de {{item.name}}</span>
+              </div>
+            </div>
+
+          </div>
+          <div class="modal-footer text-center mt-4">
+            <a class="btn btn-danger me-sm-3 me-1" href="/users/password/{{item.id}}">
+              Confirmer</a>
+            <button type="button" class="btn btn-success me-sm-3 me-1" data-bs-dismiss="modal">Fermer</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal fade" id="activeted{{item.id}}" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-lg modal-dialog-centered modal-add-new-role">
+        <div class="modal-content p-3 p-md-5">
+          <button type="button" class="btn-close btn-pinned" data-bs-dismiss="modal" aria-label="Close"></button>
+          <div class="modal-body">
+
+            <div class="alert alert-danger" role="alert">
+              <div class="alert-body">
+                <span class="fw-bolder">Voulez-vous activer le compte {{item.name}}</span>
+              </div>
+            </div>
+
+          </div>
+          <div class="modal-footer text-center mt-4">
+            <a class="btn btn-danger me-sm-3 me-1" href="/users/activeted/{{item.id}}">
+              Confirmer</a>
+            <button type="button" class="btn btn-success me-sm-3 me-1" data-bs-dismiss="modal">Fermer</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    @end
+  </div>
+  <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasBackdrop" aria-labelledby="offcanvasBackdropLabel">
+    <div class="offcanvas-header">
+      <h5 id="offcanvasBackdropLabel" class="offcanvas-title">Nouvel utilisateur</h5>
+      <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body my-auto mx-0 flex-grow-0">
+      <form class="add-new-user pt-0 fv-plugins-bootstrap5 fv-plugins-framework" id="addNewUserForm"
+        action="/users/create?POST" method="POST" novalidate="novalidate">
+        {{ csrfField() }}
+
+        <div class="mb-3">
+          <label class="form-label" for="user-role">Role</label>
+          <select id="user-role" class="form-select" name="roleId">
+            @each(role in roles)
+            <option value="{{role.id}}">{{role.name}}</option>
+
+            @end
+
+          </select>
+        </div>
+        <div class="mb-3 fv-plugins-icon-container">
+          <label class="form-label" for="add-user-fullname">Prénom et nom</label>
+          <input type="text" class="form-control" id="add-user-fullname" placeholder="John Doe" name="name"
+            aria-label="Prénom et nom" required>
+          <div class="fv-plugins-message-container invalid-feedback"></div>
+        </div>
+        <div class="mb-3 fv-plugins-icon-container">
+          <label class="form-label" for="add-user-email">Email</label>
+          <input type="email" id="add-user-email" class="form-control" placeholder="" name="email" required>
+          <div class="fv-plugins-message-container invalid-feedback"></div>
+        </div>
+        <button type="submit"
+          class="btn btn-primary me-sm-3 me-1 data-submit waves-effect waves-light">Sauvegarder</button>
+        <button type="reset" class="btn btn-label-danger waves-effect" data-bs-dismiss="offcanvas">Annuler</button>
+        <input type="hidden">
+      </form>
+    </div>
+  </div>
+</div>
+
+@endsection

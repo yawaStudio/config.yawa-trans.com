@@ -1,0 +1,497 @@
+<div class="card mb-4">
+  <div class="card mb-4">
+    <div class="card-widget-separator-wrapper">
+      <div class="card-body card-widget-separator">
+        <div class="row gy-4 gy-sm-1">
+          <div class="col-sm-6 col-lg-4">
+            <div class="d-flex justify-content-between align-items-start card-widget-1 border-end pb-3 pb-sm-0">
+              <div>
+                <h4 class="mb-2">{{all}}</h4>
+                <p class="mb-0 fw-medium">TOTAL</p>
+              </div>
+              <span class="avatar me-sm-4">
+                <span class="avatar-initial bg-label-info rounded">
+                  <i class="menu-icon tf-icons ti ti-layout-sidebar"></i>
+                </span>
+              </span>
+            </div>
+            <hr class="d-none d-sm-block d-lg-none me-4" />
+          </div>
+          <div class="col-sm-6 col-lg-4">
+            <div class="d-flex justify-content-between align-items-start card-widget-2 border-end pb-3 pb-sm-0">
+              <div>
+                <h4 class="mb-2">{{activated}}</h4>
+                <p class="mb-0 fw-medium">ACTIVES</p>
+              </div>
+              <span class="avatar p-2 me-lg-4">
+                <span class="avatar-initial bg-label-success rounded"><i
+                    class="ti-md ti ti-checks text-body"></i></span>
+              </span>
+            </div>
+            <hr class="d-none d-sm-block d-lg-none" />
+          </div>
+          <div class="col-sm-6 col-lg-4">
+            <div class="d-flex justify-content-between align-items-start border-end pb-3 pb-sm-0 card-widget-3">
+              <div>
+                <h4 class="mb-2">{{blocked}}</h4>
+                <p class="mb-0 fw-medium">INACTIVES</p>
+              </div>
+              <span class="avatar p-2 me-sm-4">
+                <span class="avatar-initial bg-label-danger rounded"><i class="ti-md ti ti-x text-body"></i></span>
+              </span>
+            </div>
+          </div>
+        </div>
+        <hr>
+        <button data-bs-toggle="modal" data-bs-target="#addNewCCModal"
+          class="btn btn-primary mb-2 text-nowrap add-new-role">
+          Ajouter
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+   
+
+
+    <!-- Sales by Countries tabs-->
+    <div class="col-xl-12 mb-4 col-lg-7 col-12">
+      <div class="card h-100">
+       
+        <div class="card-body">
+          <div class="nav-align-top">
+            <ul class="nav nav-tabs nav-fill" role="tablist">
+              <li class="nav-item" role="presentation">
+                <button type="button" class="nav-link active" role="tab" data-bs-toggle="tab"
+                  data-bs-target="#navs-justified-new" aria-controls="navs-justified-new" aria-selected="true">
+                  Itinéraires actifs
+                </button>
+              </li>
+            </ul>
+            <div class="tab-content pb-0">
+              <div class="tab-pane fade show active" id="navs-justified-new" role="tabpanel">
+                <div class="row">
+                  @each(sim in item.Itinerary)
+                  <div class="col-md-6 col-xl-4 mb-4">
+                    <div class="card h-100">
+                      <div class="card-header py-2">
+                        <ul class="nav nav-pills card-header-pills" role="tablist">
+                          <li class="nav-item" role="presentation">
+                            <button type="button" class="nav-link active" role="tab" data-bs-toggle="tab"
+                              data-bs-target="#navs-pills-tab-home{{sim.id}}"
+                              aria-controls="navs-pills-tab-home{{sim.id}}" aria-selected="true">
+                              Itinéraire
+                            </button>
+                          </li>
+                          <li class="nav-item" role="presentation">
+                            <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
+                              data-bs-target="#navs-pills-tab-profile{{sim.id}}"
+                              aria-controls="navs-pills-tab-profile{{sim.id}}" aria-selected="false" tabindex="-1">
+                              Tarifs
+                            </button>
+                          </li>
+                        </ul>
+                      </div>
+                      <div class="card-body">
+                        <h4 class="mb-2 pb-1">{{sim.name}}</h4>
+                        <hr>
+                        <div class="tab-content p-0">
+                          <div class="tab-pane fade show active" id="navs-pills-tab-home{{sim.id}}" role="tabpanel">
+                            <ul class="timeline mb-0">
+                              @each(item in sim.coordinates)
+
+                              <li class="timeline-item ps-4 border-left-dashed">
+                                <div class="d-flex align-items-start">
+                                  <div class="d-flex justify-content-between w-100 flex-wrap gap-2">
+                                    <span class="timeline-indicator-advanced timeline-indicator-success">
+                                      <i class="ti ti-circle-check"></i>
+                                    </span>
+                                    <div class="timeline-event ps-0 pb-0">
+                                      <div class="timeline-header">
+                                        <small class="text-success text-uppercase fw-medium">Terminus</small>
+                                      </div>
+                                      <h6 class="mb-0">{{item.name}}</h6>
+                                    </div>
+                                  </div>
+                                  <div class="badge bg-label-primary p-2 me-3 rounded">
+                                    <a href="javascript:;" data-bs-toggle="modal"
+                                      data-bs-target="#editCoor{{item.id}}"><i class="ti ti-edit ti-md"></i>
+                                    </a>
+                                  </div>
+                                </div>
+                                <span class="timeline-indicator-advanced timeline-indicator-primary">
+                                  <i class="ti ti-map-pin"></i>
+                                </span>
+                              </li>
+                              <div class="modal fade" id="editCoor{{item.id}}" tabindex="-1" aria-hidden="true">
+                                <div class="modal-dialog modal-lg modal-simple modal-edit-user">
+                                  <div class="modal-content p-3 p-md-5">
+                                    <div class="modal-body">
+                                      <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                      <div class="text-center mb-4">
+                                        <h3 class="mb-2">Modification de la l'itinéraire</h3>
+                                        <p class="text-muted">{{sim.name}}</p>
+                                      </div>
+                                      <form id="addNewCCForm" action="/itinerarys/points/edit/{{sim.id}}?POST"
+                                        method="POST" novalidate="novalidate" class="row g-3">
+                                        {{ csrfField() }}
+                                        <div class="col-12 col-md-4">
+                                          <label class="form-label" for="name">Terminus</label>
+                                          <input type="text" name="name" class="form-control" value="{{item.name}}" />
+                                        </div>
+                                        <input type="text" name="id" value="{{item.id}}" hidden />
+                                        <div class="col-6 col-md-4">
+                                          <label class="form-label" for="latitude">Latitude</label>
+                                          <input type="text" name="latitude" class="form-control"
+                                            value="{{item.latitude}}" />
+                                        </div>
+                                        <div class="col-6 col-md-4">
+                                          <label class="form-label" for="long1">Longitude</label>
+                                          <div class="input-group input-group-merge">
+                                            <input type="text" name="longitude" class="form-control"
+                                              value="{{item.longitude}}" />
+
+                                          </div>
+                                        </div>
+                                        <div class="col-12 text-center">
+                                          <button type="submit" class="btn btn-primary me-sm-3 me-1">Enregister</button>
+                                          <button type="reset" class="btn btn-label-danger btn-reset"
+                                            data-bs-dismiss="modal" aria-label="Close">
+                                            Annuler
+                                          </button>
+                                        </div>
+                                      </form>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              @endeach
+                              <li class="timeline-item ps-4 border-transparent">
+                                <span class="timeline-indicator-advanced timeline-indicator-success">
+                                  <i class="ti ti-circle-check"></i>
+                                </span>
+                                <div class="timeline-event ps-0 pb-0">
+                                  <div class="timeline-header">
+                                    <small class="text-primary text-uppercase fw-medium">Distance</small>
+                                  </div>
+                                  <h6 class="mb-0">{{sim.distance}} KM</h6>
+                                </div>
+                              </li>
+                            </ul>
+                          </div>
+                          <div class="tab-pane fade" id="navs-pills-tab-profile{{sim.id}}" role="tabpanel">
+
+                            <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#rate{{sim.id}}"
+                              class="btn btn-label-primary w-100 waves-effect waves-light">Ajouter un tarif</a>
+                            <hr>
+                            <ul class="list-unstyled mb-0">
+                              @each(rate in sim.rates)
+                              <li class="mb-4">
+                                <div class="d-flex align-items-start">
+                                  <div class="d-flex justify-content-between w-100 flex-wrap gap-2">
+                                    <div class="me-2">
+                                      <h6 class="mb-0">{{rate.name}}</h6>
+                                      <small class="text-muted">{{rate.section}}</small>
+                                    </div>
+                                  </div>
+                                  <div class="badge bg-label-danger p-2 me-3 rounded">
+                                    <a href="javascript:void(0);" data-bs-toggle="modal"
+                                      data-bs-target="#rateDel{{rate.id}}" class="text-danger">
+                                      <i class="ti ti-trash ti-sm"></i>
+                                    </a>
+                                  </div>
+
+                                </div>
+                              </li>
+                              <div class="modal fade" id="rateDel{{rate.id}}" tabindex="-1" aria-hidden="true">
+                                <div class="modal-dialog modal-lg modal-dialog-centered modal-add-new-role">
+                                  <div class="modal-content p-3 p-md-5">
+                                    <button type="button" class="btn-close btn-pinned" data-bs-dismiss="modal"
+                                      aria-label="Close"></button>
+                                    <div class="modal-body">
+
+                                      <div class="alert alert-danger" role="alert">
+                                        <div class="alert-body">
+                                          <span class="fw-bolder">Voulez-vous supprimer le {{rate.name}}</span>
+                                        </div>
+                                      </div>
+
+                                    </div>
+                                    <div class="modal-footer text-center mt-4">
+                                      <a class="btn btn-danger me-sm-3 me-1"
+                                        href="/itinerarys/rates/delete/{{rate.id}}">
+                                        Confirmer</a>
+                                      <button type="button" class="btn btn-success me-sm-3 me-1"
+                                        data-bs-dismiss="modal">Fermer</button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              @endeach
+                            </ul>
+                          </div>
+                        </div>
+                        @if(sim.isActiveted == true)
+                        <a href="javascript:void(0);" class="btn btn-label-success w-100 waves-effect waves-light">
+                          Actif
+                        </a>
+                        @else
+                        <a href="javascript:void(0);" class="btn btn-label-danger w-100 waves-effect waves-light">
+                          Inactif
+                        </a>
+                        @endif
+                        <hr>
+                        <div class="d-flex justify-content-between align-items-end mt-1">
+                          <div class="role-heading">
+                            <a href="javascript:;" data-bs-toggle="modal" data-bs-target="#del{{sim.id}}"
+                              class="text-dark"><i class="ti ti-trash ti-md"></i>
+                            </a>
+                            @if(sim.isActiveted== true)
+                            <a href="javascript:;" data-bs-toggle="modal" data-bs-target="#blocked{{sim.id}}"
+                              class="text-danger"><i class="ti ti-x ti-md"></i>
+                            </a>
+                            @else
+                            <a href="javascript:;" data-bs-toggle="modal" data-bs-target="#activeted{{sim.id}}"
+                              class="text-success"><i class="ti ti-circle-check ti-md"></i>
+                            </a>
+                            @endif
+                          </div>
+                          <a href="javascript:;" data-bs-toggle="modal" data-bs-target="#edit{{sim.id}}"
+                            class="text-primary"><i class="ti ti-edit ti-md"></i>
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="modal fade" id="rate{{sim.id}}" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog modal-lg modal-simple modal-edit-user">
+                      <div class="modal-content p-3 p-md-5">
+                        <div class="modal-body">
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          <div class="text-center mb-4">
+                            <h3 class="mb-2">Nouvel tarif de la ligne {{sim.name}}</h3>
+                          </div>
+                          <form id="addNewCCForm" action="/itinerarys/rates/{{sim.id}}?POST" method="POST"
+                            novalidate="novalidate" class="row g-3">
+                            {{ csrfField() }}
+
+                            <div class="col-6 col-md-3">
+                              <label class="form-label" for="lat2">Tarif</label>
+                              <input type="text" name="name" value="Tarif" class="form-control" />
+                            </div>
+                            <div class="col-6 col-md-3">
+                              <label class="form-label" for="long2">Prix</label>
+                              <div class="input-group input-group-merge">
+                                <input type="number" name="price" class="form-control" />
+
+                              </div>
+                            </div>
+                            <div class="col-6 col-md-3">
+                              <label class="form-label" for="long2">Section</label>
+                              <div class="input-group input-group-merge">
+                                <select id="user-role" class="form-select" name="section">
+                                  <option value="Section 1">Section 1</option>
+                                  <option value="Section 2">Section 2</option>
+                                  <option value="Section 3">Section 3</option>
+                                  <option value="Section 4">Section 4</option>
+                                  <option value="Section 5">Section 5</option>
+                                </select>
+
+                              </div>
+                            </div>
+                            <div class="col-12 text-center">
+                              <button type="submit" class="btn btn-primary me-sm-3 me-1">Enregister</button>
+                              <button type="reset" class="btn btn-label-danger btn-reset" data-bs-dismiss="modal"
+                                aria-label="Close">
+                                Annuler
+                              </button>
+                            </div>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="modal fade" id="edit{{sim.id}}" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog modal-lg modal-simple modal-edit-user">
+                      <div class="modal-content p-3 p-md-5">
+                        <div class="modal-body">
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          <div class="text-center mb-4">
+                            <h3 class="mb-2">Modification de la l'itinéraire</h3>
+                            <p class="text-muted">{{sim.name}}</p>
+                          </div>
+                          <form id="addNewCCForm" action="/itinerarys/edit/{{sim.id}}?POST" method="POST"
+                            novalidate="novalidate" class="row g-3">
+                            {{ csrfField() }}
+                            <div class="col-12">
+                              <label class="form-label w-100" for="modalAddCard">Ligne</label>
+                              <div class="input-group input-group-merge">
+                                <input id="itname" name="name" class="form-control" type="text" value="{{sim.name}}" />
+                                <span class="input-group-text cursor-pointer p-1" id="itname"><span
+                                    class="card-type"></span></span>
+                              </div>
+                            </div>
+                            <div class="col-12 text-center">
+                              <button type="submit" class="btn btn-primary me-sm-3 me-1">Enregister</button>
+                              <button type="reset" class="btn btn-label-danger btn-reset" data-bs-dismiss="modal"
+                                aria-label="Close">
+                                Annuler
+                              </button>
+                            </div>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="modal fade" id="del{{sim.id}}" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog modal-lg modal-dialog-centered modal-add-new-role">
+                      <div class="modal-content p-3 p-md-5">
+                        <button type="button" class="btn-close btn-pinned" data-bs-dismiss="modal"
+                          aria-label="Close"></button>
+                        <div class="modal-body">
+
+                          <div class="alert alert-danger" role="alert">
+                            <div class="alert-body">
+                              <span class="fw-bolder">Voulez-vous supprimer l'itinéraire {{sim.name}}</span>
+                            </div>
+                          </div>
+
+                        </div>
+                        <div class="modal-footer text-center mt-4">
+                          <a class="btn btn-danger me-sm-3 me-1" href="/itinerarys/delete/{{sim.id}}">
+                            Confirmer</a>
+                          <button type="button" class="btn btn-success me-sm-3 me-1"
+                            data-bs-dismiss="modal">Fermer</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="modal fade" id="blocked{{sim.id}}" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog modal-lg modal-dialog-centered modal-add-new-role">
+                      <div class="modal-content p-3 p-md-5">
+                        <button type="button" class="btn-close btn-pinned" data-bs-dismiss="modal"
+                          aria-label="Close"></button>
+                        <div class="modal-body">
+
+                          <div class="alert alert-danger" role="alert">
+                            <div class="alert-body">
+                              <span class="fw-bolder">Voulez-vous désactiver l'itinéraire {{sim.name}}</span>
+                            </div>
+                          </div>
+
+                        </div>
+                        <div class="modal-footer text-center mt-4">
+                          <a class="btn btn-danger me-sm-3 me-1" href="/itinerarys/deactiveted/{{sim.id}}">
+                            Confirmer</a>
+                          <button type="button" class="btn btn-success me-sm-3 me-1"
+                            data-bs-dismiss="modal">Fermer</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="modal fade" id="activeted{{sim.id}}" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog modal-lg modal-dialog-centered modal-add-new-role">
+                      <div class="modal-content p-3 p-md-5">
+                        <button type="button" class="btn-close btn-pinned" data-bs-dismiss="modal"
+                          aria-label="Close"></button>
+                        <div class="modal-body">
+
+                          <div class="alert alert-danger" role="alert">
+                            <div class="alert-body">
+                              <span class="fw-bolder">Voulez-vous activer l'itinéraire {{sim.name}}</span>
+                            </div>
+                          </div>
+
+                        </div>
+                        <div class="modal-footer text-center mt-4">
+                          <a class="btn btn-danger me-sm-3 me-1" href="/itinerarys/activeted/{{sim.id}}">
+                            Confirmer</a>
+                          <button type="button" class="btn btn-success me-sm-3 me-1"
+                            data-bs-dismiss="modal">Fermer</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  @endeach
+                </div>
+                <div class="border-bottom border-bottom-dashed mt-0 mb-4"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+
+  <div class="modal fade" id="addNewCCModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-simple modal-edit-user">
+      <div class="modal-content p-3 p-md-5">
+        <div class="modal-body">
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          <div class="text-center mb-4">
+            <h3 class="mb-2">Nouvel Itinéraire</h3>
+          </div>
+          <form id="addNewCCForm" action="/reseaux/itinerary/create/{{item.id}}?POST" method="POST"
+            novalidate="novalidate" class="row g-3">
+            {{ csrfField() }}
+            <div class="col-12">
+              <label class="form-label w-100" for="modalAddCard">Ligne</label>
+              <div class="input-group input-group-merge">
+                <input id="itname" name="itname" class="form-control" type="text" placeholder="Ligne" />
+                <span class="input-group-text cursor-pointer p-1" id="itname"><span class="card-type"></span></span>
+              </div>
+            </div>
+            <div class="divider">
+              <div class="divider-text">Terminus 1</div>
+            </div>
+            <div class="col-12 col-md-6">
+              <label class="form-label" for="name">Terminus 1 </label>
+              <input type="text" name="ter1" class="form-control" placeholder="Terminus 1" />
+            </div>
+            <div class="col-6 col-md-3">
+              <label class="form-label" for="latitude">Latitude</label>
+              <input type="text" name="lat1" class="form-control" placeholder="Latitude" />
+            </div>
+            <div class="col-6 col-md-3">
+              <label class="form-label" for="long1">Longitude</label>
+              <div class="input-group input-group-merge">
+                <input type="text" name="long1" class="form-control" placeholder="Longitude" />
+
+              </div>
+            </div>
+            <div class="divider">
+              <div class="divider-text">Terminus 2</div>
+            </div>
+            <div class="col-12 col-md-6">
+              <label class="form-label" for="name">Terminus 2 </label>
+              <input type="text" name="ter2" class="form-control" placeholder="Terminus 2" />
+            </div>
+            <div class="col-6 col-md-3">
+              <label class="form-label" for="lat2">Latitude</label>
+              <input type="text" name="lat2" class="form-control" placeholder="Latitude" />
+            </div>
+            <div class="col-6 col-md-3">
+              <label class="form-label" for="long2">Longitude</label>
+              <div class="input-group input-group-merge">
+                <input type="text" name="long2" class="form-control" placeholder="Longitude" />
+
+              </div>
+            </div>
+            <div class="col-12 text-center">
+              <button type="submit" class="btn btn-primary me-sm-3 me-1">Enregister</button>
+              <button type="reset" class="btn btn-label-danger btn-reset" data-bs-dismiss="modal" aria-label="Close">
+                Annuler
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+

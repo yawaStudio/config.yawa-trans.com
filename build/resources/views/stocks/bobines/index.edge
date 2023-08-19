@@ -1,0 +1,218 @@
+@layout('layouts.list')
+
+@section('content')
+@set('title', 'bobines')
+
+<div class="container-xxl flex-grow-1 container-p-y">
+  <div class="card mb-4">
+    <div class="card-widget-separator-wrapper">
+      <div class="card-body card-widget-separator">
+        <div class="row gy-4 gy-sm-1">
+          <div class="col-sm-6 col-lg-4">
+            <div class="d-flex justify-content-between align-items-start card-widget-1 border-end pb-3 pb-sm-0">
+              <div>
+                <h4 class="mb-2">{{all}}</h4>
+                <p class="mb-0 fw-medium">TOTAL</p>
+              </div>
+              <span class="avatar me-sm-4">
+                <span class="avatar-initial bg-label-info rounded">
+                  <i class="menu-icon tf-icons ti ti-layout-sidebar"></i>
+                </span>
+              </span>
+            </div>
+            <hr class="d-none d-sm-block d-lg-none me-4" />
+          </div>
+          <div class="col-sm-6 col-lg-4">
+            <div class="d-flex justify-content-between align-items-start card-widget-2 border-end pb-3 pb-sm-0">
+              <div>
+                <h4 class="mb-2">{{activated}}</h4>
+                <p class="mb-0 fw-medium">ACTIVES</p>
+              </div>
+              <span class="avatar p-2 me-lg-4">
+                <span class="avatar-initial bg-label-success rounded"><i
+                    class="ti-md ti ti-checks text-body"></i></span>
+              </span>
+            </div>
+            <hr class="d-none d-sm-block d-lg-none" />
+          </div>
+          <div class="col-sm-6 col-lg-4">
+            <div class="d-flex justify-content-between align-items-start border-end pb-3 pb-sm-0 card-widget-3">
+              <div>
+                <h4 class="mb-2">{{blocked}}</h4>
+                <p class="mb-0 fw-medium">INACTIVES</p>
+              </div>
+              <span class="avatar p-2 me-sm-4">
+                <span class="avatar-initial bg-label-danger rounded"><i class="ti-md ti ti-x text-body"></i></span>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="card">
+    <div class="card-header d-flex justify-content-between">
+      <div class="card-title mb-0">
+        <h5 class="card-header">Liste des Bobines</h5>
+      </div>
+      <div class="dropdown">
+        <button type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBackdrop"
+          aria-controls="offcanvasBackdrop" class="btn btn-label-primary waves-effect">
+          <span class="ti-xs ti ti-edit me-1"></span>Ajouter
+        </button>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="table-responsive text-nowrap">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+
+              <th>Provideur</th>
+              <th>IMSI</th>
+              <th>Numéro</th>
+              <th>Statut</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            @each(sim in bobines)
+            <tr>
+              <td>{{sim.provider}}</td>
+              <td>{{sim.imsi}}</td>
+              <td>{{sim.number}}</td>
+              <td>
+                @if(sim.isActiveted == true)
+                <a href="/bobines/deactiveted/{{sim.id}}" class="btn btn-outline-success waves-effect">
+                  <span>Actif</span>
+                </a>
+
+                @else
+                <a href="/bobines/activeted/{{sim.id}}" class="btn btn-outline-danger waves-effect">
+                  <span>Inactif</span>
+                </a>
+
+                @endif
+              </td>
+              <td>
+
+                <div class="disabled-animation-ex">
+                  <!-- Button trigger modal -->
+                  <button type="button" class="btn btn-outline-success waves-effect" data-bs-toggle="modal"
+                    data-bs-target="#d{{sim.id}}">
+                    Détails
+                  </button>
+                  <!-- Modal -->
+                  <div class="modal text-start" id="d{{sim.id}}" tabindex="-1" aria-labelledby="myModalLabel6"
+                    style="display: none;" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h4 class="modal-title" id="myModalLabel6">{{sim.imsi}}</h4>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+
+                          <div class="alert alert-success" role="alert">
+                            <div class="alert-body">
+                              <span class="fw-bolder">Well done!</span> You successfully read this important alert
+                              message.
+                            </div>
+                          </div>
+                          <form class="add-new-user pt-0 fv-plugins-bootstrap5 fv-plugins-framework" id="addNewUserForm"
+                            action="/bobines/edit/{{sim.id}}?_method=PUT" method="POST" novalidate="novalidate">
+                            {{ csrfField() }}
+
+
+                            <div class="mb-3">
+                              <label class="form-label" for="user-role">Provider</label>
+                              <select id="user-role" class="form-select" name="type">
+                                <option value="{{sim.provider}}">{{sim.provider}}</option>
+                                @if(sim.provider == 'ORANGE')
+
+                                <option value="FREE">FREE</option>
+                                @else
+
+                                <option value="ORANGE">ORANGE</option>
+                                @end
+                              </select>
+                            </div>
+                            <div class="mb-3 fv-plugins-icon-container">
+                              <label class="form-label" for="add-user-email">IMSI</label>
+                              <input type="number" id="add-user-email" class="form-control" value="{{sim.imsi}}"
+                                name="imsi" required>
+                              <div class="fv-plugins-message-container invalid-feedback"></div>
+                            </div>
+                            <div class="mb-3 fv-plugins-icon-container">
+                              <label class="form-label" for="add-user-email">Numéro</label>
+                              <input type="number" id="add-user-email" class="form-control" value="{{sim.number}}"
+                                name="number" required>
+                              <div class="fv-plugins-message-container invalid-feedback"></div>
+                            </div>
+                            <button type="submit"
+                              class="btn btn-primary me-sm-3 me-1 data-submit waves-effect waves-light">Sauvegarder</button>
+                            <button type="reset" class="btn btn-label-danger waves-effect"
+                              data-bs-dismiss="offcanvas">Annuler</button>
+                            <input type="hidden">
+                          </form>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-primary waves-effect waves-float waves-light"
+                            data-bs-dismiss="modal">Accept</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+
+              </td>
+            </tr>
+            @endeach
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasBackdrop" aria-labelledby="offcanvasBackdropLabel">
+    <div class="offcanvas-header">
+      <h5 id="offcanvasBackdropLabel" class="offcanvas-title">Nouvelle carte sim</h5>
+      <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body my-auto mx-0 flex-grow-0">
+      <form class="add-new-user pt-0 fv-plugins-bootstrap5 fv-plugins-framework" id="addNewUserForm"
+        action="/bobines/create?POST" method="POST" novalidate="novalidate">
+        {{ csrfField() }}
+
+        <div class="mb-3">
+          <label class="form-label" for="user-role">Provider</label>
+          <select id="user-role" class="form-select" name="provider">
+
+            <option value="ORANGE">ORANGE</option>
+            <option value="FREE">FREE</option>
+          </select>
+        </div>
+        <div class="mb-3 fv-plugins-icon-container">
+          <label class="form-label" for="add-user-email">IMSI</label>
+          <input type="number" id="add-user-email" class="form-control" placeholder="" name="imsi" required>
+          <div class="fv-plugins-message-container invalid-feedback"></div>
+        </div>
+        <div class="mb-3 fv-plugins-icon-container">
+          <label class="form-label" for="add-user-email">Numéro</label>
+          <input type="number" id="add-user-email" class="form-control" placeholder="" name="number" required>
+          <div class="fv-plugins-message-container invalid-feedback"></div>
+        </div>
+        <button type="submit"
+          class="btn btn-primary me-sm-3 me-1 data-submit waves-effect waves-light">Sauvegarder</button>
+        <button type="reset" class="btn btn-label-danger waves-effect" data-bs-dismiss="offcanvas">Annuler</button>
+        <input type="hidden">
+      </form>
+    </div>
+  </div>
+</div>
+
+
+
+@endsection

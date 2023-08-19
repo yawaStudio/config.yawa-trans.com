@@ -1,0 +1,28 @@
+@layout('layouts.error')
+
+@section('content')
+@set('title', 'Error')
+<div class="app-content content ">
+    <div class="content-overlay"></div>
+    <div class="header-navbar-shadow"></div>
+    <div class="content-wrapper">
+      <div class="content-header row">
+      </div>
+      <div class="content-body">
+        <!-- Error page-->
+        <div class="misc-wrapper"><a class="brand-logo" href="/">
+          <img src="/ya.png" alt="" width="200"><div class="misc-inner p-2 p-sm-3">
+            <div class="w-100 text-center">
+              <h2 class="mb-1">Page Not Found 🕵🏻‍♀️</h2>
+              <p class="mb-2">Oops! 😖 The requested URL was not found on this server.</p>
+              <a class="btn btn-primary mb-2 btn-sm-block" href="/">Back to home</a>
+              <img class="img-fluid" src="/assets/img/pages/error.svg" alt="Error page"/>
+            </div>
+          </div>
+        </div>
+        <!-- / Error page-->
+      </div>
+    </div>
+  </div>
+
+  @endsection

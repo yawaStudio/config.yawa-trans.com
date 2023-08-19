@@ -1,0 +1,30 @@
+@layout('layouts.list')
+
+@section('content')
+@set('title', 'Gestion Matériels')
+
+<div class="container-xxl flex-grow-1 container-p-y">
+  <h4 class="py-3 mb-4"><span class="text-muted fw-light">Gestion matériels /</span> Stock materiel</h4>
+
+  <div class="row g-4">
+    <!-- Navigation -->
+    @include('materiels.partials.menu')
+    <!-- /Navigation -->
+
+    <!-- Options -->
+    <div class="col-12 col-lg-10 pt-4 pt-lg-0">
+      <div class="tab-content p-0">
+        <!-- Store Details Tab -->
+        <div class="tab-pane fade show active" id="store_details" role="tabpanel">
+          @include('materiels.partials.view')
+        </div>
+      </div>
+    </div>
+    <!-- /Options-->
+  </div>
+</div>
+
+
+
+
+@endsection

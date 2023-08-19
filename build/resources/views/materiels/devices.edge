@@ -1,0 +1,234 @@
+@layout('layouts.list')
+
+@section('content')
+@set('title', 'Gestion Matériels')
+
+<div class="container-xxl flex-grow-1 container-p-y">
+  <h4 class="py-3 mb-4"><span class="text-muted fw-light">Gestion matériels /</span> Liste appareils</h4>
+
+  <div class="row g-4">
+    <!-- Navigation -->
+    <div class="col-12 col-lg-2">
+      <div class="d-flex justify-content-between flex-column mb-3 mb-md-0">
+        <ul class="nav nav-align-left nav-pills flex-column">
+          <li class="nav-item mb-1">
+            <a class="nav-link py-2 " href="/materiels">
+              <i class="ti ti-layout-grid me-2"></i>
+              <span class="align-middle">Stock materiel</span>
+            </a>
+          </li>
+          <li class="nav-item mb-1">
+            <a class="nav-link py-2 active"  href="/materiels/devices/" >
+              <i class="ti ti-list me-2"></i>
+              <span class="align-middle">Liste appareils</span>
+            </a>
+          </li>
+          <li class="nav-item mb-1">
+            <a class="nav-link py-2" href="/sims">
+              <i class="ti ti-file me-2"></i>
+              <span class="align-middle">Liste sims</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <!-- /Navigation -->
+
+    <!-- Options -->
+    <div class="col-12 col-lg-10 pt-4 pt-lg-0">
+      <div class="tab-content p-0">
+        <!-- Store Details Tab -->
+        <div class="tab-pane fade show active" id="store_details" role="tabpanel">
+          <div class="card mb-4">
+            <div class="card-widget-separator-wrapper">
+              <div class="card-body card-widget-separator">
+                <div class="row gy-4 gy-sm-1">
+                  <div class="col-sm-6 col-lg-4">
+                    <div class="d-flex justify-content-between align-apps-start card-widget-1 border-end pb-3 pb-sm-0">
+                      <div>
+                        <h4 class="mb-2">{{all}}</h4>
+                        <p class="mb-0 fw-medium">TOTAL</p>
+                      </div>
+                      <span class="avatar me-sm-4">
+                        <span class="avatar-initial bg-label-info rounded">
+                          <i class="menu-icon tf-icons ti ti-users"></i>
+                        </span>
+                      </span>
+                    </div>
+                    <hr class="d-none d-sm-block d-lg-none me-4" />
+                  </div>
+                  <div class="col-sm-6 col-lg-4">
+                    <div class="d-flex justify-content-between align-apps-start card-widget-2 border-end pb-3 pb-sm-0">
+                      <div>
+                        <h4 class="mb-2">{{activated}}</h4>
+                        <p class="mb-0 fw-medium">ACTIFS</p>
+                      </div>
+                      <span class="avatar p-2 me-lg-4">
+                        <span class="avatar-initial bg-label-success rounded"><i
+                            class="ti-md ti ti-checks text-body"></i></span>
+                      </span>
+                    </div>
+                    <hr class="d-none d-sm-block d-lg-none" />
+                  </div>
+                  <div class="col-sm-6 col-lg-4">
+                    <div class="d-flex justify-content-between align-apps-start border-end pb-3 pb-sm-0 card-widget-3">
+                      <div>
+                        <h4 class="mb-2">{{blocked}}</h4>
+                        <p class="mb-0 fw-medium">INACTIFS</p>
+                      </div>
+                      <span class="avatar p-2 me-sm-4">
+                        <span class="avatar-initial bg-label-danger rounded"><i class="ti-md ti ti-x text-body"></i></span>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row g-4">
+          @each(app in devices)
+            <div class="col-xl-4 cl-lg-6 col-md-6">
+              <div class="card">
+                <div class="card-body">
+                  <div class="d-flex justify-content-between">
+                    
+                    <h6 class="fw-normal mb-2">{{app.device.type}} - {{app.device.details}}</h6>
+
+                  </div>
+                  <hr>
+                  <div class="d-flex justify-content-between align-apps-end mt-1">
+                    <div class="role-heading">
+                      <h4 class="mb-1">{{app.code}}</h4>
+                    </div>
+                    <hr>
+                  </div>
+                  <ul class="p-0 m-0">
+                    <li class="mb-4 pb-1 d-flex justify-content-between align-apps-center">
+                      <div class="badge bg-label-success rounded p-2"><i class="ti ti-file-dollar ti-sm"></i></div>
+                      <div class="d-flex justify-content-between w-100 flex-wrap">
+                        <h6 class="mb-0 ms-3">Prix</h6>
+
+                        <div class="d-flex">
+                          <p class="mb-0 fw-medium">{{app.price}} FCFA</p>
+                        </div>
+                      </div>
+                    </li>
+                    <li class="mb-4 pb-1 d-flex justify-content-between align-items-center">
+                      @if(app.isActiveted== true)
+                      <div class="badge bg-label-success rounded p-2"><i class="ti ti-circle-check ti-sm"></i></div>
+                      <div class="d-flex justify-content-between w-100 flex-wrap">
+                        <h6 class="mb-0 ms-3">Actif</h6>
+                      </div>
+                      @else
+                      <div class="badge bg-label-danger rounded p-2"><i class="ti ti-x ti-sm"></i></div>
+                      <div class="d-flex justify-content-between w-100 flex-wrap">
+                        <h6 class="mb-0 ms-3">Déactivé</h6>
+                      </div>
+                      @endif
+                    </li>
+                    <li class="mb-4 pb-1 d-flex justify-content-between align-apps-center">
+                      <div class="alert d-flex align-apps-center bg-label-success mb-0" role="alert">
+                        <span class="alert-icon text-success me-2 bg-label-light px-2 pb-2 rounded-2">
+                          <i class="ti ti-bell ti-xs mt-1"></i>
+                        </span>
+                        Dernières modification le {{app.updatedAt}}.
+                      </div>
+                    </li>
+                  </ul>
+                  <div class="d-flex justify-content-between align-apps-end mt-1">
+                    <div class="role-heading">
+                          <a href="javascript:;" data-bs-toggle="modal" data-bs-target="#delapp{{app.id}}" class="text-dark"><i
+                          class="ti ti-trash ti-md"></i></a>
+                          @if(app.isActiveted== true)
+                            <a href="javascript:;" data-bs-toggle="modal" data-bs-target="#blockedapp{{app.id}}" class="text-danger"><i
+                              class="ti ti-x ti-md"></i></a>
+                          @else
+                            <a href="javascript:;" data-bs-toggle="modal" data-bs-target="#activetedapp{{app.id}}"
+                            class="text-success"><i class="ti ti-circle-check ti-md"></i></a>
+                          @endif
+                    </div>
+                    <a href="javascript:;" data-bs-toggle="modal" data-bs-target="#editapp{{app.id}}" class="text-primary"><i
+                        class="ti ti-edit ti-md"></i></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="modal fade" id="delapp{{app.id}}" tabindex="-1" aria-hidden="true">
+              <div class="modal-dialog modal-lg modal-dialog-centered modal-add-new-role">
+                <div class="modal-content p-3 p-md-5">
+                  <button type="button" class="btn-close btn-pinned" data-bs-dismiss="modal" aria-label="Close"></button>
+                  <div class="modal-body">
+
+                    <div class="alert alert-danger" role="alert">
+                      <div class="alert-body">
+                        <span class="fw-bolder">Voulez-vous supprimer l'appareil  {{app.code}}</span>
+                      </div>
+                    </div>
+
+                  </div>
+                  <div class="modal-footer text-center mt-4">
+                    <a class="btn btn-danger me-sm-3 me-1" href="/materiels/devices/delete/{{app.id}}">
+                      Confirmer</a>
+                    <button type="button" class="btn btn-success me-sm-3 me-1" data-bs-dismiss="modal">Fermer</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="modal fade" id="blockedapp{{app.id}}" tabindex="-1" aria-hidden="true">
+              <div class="modal-dialog modal-lg modal-dialog-centered modal-add-new-role">
+                <div class="modal-content p-3 p-md-5">
+                  <button type="button" class="btn-close btn-pinned" data-bs-dismiss="modal" aria-label="Close"></button>
+                  <div class="modal-body">
+
+                    <div class="alert alert-danger" role="alert">
+                      <div class="alert-body">
+                        <span class="fw-bolder">Voulez-vous désactiver l'appareil  {{app.code}}</span>
+                      </div>
+                    </div>
+
+                  </div>
+                  <div class="modal-footer text-center mt-4">
+                    <a class="btn btn-danger me-sm-3 me-1" href="/materiels/devices/deactiveted/{{app.id}}">
+                      Confirmer</a>
+                    <button type="button" class="btn btn-success me-sm-3 me-1" data-bs-dismiss="modal">Fermer</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="modal fade" id="activetedapp{{app.id}}" tabindex="-1" aria-hidden="true">
+              <div class="modal-dialog modal-lg modal-dialog-centered modal-add-new-role">
+                <div class="modal-content p-3 p-md-5">
+                  <button type="button" class="btn-close btn-pinned" data-bs-dismiss="modal" aria-label="Close"></button>
+                  <div class="modal-body">
+
+                    <div class="alert alert-danger" role="alert">
+                      <div class="alert-body">
+                        <span class="fw-bolder">Voulez-vous activer l'appareil  {{app.code}}</span>
+                      </div>
+                    </div>
+
+                  </div>
+                  <div class="modal-footer text-center mt-4">
+                    <a class="btn btn-danger me-sm-3 me-1" href="/materiels/devices/activeted/{{app.id}}">
+                      Confirmer</a>
+                    <button type="button" class="btn btn-success me-sm-3 me-1" data-bs-dismiss="modal">Fermer</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          @end
+        </div>
+        </div>
+      </div>
+    </div>
+    <!-- /Options-->
+  </div>
+</div>
+
+
+
+
+@endsection
