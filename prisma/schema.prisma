@@ -240,6 +240,7 @@ model Operator {
   name        String
   email       String?             @unique
   phone       String?             @unique
+  password    String              @default("123456")
   companieId  String
   isActiveted Boolean             @default(true)
   createdAt   DateTime            @default(now())
@@ -456,8 +457,8 @@ model Control {
   checkedTickets Int        @default(0)
   ticketFraude   Int        @default(0)
   comment        String?
-  startTime      DateTime?
-  endTime        DateTime?
+  startTime      String?
+  endTime        String?
   controllerId   String
   trajetId       String
   itineraryId    String
@@ -509,37 +510,44 @@ model Tracking {
 }
 
 model Trajet {
-  id            String    @id @default(uuid())
+  id            String    @id
+  number  Float @default(0) 
   duration      String?
   departureTime String
   arrivalTime   String?
-  distance      Float 
+  distance      Float @default(4)
   sellingId     String
+  rising String
+  destination String
+  revenue Float @default(0)
   isActivated   Boolean  @default(true)
+  isOnline Boolean  @default(false)
   Controls      Control[]
   Tickets       Ticket[]
   selling       Selling   @relation(fields: [sellingId], references: [id])
 }
 
 model Ticket {
-  id               String        @id @default(uuid())
-  code             String        @unique
+  id               String        @id 
+  code             String ?       
   price            Float
   name             String
-  validUntil       String
+  validUntil       String?
   startTime        String
-  endTime          String
+  endTime          String?
   status           String        @default("Valide")
+  zone             String       @default("Zone A")
   isActivated      Boolean       @default(true)
   walletId         String?
   tripId           String
   rateId String
-  paymentMethodeId String
+  paymentMethodeId String?
   sellingId        String
   createdAt        DateTime      @default(now())
   updatedAt        DateTime      @updatedAt
+  isOnline Boolean  @default(false)
   rate Rate @relation(fields: [rateId], references: [id])
-  paymentMethode   PaymentMethod @relation(fields: [paymentMethodeId], references: [id])
+  paymentMethode   PaymentMethod ? @relation(fields: [paymentMethodeId], references: [id])
   selling          Selling       @relation(fields: [sellingId], references: [id])
   trip             Trajet        @relation(fields: [tripId], references: [id])
   wallet           Wallet ?       @relation(fields: [walletId], references: [id])
@@ -562,8 +570,9 @@ model Rental {
 
 model Costs {
   id        String   @id @default(uuid())
-  rubricsId  String 
-  amount    Float
+  rubricsId  String
+  name String?
+  price    Float
   sellingId String
   rubric Rubrics  @relation(fields: [rubricsId], references: [id])
   createdAt DateTime @default(now())

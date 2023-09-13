@@ -492,7 +492,7 @@ export default class ReseauxController {
   }
   public async device({ params, view }: HttpContextContract) {
     const id = params.id;
-    const item = await prisma.reseau.findFirst({
+    const item = await prisma.reseau.findFirstOrThrow({
       where: {
         id: id
       },
@@ -514,7 +514,7 @@ export default class ReseauxController {
     });
     const devices = await prisma.device.findMany({
       where:{
-        isActiveted: false
+        isActiveted: false,
       }
     })
     const vehicules = await prisma.vehicule.findMany({
